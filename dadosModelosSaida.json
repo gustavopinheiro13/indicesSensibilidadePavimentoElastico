@@ -1,0 +1,1352 @@
+[
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0, 
+        "modelo": "MdB737800Base0-0", 
+        "nomeJob": "jobPtMdB737800Base0-0", 
+        "nomeSensibilidade": "Base", 
+        "nomeStep": "stpPtMdB737800Base0-0"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0, 
+        "modelo": "MdB767300Base0-0", 
+        "nomeJob": "jobPtMdB767300Base0-0", 
+        "nomeSensibilidade": "Base", 
+        "nomeStep": "stpPtMdB767300Base0-0"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0, 
+        "modelo": "MdB777300Base0-0", 
+        "nomeJob": "jobPtMdB777300Base0-0", 
+        "nomeSensibilidade": "Base", 
+        "nomeStep": "stpPtMdB777300Base0-0"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.1, 
+        "modelo": "MdB737800espRev0-1", 
+        "nomeJob": "jobPtMdB737800espRev0-1", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB737800espRev0-1"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.105, 
+        "modelo": "MdB737800espRev0-1", 
+        "nomeJob": "jobPtMdB737800espRev0-1", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB737800espRev0-1"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.1103, 
+        "modelo": "MdB737800espRev0-11", 
+        "nomeJob": "jobPtMdB737800espRev0-11", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB737800espRev0-11"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.2, 
+        "modelo": "MdB737800espBas0-2", 
+        "nomeJob": "jobPtMdB737800espBas0-2", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB737800espBas0-2"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.21, 
+        "modelo": "MdB737800espBas0-21", 
+        "nomeJob": "jobPtMdB737800espBas0-21", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB737800espBas0-21"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.2205, 
+        "modelo": "MdB737800espBas0-22", 
+        "nomeJob": "jobPtMdB737800espBas0-22", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB737800espBas0-22"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 300.0, 
+        "modelo": "MdB737800elasRev300-0", 
+        "nomeJob": "jobPtMdB737800elasRev300-0", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB737800elasRev300-0"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 315.0, 
+        "modelo": "MdB737800elasRev315-0", 
+        "nomeJob": "jobPtMdB737800elasRev315-0", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB737800elasRev315-0"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 330.75, 
+        "modelo": "MdB737800elasRev330-75", 
+        "nomeJob": "jobPtMdB737800elasRev330-75", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB737800elasRev330-75"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 100.0, 
+        "modelo": "MdB737800elasBas100-0", 
+        "nomeJob": "jobPtMdB737800elasBas100-0", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB737800elasBas100-0"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 105.0, 
+        "modelo": "MdB737800elasBas105-0", 
+        "nomeJob": "jobPtMdB737800elasBas105-0", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB737800elasBas105-0"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 110.25, 
+        "modelo": "MdB737800elasBas110-25", 
+        "nomeJob": "jobPtMdB737800elasBas110-25", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB737800elasBas110-25"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 50.0, 
+        "modelo": "MdB737800elasSub50-0", 
+        "nomeJob": "jobPtMdB737800elasSub50-0", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB737800elasSub50-0"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 52.5, 
+        "modelo": "MdB737800elasSub52-5", 
+        "nomeJob": "jobPtMdB737800elasSub52-5", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB737800elasSub52-5"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 55.125, 
+        "modelo": "MdB737800elasSub55-13", 
+        "nomeJob": "jobPtMdB737800elasSub55-13", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB737800elasSub55-13"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB737800poiRev0-08", 
+        "nomeJob": "jobPtMdB737800poiRev0-08", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB737800poiRev0-08"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB737800poiRev0-08", 
+        "nomeJob": "jobPtMdB737800poiRev0-08", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB737800poiRev0-08"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB737800poiRev0-09", 
+        "nomeJob": "jobPtMdB737800poiRev0-09", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB737800poiRev0-09"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB737800poiBas0-08", 
+        "nomeJob": "jobPtMdB737800poiBas0-08", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB737800poiBas0-08"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB737800poiBas0-08", 
+        "nomeJob": "jobPtMdB737800poiBas0-08", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB737800poiBas0-08"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB737800poiBas0-09", 
+        "nomeJob": "jobPtMdB737800poiBas0-09", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB737800poiBas0-09"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB737800poiSub0-08", 
+        "nomeJob": "jobPtMdB737800poiSub0-08", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB737800poiSub0-08"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB737800poiSub0-08", 
+        "nomeJob": "jobPtMdB737800poiSub0-08", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB737800poiSub0-08"
+    }, 
+    {
+        "nosInteresse": [
+            53, 
+            57, 
+            56, 
+            39, 
+            44, 
+            47
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB737800poiSub0-09", 
+        "nomeJob": "jobPtMdB737800poiSub0-09", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB737800poiSub0-09"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.1, 
+        "modelo": "MdB767300espRev0-1", 
+        "nomeJob": "jobPtMdB767300espRev0-1", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB767300espRev0-1"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.105, 
+        "modelo": "MdB767300espRev0-1", 
+        "nomeJob": "jobPtMdB767300espRev0-1", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB767300espRev0-1"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.1103, 
+        "modelo": "MdB767300espRev0-11", 
+        "nomeJob": "jobPtMdB767300espRev0-11", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB767300espRev0-11"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.2, 
+        "modelo": "MdB767300espBas0-2", 
+        "nomeJob": "jobPtMdB767300espBas0-2", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB767300espBas0-2"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.21, 
+        "modelo": "MdB767300espBas0-21", 
+        "nomeJob": "jobPtMdB767300espBas0-21", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB767300espBas0-21"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.2205, 
+        "modelo": "MdB767300espBas0-22", 
+        "nomeJob": "jobPtMdB767300espBas0-22", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB767300espBas0-22"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 300.0, 
+        "modelo": "MdB767300elasRev300-0", 
+        "nomeJob": "jobPtMdB767300elasRev300-0", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB767300elasRev300-0"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 315.0, 
+        "modelo": "MdB767300elasRev315-0", 
+        "nomeJob": "jobPtMdB767300elasRev315-0", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB767300elasRev315-0"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 330.75, 
+        "modelo": "MdB767300elasRev330-75", 
+        "nomeJob": "jobPtMdB767300elasRev330-75", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB767300elasRev330-75"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 100.0, 
+        "modelo": "MdB767300elasBas100-0", 
+        "nomeJob": "jobPtMdB767300elasBas100-0", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB767300elasBas100-0"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 105.0, 
+        "modelo": "MdB767300elasBas105-0", 
+        "nomeJob": "jobPtMdB767300elasBas105-0", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB767300elasBas105-0"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 110.25, 
+        "modelo": "MdB767300elasBas110-25", 
+        "nomeJob": "jobPtMdB767300elasBas110-25", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB767300elasBas110-25"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 50.0, 
+        "modelo": "MdB767300elasSub50-0", 
+        "nomeJob": "jobPtMdB767300elasSub50-0", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB767300elasSub50-0"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 52.5, 
+        "modelo": "MdB767300elasSub52-5", 
+        "nomeJob": "jobPtMdB767300elasSub52-5", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB767300elasSub52-5"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 55.125, 
+        "modelo": "MdB767300elasSub55-13", 
+        "nomeJob": "jobPtMdB767300elasSub55-13", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB767300elasSub55-13"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB767300poiRev0-08", 
+        "nomeJob": "jobPtMdB767300poiRev0-08", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB767300poiRev0-08"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB767300poiRev0-08", 
+        "nomeJob": "jobPtMdB767300poiRev0-08", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB767300poiRev0-08"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB767300poiRev0-09", 
+        "nomeJob": "jobPtMdB767300poiRev0-09", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB767300poiRev0-09"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB767300poiBas0-08", 
+        "nomeJob": "jobPtMdB767300poiBas0-08", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB767300poiBas0-08"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB767300poiBas0-08", 
+        "nomeJob": "jobPtMdB767300poiBas0-08", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB767300poiBas0-08"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB767300poiBas0-09", 
+        "nomeJob": "jobPtMdB767300poiBas0-09", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB767300poiBas0-09"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB767300poiSub0-08", 
+        "nomeJob": "jobPtMdB767300poiSub0-08", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB767300poiSub0-08"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB767300poiSub0-08", 
+        "nomeJob": "jobPtMdB767300poiSub0-08", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB767300poiSub0-08"
+    }, 
+    {
+        "nosInteresse": [
+            10, 
+            1, 
+            0, 
+            13, 
+            45, 
+            31, 
+            73, 
+            71, 
+            67
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB767300poiSub0-09", 
+        "nomeJob": "jobPtMdB767300poiSub0-09", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB767300poiSub0-09"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.1, 
+        "modelo": "MdB777300espRev0-1", 
+        "nomeJob": "jobPtMdB777300espRev0-1", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB777300espRev0-1"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.105, 
+        "modelo": "MdB777300espRev0-1", 
+        "nomeJob": "jobPtMdB777300espRev0-1", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB777300espRev0-1"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.1103, 
+        "modelo": "MdB777300espRev0-11", 
+        "nomeJob": "jobPtMdB777300espRev0-11", 
+        "nomeSensibilidade": "espRev", 
+        "nomeStep": "stpPtMdB777300espRev0-11"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.2, 
+        "modelo": "MdB777300espBas0-2", 
+        "nomeJob": "jobPtMdB777300espBas0-2", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB777300espBas0-2"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.21, 
+        "modelo": "MdB777300espBas0-21", 
+        "nomeJob": "jobPtMdB777300espBas0-21", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB777300espBas0-21"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.2205, 
+        "modelo": "MdB777300espBas0-22", 
+        "nomeJob": "jobPtMdB777300espBas0-22", 
+        "nomeSensibilidade": "espBas", 
+        "nomeStep": "stpPtMdB777300espBas0-22"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 300.0, 
+        "modelo": "MdB777300elasRev300-0", 
+        "nomeJob": "jobPtMdB777300elasRev300-0", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB777300elasRev300-0"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 315.0, 
+        "modelo": "MdB777300elasRev315-0", 
+        "nomeJob": "jobPtMdB777300elasRev315-0", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB777300elasRev315-0"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 330.75, 
+        "modelo": "MdB777300elasRev330-75", 
+        "nomeJob": "jobPtMdB777300elasRev330-75", 
+        "nomeSensibilidade": "elasRev", 
+        "nomeStep": "stpPtMdB777300elasRev330-75"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 100.0, 
+        "modelo": "MdB777300elasBas100-0", 
+        "nomeJob": "jobPtMdB777300elasBas100-0", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB777300elasBas100-0"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 105.0, 
+        "modelo": "MdB777300elasBas105-0", 
+        "nomeJob": "jobPtMdB777300elasBas105-0", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB777300elasBas105-0"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 110.25, 
+        "modelo": "MdB777300elasBas110-25", 
+        "nomeJob": "jobPtMdB777300elasBas110-25", 
+        "nomeSensibilidade": "elasBas", 
+        "nomeStep": "stpPtMdB777300elasBas110-25"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 50.0, 
+        "modelo": "MdB777300elasSub50-0", 
+        "nomeJob": "jobPtMdB777300elasSub50-0", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB777300elasSub50-0"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 52.5, 
+        "modelo": "MdB777300elasSub52-5", 
+        "nomeJob": "jobPtMdB777300elasSub52-5", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB777300elasSub52-5"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 55.125, 
+        "modelo": "MdB777300elasSub55-13", 
+        "nomeJob": "jobPtMdB777300elasSub55-13", 
+        "nomeSensibilidade": "elasSub", 
+        "nomeStep": "stpPtMdB777300elasSub55-13"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB777300poiRev0-08", 
+        "nomeJob": "jobPtMdB777300poiRev0-08", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB777300poiRev0-08"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB777300poiRev0-08", 
+        "nomeJob": "jobPtMdB777300poiRev0-08", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB777300poiRev0-08"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB777300poiRev0-09", 
+        "nomeJob": "jobPtMdB777300poiRev0-09", 
+        "nomeSensibilidade": "poiRev", 
+        "nomeStep": "stpPtMdB777300poiRev0-09"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB777300poiBas0-08", 
+        "nomeJob": "jobPtMdB777300poiBas0-08", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB777300poiBas0-08"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB777300poiBas0-08", 
+        "nomeJob": "jobPtMdB777300poiBas0-08", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB777300poiBas0-08"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB777300poiBas0-09", 
+        "nomeJob": "jobPtMdB777300poiBas0-09", 
+        "nomeSensibilidade": "poiBas", 
+        "nomeStep": "stpPtMdB777300poiBas0-09"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.08, 
+        "modelo": "MdB777300poiSub0-08", 
+        "nomeJob": "jobPtMdB777300poiSub0-08", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB777300poiSub0-08"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.084, 
+        "modelo": "MdB777300poiSub0-08", 
+        "nomeJob": "jobPtMdB777300poiSub0-08", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB777300poiSub0-08"
+    }, 
+    {
+        "nosInteresse": [
+            57, 
+            71, 
+            47, 
+            95, 
+            89, 
+            85, 
+            60, 
+            59, 
+            61, 
+            96, 
+            94, 
+            90
+        ], 
+        "valorSensibilidade": 0.0882, 
+        "modelo": "MdB777300poiSub0-09", 
+        "nomeJob": "jobPtMdB777300poiSub0-09", 
+        "nomeSensibilidade": "poiSub", 
+        "nomeStep": "stpPtMdB777300poiSub0-09"
+    }
+]
