@@ -67,39 +67,42 @@ def reimportarDadosDeModelos(nome_arquivo):
         lista_jobs.append(modelo_saida)
     return lista_jobs
 
-# Exemplo de uso
-nome_arquivo = 'dadosModelosSaida.json'
-lista_jobs = reimportarDadosDeModelos(nome_arquivo)
+def gravarDadosModelo():
+    # Exemplo de uso
+    nome_arquivo = 'dadosModelosSaida.json'
+    lista_jobs = reimportarDadosDeModelos(nome_arquivo)
 
-nome_arquivo_saida = 'dadosDeslocamento.json'
-dados_deslocamento = []
+    nome_arquivo_saida = 'dadosDeslocamento.json'
+    dados_deslocamento = []
 
-for job in lista_jobs:
-    dados = obter_dados_deslocamento(
-        nomeJob=job.nomeJob,
-        nomeStep=job.nomeStep,
-        nome_campo='U',
-        modeloAviao=job.modeloAviao,
-        nomeSensibilidade=job.nomeSensibilidade,
-        nosInteresse=job.nosInteresse,
-        valorSensibilidade=job.valorSensibilidade
-    )
-    dados_job = {
-        'nomeJob': job.nomeJob,
-        'nomeStep': job.nomeStep,
-        'nomeSensibilidade': job.nomeSensibilidade,
-        'valorSensibilidade': job.valorSensibilidade,
-        'modeloAviao': job.modeloAviao,
-        'no':  np.float64(dados[0].no),
-        'u1':  np.float64(dados[0].u1),
-        'u2':  np.float64(dados[0].u2),
-        'u3':  np.float64(dados[0].u3)
-    }
-    dados_deslocamento.append(dados_job)
+    for job in lista_jobs:
+        dados = obter_dados_deslocamento(
+            nomeJob=job.nomeJob,
+            nomeStep=job.nomeStep,
+            nome_campo='U',
+            modeloAviao=job.modeloAviao,
+            nomeSensibilidade=job.nomeSensibilidade,
+            nosInteresse=job.nosInteresse,
+            valorSensibilidade=job.valorSensibilidade
+        )
+        dados_job = {
+            'nomeJob': job.nomeJob,
+            'nomeStep': job.nomeStep,
+            'nomeSensibilidade': job.nomeSensibilidade,
+            'valorSensibilidade': job.valorSensibilidade,
+            'modeloAviao': job.modeloAviao,
+            'no':  np.float64(dados[0].no),
+            'u1':  np.float64(dados[0].u1),
+            'u2':  np.float64(dados[0].u2),
+            'u3':  np.float64(dados[0].u3)
+        }
+        dados_deslocamento.append(dados_job)
 
-# Salva os dados em um arquivo JSON
-with open(nome_arquivo_saida, 'w') as arquivo_saida:
-    json.dump(dados_deslocamento, arquivo_saida, indent=4)
+    # Salva os dados em um arquivo JSON
+    with open(nome_arquivo_saida, 'w') as arquivo_saida:
+        json.dump(dados_deslocamento, arquivo_saida, indent=4)
+
+#gravarDadosModelo()
 
 #Arrumar tamanho da mesh
 #Arrumar
