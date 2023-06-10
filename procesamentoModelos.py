@@ -26,7 +26,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modelo']), nosInteresse = dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modeloAviao']), nosInteresse = dado['nosInteresse'])
         # Adiciona o objeto à lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
@@ -34,7 +34,7 @@ def reimportarDadosDeModelos(nome_arquivo):
 
 def executar_modelo(job):
     # Definir o nome da plataforma da GPU
-    nome_plataforma_gpu = "sua_plataforma_gpu"  # Substitua pela plataforma da sua GPU
+    nome_plataforma_gpu = "NVIDIA CUDA"  # Substitua pela plataforma da sua GPU
 
     # Definir o comando para executar o job com a GPU
     comando = "abaqus job=" + job + " input=" + job + ".inp ask_delete=OFF"

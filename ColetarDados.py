@@ -62,7 +62,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modelo']), nosInteresse = dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modeloAviao']), nosInteresse = dado['nosInteresse'])
         # Adiciona o objeto à lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
@@ -71,10 +71,8 @@ def gravarDadosModelo():
     # Exemplo de uso
     nome_arquivo = 'dadosModelosSaida.json'
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
-
     nome_arquivo_saida = 'dadosDeslocamento.json'
     dados_deslocamento = []
-
     for job in lista_jobs:
         dados = obter_dados_deslocamento(
             nomeJob=job.nomeJob,
@@ -97,12 +95,11 @@ def gravarDadosModelo():
             'u3':  np.float64(dados[0].u3)
         }
         dados_deslocamento.append(dados_job)
-
     # Salva os dados em um arquivo JSON
     with open(nome_arquivo_saida, 'w') as arquivo_saida:
         json.dump(dados_deslocamento, arquivo_saida, indent=4)
 
-#gravarDadosModelo()
+gravarDadosModelo()
 
 #Arrumar tamanho da mesh
 #Arrumar

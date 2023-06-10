@@ -118,7 +118,7 @@ class saidaModelos:
         self.nomeStep = nomeStep
         self.nomeSensibilidade = nomeSensibilidade
         self.valorSensibilidade = valorSensibilidade
-        self.modelo = modeloAviao
+        self.modeloAviao = modeloAviao
         self.nosInteresse = nosInteresse
 
 
@@ -418,7 +418,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, memoryUnits=PERCENTAGE, model=nomeModelo, modelPrint=OFF, 
     multiprocessingMode=THREADS, name=nomeJob, nodalOutputPrecision=FULL, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
     mdb.jobs[nomeJob].writeInput(consistencyChecking=OFF)
-    return saidaModelos(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = nomeModelo, nosInteresse = aviaoSelecionado.nosInteresse)
+    return saidaModelos(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = aviaoSelecionado.modelo, nosInteresse = aviaoSelecionado.nosInteresse)
 
 
 def rangeSensibilidade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
@@ -512,7 +512,7 @@ def inicializarCodigo(rodarJobs):
             "nomeStep": objeto.nomeStep,
             "nomeSensibilidade": objeto.nomeSensibilidade,
             "valorSensibilidade": objeto.valorSensibilidade,
-            "modelo": objeto.modelo,
+            "modeloAviao": objeto.modeloAviao,
             "nosInteresse": objeto.nosInteresse
         }
         modelos_Saida.append(dicionario)

@@ -5,7 +5,7 @@
         "nomeJob": "jobPtMdB737800Base0-0", 
         "nomeSensibilidade": "Base", 
         "nomeStep": "stpPtMdB737800Base0-0", 
-        "modeloAviao": "MdB737800Base0-0", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0", 
         "u3": -5.315815542417113e-06, 
         "u2": -7.638484655267207e-37
@@ -16,7 +16,7 @@
         "nomeJob": "jobPtMdB767300Base0-0", 
         "nomeSensibilidade": "Base", 
         "nomeStep": "stpPtMdB767300Base0-0", 
-        "modeloAviao": "MdB767300Base0-0", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0", 
         "u3": -8.688448360771872e-06, 
         "u2": -3.2851710329850903e-07
@@ -27,7 +27,7 @@
         "nomeJob": "jobPtMdB777300Base0-0", 
         "nomeSensibilidade": "Base", 
         "nomeStep": "stpPtMdB777300Base0-0", 
-        "modeloAviao": "MdB777300Base0-0", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0", 
         "u3": -1.738763603498228e-05, 
         "u2": -5.510671030606318e-07
@@ -38,7 +38,7 @@
         "nomeJob": "jobPtMdB737800espRev0-1", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB737800espRev0-1", 
-        "modeloAviao": "MdB737800espRev0-1", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.1", 
         "u3": -5.313087058311794e-06, 
         "u2": -7.783102244109596e-37
@@ -49,7 +49,7 @@
         "nomeJob": "jobPtMdB737800espRev0-1", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB737800espRev0-1", 
-        "modeloAviao": "MdB737800espRev0-1", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.105", 
         "u3": -5.313087058311794e-06, 
         "u2": -7.783102244109596e-37
@@ -60,7 +60,7 @@
         "nomeJob": "jobPtMdB737800espRev0-11", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB737800espRev0-11", 
-        "modeloAviao": "MdB737800espRev0-11", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.1103", 
         "u3": -5.3102571655472275e-06, 
         "u2": -7.92432084339692e-37
@@ -71,7 +71,7 @@
         "nomeJob": "jobPtMdB737800espBas0-2", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB737800espBas0-2", 
-        "modeloAviao": "MdB737800espBas0-2", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.2", 
         "u3": -5.30446686752839e-06, 
         "u2": -1.019457771370706e-36
@@ -82,7 +82,7 @@
         "nomeJob": "jobPtMdB737800espBas0-21", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB737800espBas0-21", 
-        "modeloAviao": "MdB737800espBas0-21", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.21", 
         "u3": -5.305781087372452e-06, 
         "u2": -9.884701970162161e-37
@@ -93,7 +93,7 @@
         "nomeJob": "jobPtMdB737800espBas0-22", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB737800espBas0-22", 
-        "modeloAviao": "MdB737800espBas0-22", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.2205", 
         "u3": -5.306947514327476e-06, 
         "u2": -9.583873457918452e-37
@@ -104,7 +104,7 @@
         "nomeJob": "jobPtMdB737800elasRev300-0", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB737800elasRev300-0", 
-        "modeloAviao": "MdB737800elasRev300-0", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "300.0", 
         "u3": -5.746871920564445e-06, 
         "u2": 1.1000192944949814e-42
@@ -115,7 +115,7 @@
         "nomeJob": "jobPtMdB737800elasRev315-0", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB737800elasRev315-0", 
-        "modeloAviao": "MdB737800elasRev315-0", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "315.0", 
         "u3": -5.746871920564445e-06, 
         "u2": 1.056579042100912e-42
@@ -126,7 +126,7 @@
         "nomeJob": "jobPtMdB737800elasRev330-75", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB737800elasRev330-75", 
-        "modeloAviao": "MdB737800elasRev330-75", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "330.75", 
         "u3": -5.746871920564445e-06, 
         "u2": 1.011737491242518e-42
@@ -137,7 +137,7 @@
         "nomeJob": "jobPtMdB737800elasBas100-0", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB737800elasBas100-0", 
-        "modeloAviao": "MdB737800elasBas100-0", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "100.0", 
         "u3": 6.665616092504933e-05, 
         "u2": 7.065234753248582e-40
@@ -148,7 +148,7 @@
         "nomeJob": "jobPtMdB737800elasBas105-0", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB737800elasBas105-0", 
-        "modeloAviao": "MdB737800elasBas105-0", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "105.0", 
         "u3": 6.24478780082427e-05, 
         "u2": 6.9612163682417505e-40
@@ -159,7 +159,7 @@
         "nomeJob": "jobPtMdB737800elasBas110-25", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB737800elasBas110-25", 
-        "modeloAviao": "MdB737800elasBas110-25", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "110.25", 
         "u3": 5.8242902014171705e-05, 
         "u2": 6.8451187904724394e-40
@@ -170,7 +170,7 @@
         "nomeJob": "jobPtMdB737800elasSub50-0", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB737800elasSub50-0", 
-        "modeloAviao": "MdB737800elasSub50-0", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "50.0", 
         "u3": -21.392446517944336, 
         "u2": -6.213261429897402e-37
@@ -181,7 +181,7 @@
         "nomeJob": "jobPtMdB737800elasSub52-5", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB737800elasSub52-5", 
-        "modeloAviao": "MdB737800elasSub52-5", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "52.5", 
         "u3": -20.379289627075195, 
         "u2": -6.273589458760251e-37
@@ -192,7 +192,7 @@
         "nomeJob": "jobPtMdB737800elasSub55-13", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB737800elasSub55-13", 
-        "modeloAviao": "MdB737800elasSub55-13", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "55.125", 
         "u3": -19.413928985595703, 
         "u2": -6.332612598493121e-37
@@ -203,7 +203,7 @@
         "nomeJob": "jobPtMdB737800poiRev0-08", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB737800poiRev0-08", 
-        "modeloAviao": "MdB737800poiRev0-08", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.08", 
         "u3": -19.38581657409668, 
         "u2": -6.978664551992383e-37
@@ -214,7 +214,7 @@
         "nomeJob": "jobPtMdB737800poiRev0-08", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB737800poiRev0-08", 
-        "modeloAviao": "MdB737800poiRev0-08", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.084", 
         "u3": -19.38581657409668, 
         "u2": -6.978664551992383e-37
@@ -225,7 +225,7 @@
         "nomeJob": "jobPtMdB737800poiRev0-09", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB737800poiRev0-09", 
-        "modeloAviao": "MdB737800poiRev0-09", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.0882", 
         "u3": -19.386451721191406, 
         "u2": -6.965148411732646e-37
@@ -236,7 +236,7 @@
         "nomeJob": "jobPtMdB737800poiBas0-08", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB737800poiBas0-08", 
-        "modeloAviao": "MdB737800poiBas0-08", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.08", 
         "u3": -19.241336822509766, 
         "u2": -7.2118105726169576e-37
@@ -247,7 +247,7 @@
         "nomeJob": "jobPtMdB737800poiBas0-08", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB737800poiBas0-08", 
-        "modeloAviao": "MdB737800poiBas0-08", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.084", 
         "u3": -19.241336822509766, 
         "u2": -7.2118105726169576e-37
@@ -258,7 +258,7 @@
         "nomeJob": "jobPtMdB737800poiBas0-09", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB737800poiBas0-09", 
-        "modeloAviao": "MdB737800poiBas0-09", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.0882", 
         "u3": -19.243289947509766, 
         "u2": -7.210433488590096e-37
@@ -269,7 +269,7 @@
         "nomeJob": "jobPtMdB737800poiSub0-08", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB737800poiSub0-08", 
-        "modeloAviao": "MdB737800poiSub0-08", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.08", 
         "u3": -18.245769500732422, 
         "u2": -7.744350175857772e-37
@@ -280,7 +280,7 @@
         "nomeJob": "jobPtMdB737800poiSub0-08", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB737800poiSub0-08", 
-        "modeloAviao": "MdB737800poiSub0-08", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.084", 
         "u3": -18.245769500732422, 
         "u2": -7.744350175857772e-37
@@ -291,7 +291,7 @@
         "nomeJob": "jobPtMdB737800poiSub0-09", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB737800poiSub0-09", 
-        "modeloAviao": "MdB737800poiSub0-09", 
+        "modeloAviao": "B737800", 
         "valorSensibilidade": "0.0882", 
         "u3": -18.278099060058594, 
         "u2": -7.741539507449968e-37
@@ -302,7 +302,7 @@
         "nomeJob": "jobPtMdB767300espRev0-1", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB767300espRev0-1", 
-        "modeloAviao": "MdB767300espRev0-1", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.1", 
         "u3": -30.484399795532227, 
         "u2": -1.0210667848587036
@@ -313,7 +313,7 @@
         "nomeJob": "jobPtMdB767300espRev0-1", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB767300espRev0-1", 
-        "modeloAviao": "MdB767300espRev0-1", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.105", 
         "u3": -30.484399795532227, 
         "u2": -1.0210667848587036
@@ -324,7 +324,7 @@
         "nomeJob": "jobPtMdB767300espRev0-11", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB767300espRev0-11", 
-        "modeloAviao": "MdB767300espRev0-11", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.1103", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -335,7 +335,7 @@
         "nomeJob": "jobPtMdB767300espBas0-2", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB767300espBas0-2", 
-        "modeloAviao": "MdB767300espBas0-2", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.2", 
         "u3": -30.494308471679688, 
         "u2": -1.0465370416641235
@@ -346,7 +346,7 @@
         "nomeJob": "jobPtMdB767300espBas0-21", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB767300espBas0-21", 
-        "modeloAviao": "MdB767300espBas0-21", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.21", 
         "u3": -30.45875358581543, 
         "u2": -1.0293121337890625
@@ -357,7 +357,7 @@
         "nomeJob": "jobPtMdB767300espBas0-22", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB767300espBas0-22", 
-        "modeloAviao": "MdB767300espBas0-22", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.2205", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -368,7 +368,7 @@
         "nomeJob": "jobPtMdB767300elasRev300-0", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB767300elasRev300-0", 
-        "modeloAviao": "MdB767300elasRev300-0", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "300.0", 
         "u3": -30.48830795288086, 
         "u2": -1.0376282930374146
@@ -379,7 +379,7 @@
         "nomeJob": "jobPtMdB767300elasRev315-0", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB767300elasRev315-0", 
-        "modeloAviao": "MdB767300elasRev315-0", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "315.0", 
         "u3": -30.455440521240234, 
         "u2": -1.0251257419586182
@@ -390,7 +390,7 @@
         "nomeJob": "jobPtMdB767300elasRev330-75", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB767300elasRev330-75", 
-        "modeloAviao": "MdB767300elasRev330-75", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "330.75", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -401,7 +401,7 @@
         "nomeJob": "jobPtMdB767300elasBas100-0", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB767300elasBas100-0", 
-        "modeloAviao": "MdB767300elasBas100-0", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "100.0", 
         "u3": -30.56507682800293, 
         "u2": -1.0577200651168823
@@ -412,7 +412,7 @@
         "nomeJob": "jobPtMdB767300elasBas105-0", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB767300elasBas105-0", 
-        "modeloAviao": "MdB767300elasBas105-0", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "105.0", 
         "u3": -30.492677688598633, 
         "u2": -1.034966230392456
@@ -423,7 +423,7 @@
         "nomeJob": "jobPtMdB767300elasBas110-25", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB767300elasBas110-25", 
-        "modeloAviao": "MdB767300elasBas110-25", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "110.25", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -434,7 +434,7 @@
         "nomeJob": "jobPtMdB767300elasSub50-0", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB767300elasSub50-0", 
-        "modeloAviao": "MdB767300elasSub50-0", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "50.0", 
         "u3": -33.32532501220703, 
         "u2": -1.041068196296692
@@ -445,7 +445,7 @@
         "nomeJob": "jobPtMdB767300elasSub52-5", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB767300elasSub52-5", 
-        "modeloAviao": "MdB767300elasSub52-5", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "52.5", 
         "u3": -31.839540481567383, 
         "u2": -1.0267424583435059
@@ -456,7 +456,7 @@
         "nomeJob": "jobPtMdB767300elasSub55-13", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB767300elasSub55-13", 
-        "modeloAviao": "MdB767300elasSub55-13", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "55.125", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -467,7 +467,7 @@
         "nomeJob": "jobPtMdB767300poiRev0-08", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB767300poiRev0-08", 
-        "modeloAviao": "MdB767300poiRev0-08", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.08", 
         "u3": -30.423995971679688, 
         "u2": -1.011779546737671
@@ -478,7 +478,7 @@
         "nomeJob": "jobPtMdB767300poiRev0-08", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB767300poiRev0-08", 
-        "modeloAviao": "MdB767300poiRev0-08", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.084", 
         "u3": -30.423995971679688, 
         "u2": -1.011779546737671
@@ -489,7 +489,7 @@
         "nomeJob": "jobPtMdB767300poiRev0-09", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB767300poiRev0-09", 
-        "modeloAviao": "MdB767300poiRev0-09", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.0882", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -500,7 +500,7 @@
         "nomeJob": "jobPtMdB767300poiBas0-08", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB767300poiBas0-08", 
-        "modeloAviao": "MdB767300poiBas0-08", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.08", 
         "u3": -30.419862747192383, 
         "u2": -1.0121856927871704
@@ -511,7 +511,7 @@
         "nomeJob": "jobPtMdB767300poiBas0-08", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB767300poiBas0-08", 
-        "modeloAviao": "MdB767300poiBas0-08", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.084", 
         "u3": -30.419862747192383, 
         "u2": -1.0121856927871704
@@ -522,7 +522,7 @@
         "nomeJob": "jobPtMdB767300poiBas0-09", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB767300poiBas0-09", 
-        "modeloAviao": "MdB767300poiBas0-09", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.0882", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -533,7 +533,7 @@
         "nomeJob": "jobPtMdB767300poiSub0-08", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB767300poiSub0-08", 
-        "modeloAviao": "MdB767300poiSub0-08", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.08", 
         "u3": -30.38486099243164, 
         "u2": -1.0117442607879639
@@ -544,7 +544,7 @@
         "nomeJob": "jobPtMdB767300poiSub0-08", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB767300poiSub0-08", 
-        "modeloAviao": "MdB767300poiSub0-08", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.084", 
         "u3": -30.38486099243164, 
         "u2": -1.0117442607879639
@@ -555,7 +555,7 @@
         "nomeJob": "jobPtMdB767300poiSub0-09", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB767300poiSub0-09", 
-        "modeloAviao": "MdB767300poiSub0-09", 
+        "modeloAviao": "B767300", 
         "valorSensibilidade": "0.0882", 
         "u3": -30.422832489013672, 
         "u2": -1.0124577283859253
@@ -566,7 +566,7 @@
         "nomeJob": "jobPtMdB777300espRev0-1", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB777300espRev0-1", 
-        "modeloAviao": "MdB777300espRev0-1", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.1", 
         "u3": -58.54293441772461, 
         "u2": -2.065545082092285
@@ -577,7 +577,7 @@
         "nomeJob": "jobPtMdB777300espRev0-1", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB777300espRev0-1", 
-        "modeloAviao": "MdB777300espRev0-1", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.105", 
         "u3": -58.54293441772461, 
         "u2": -2.065545082092285
@@ -588,7 +588,7 @@
         "nomeJob": "jobPtMdB777300espRev0-11", 
         "nomeSensibilidade": "espRev", 
         "nomeStep": "stpPtMdB777300espRev0-11", 
-        "modeloAviao": "MdB777300espRev0-11", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.1103", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -599,7 +599,7 @@
         "nomeJob": "jobPtMdB777300espBas0-2", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB777300espBas0-2", 
-        "modeloAviao": "MdB777300espBas0-2", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.2", 
         "u3": -58.61974334716797, 
         "u2": -2.1647095680236816
@@ -610,7 +610,7 @@
         "nomeJob": "jobPtMdB777300espBas0-21", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB777300espBas0-21", 
-        "modeloAviao": "MdB777300espBas0-21", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.21", 
         "u3": -58.602325439453125, 
         "u2": -2.1090564727783203
@@ -621,7 +621,7 @@
         "nomeJob": "jobPtMdB777300espBas0-22", 
         "nomeSensibilidade": "espBas", 
         "nomeStep": "stpPtMdB777300espBas0-22", 
-        "modeloAviao": "MdB777300espBas0-22", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.2205", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -632,7 +632,7 @@
         "nomeJob": "jobPtMdB777300elasRev300-0", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB777300elasRev300-0", 
-        "modeloAviao": "MdB777300elasRev300-0", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "300.0", 
         "u3": -58.7234001159668, 
         "u2": -2.097271203994751
@@ -643,7 +643,7 @@
         "nomeJob": "jobPtMdB777300elasRev315-0", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB777300elasRev315-0", 
-        "modeloAviao": "MdB777300elasRev315-0", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "315.0", 
         "u3": -58.653564453125, 
         "u2": -2.0755703449249268
@@ -654,7 +654,7 @@
         "nomeJob": "jobPtMdB777300elasRev330-75", 
         "nomeSensibilidade": "elasRev", 
         "nomeStep": "stpPtMdB777300elasRev330-75", 
-        "modeloAviao": "MdB777300elasRev330-75", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "330.75", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -665,7 +665,7 @@
         "nomeJob": "jobPtMdB777300elasBas100-0", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB777300elasBas100-0", 
-        "modeloAviao": "MdB777300elasBas100-0", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "100.0", 
         "u3": -58.63883590698242, 
         "u2": -2.170240640640259
@@ -676,7 +676,7 @@
         "nomeJob": "jobPtMdB777300elasBas105-0", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB777300elasBas105-0", 
-        "modeloAviao": "MdB777300elasBas105-0", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "105.0", 
         "u3": -58.61180114746094, 
         "u2": -2.111499071121216
@@ -687,7 +687,7 @@
         "nomeJob": "jobPtMdB777300elasBas110-25", 
         "nomeSensibilidade": "elasBas", 
         "nomeStep": "stpPtMdB777300elasBas110-25", 
-        "modeloAviao": "MdB777300elasBas110-25", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "110.25", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -698,7 +698,7 @@
         "nomeJob": "jobPtMdB777300elasSub50-0", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB777300elasSub50-0", 
-        "modeloAviao": "MdB777300elasSub50-0", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "50.0", 
         "u3": -64.39002227783203, 
         "u2": -2.0947821140289307
@@ -709,7 +709,7 @@
         "nomeJob": "jobPtMdB777300elasSub52-5", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB777300elasSub52-5", 
-        "modeloAviao": "MdB777300elasSub52-5", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "52.5", 
         "u3": -61.41773986816406, 
         "u2": -2.0743134021759033
@@ -720,7 +720,7 @@
         "nomeJob": "jobPtMdB777300elasSub55-13", 
         "nomeSensibilidade": "elasSub", 
         "nomeStep": "stpPtMdB777300elasSub55-13", 
-        "modeloAviao": "MdB777300elasSub55-13", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "55.125", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -731,7 +731,7 @@
         "nomeJob": "jobPtMdB777300poiRev0-08", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB777300poiRev0-08", 
-        "modeloAviao": "MdB777300poiRev0-08", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.08", 
         "u3": -58.582191467285156, 
         "u2": -2.053931713104248
@@ -742,7 +742,7 @@
         "nomeJob": "jobPtMdB777300poiRev0-08", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB777300poiRev0-08", 
-        "modeloAviao": "MdB777300poiRev0-08", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.084", 
         "u3": -58.582191467285156, 
         "u2": -2.053931713104248
@@ -753,7 +753,7 @@
         "nomeJob": "jobPtMdB777300poiRev0-09", 
         "nomeSensibilidade": "poiRev", 
         "nomeStep": "stpPtMdB777300poiRev0-09", 
-        "modeloAviao": "MdB777300poiRev0-09", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.0882", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -764,7 +764,7 @@
         "nomeJob": "jobPtMdB777300poiBas0-08", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB777300poiBas0-08", 
-        "modeloAviao": "MdB777300poiBas0-08", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.08", 
         "u3": -58.58423614501953, 
         "u2": -2.053636074066162
@@ -775,7 +775,7 @@
         "nomeJob": "jobPtMdB777300poiBas0-08", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB777300poiBas0-08", 
-        "modeloAviao": "MdB777300poiBas0-08", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.084", 
         "u3": -58.58423614501953, 
         "u2": -2.053636074066162
@@ -786,7 +786,7 @@
         "nomeJob": "jobPtMdB777300poiBas0-09", 
         "nomeSensibilidade": "poiBas", 
         "nomeStep": "stpPtMdB777300poiBas0-09", 
-        "modeloAviao": "MdB777300poiBas0-09", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.0882", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
@@ -797,7 +797,7 @@
         "nomeJob": "jobPtMdB777300poiSub0-08", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB777300poiSub0-08", 
-        "modeloAviao": "MdB777300poiSub0-08", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.08", 
         "u3": -58.471405029296875, 
         "u2": -2.0538504123687744
@@ -808,7 +808,7 @@
         "nomeJob": "jobPtMdB777300poiSub0-08", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB777300poiSub0-08", 
-        "modeloAviao": "MdB777300poiSub0-08", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.084", 
         "u3": -58.471405029296875, 
         "u2": -2.0538504123687744
@@ -819,7 +819,7 @@
         "nomeJob": "jobPtMdB777300poiSub0-09", 
         "nomeSensibilidade": "poiSub", 
         "nomeStep": "stpPtMdB777300poiSub0-09", 
-        "modeloAviao": "MdB777300poiSub0-09", 
+        "modeloAviao": "B777300", 
         "valorSensibilidade": "0.0882", 
         "u3": -58.585323333740234, 
         "u2": -2.053647994995117
