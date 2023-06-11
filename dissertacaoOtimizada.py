@@ -475,17 +475,17 @@ def inicializarCodigo(rodarJobs):
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
         materialBase = materialBaseOriginal
         nomeSensibilidade= 'elasRev'
-        for elasticidadeRevestimento in rangeSensibilidade(indiceInicial = 300, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+        for elasticidadeRevestimento in rangeSensibilidade(indiceInicial = 300E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
             materialRevestimento.moduloElasticidade = elasticidadeRevestimento
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
         materialRevestimento = materialRevestimentoOriginal
         nomeSensibilidade= 'elasBas'
-        for elasticidadeBase in rangeSensibilidade(indiceInicial = 100, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+        for elasticidadeBase in rangeSensibilidade(indiceInicial = 100E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
             materialBase.moduloElasticidade = elasticidadeBase
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
         materialBase = materialBaseOriginal
         nomeSensibilidade= 'elasSub'
-        for elasticidadeSubleito in rangeSensibilidade(indiceInicial = 50, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+        for elasticidadeSubleito in rangeSensibilidade(indiceInicial = 50E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
             materialSubleito.moduloElasticidade = elasticidadeSubleito
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
         materialSubleito = materialSubleitoOriginal
