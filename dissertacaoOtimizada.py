@@ -462,7 +462,7 @@ def inicializarCodigo(rodarJobs):
     #Investigacao espessura camada revestimento
     listaAvioes = [boeing737800, boeing767300, boeing777300]
 #    listaAvioes = [boeing777300]
-    numeroRepeticoes = 3 # Mudar para 50 depois
+    numeroRepeticoes = 1 # Mudar para 50 depois
     for aviaoSelecionado in listaAvioes:
         nomeSensibilidade= 'espRev'
         for espessuraRevestimento in rangeSensibilidade(indiceInicial = 0.1, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):

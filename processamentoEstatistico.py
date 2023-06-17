@@ -5,6 +5,7 @@ import pandas as pd
 from scipy import stats
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
+# Definir a classe DadosDeslocamento
 class DadosDeslocamento:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
         self.nomeJob = nomeJob
@@ -16,7 +17,6 @@ class DadosDeslocamento:
         self.u1 = u1
         self.u2 = u2
         self.u3 = u3
-# Definir a classe DadosDeslocamento
 # Função para importar os dados do arquivo JSON e criar a lista de objetos
 def importar_dados_deslocamento(nome_arquivo: str) -> list[DadosDeslocamento]:
     lista_objetos = []
@@ -77,12 +77,5 @@ for aviao in dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist()
     dataframeResultadosTukey['meandiff_abs'] = dataframeResultadosTukey['meandiff'].abs()
     dataframeResultadosTukey = dataframeResultadosTukey.sort_values(by='meandiff_abs', ascending=False)
     dataframeResultadosTukey = dataframeResultadosTukey.drop(columns=['meandiff_abs'])
-    # dataframeResultadosTukey = dataframeResultadosTukey.sort_values(by='meandiff', ascending=False)
     resultadosEstatisticaTukey.append(dataframeResultadosTukey)
 print(dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist())
-
-#Teste
-#t_statistic, p_value = stats.ttest_ind(np.ma.masked_invalid( pd.Series(df['variacao_percentual_u3'].tolist()).dropna().tolist()), np.ma.masked_invalid( pd.Series(df['variacao_percentual_u3'].tolist()).dropna().tolist()))
-#print(np.ma.masked_invalid( pd.Series(df['variacao_percentual_u1'].tolist()).dropna().tolist()))
-#print(t_statistic.tolist(), print(p_value.tolist()))
-#print(dataframe_deslocamentos_calculados)
