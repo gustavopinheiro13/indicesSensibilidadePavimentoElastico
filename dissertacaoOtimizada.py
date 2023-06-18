@@ -40,7 +40,9 @@ class material:
 # Classe aviao
 class aviao:
     def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY , larguraContatoPneu, comprimentoContatoPneu, carregamento, 
-                mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaX, mascaraCondicaoContornoTravaY, mascaraCondicaoContornoTravaCanto, mascaraSuperficie, nosInteresse):
+                mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaY, mascaraSuperficie, nosInteresse):
+    # def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY , larguraContatoPneu, comprimentoContatoPneu, carregamento, 
+    #             mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaX, mascaraCondicaoContornoTravaY, mascaraCondicaoContornoTravaCanto, mascaraSuperficie, nosInteresse):
         """
         Classe que representa um avião.
 
@@ -103,9 +105,9 @@ class aviao:
         self.mascaraCondicaoContornoFundo = mascaraCondicaoContornoFundo
         self.mascaraCondicaoContornoSimetriaX = mascaraCondicaoContornoSimetriaX
         self.mascaraCondicaoContornoSimetriaY = mascaraCondicaoContornoSimetriaY
-        self.mascaraCondicaoContornoTravaX = mascaraCondicaoContornoTravaX
         self.mascaraCondicaoContornoTravaY = mascaraCondicaoContornoTravaY
-        self.mascaraCondicaoContornoTravaCanto = mascaraCondicaoContornoTravaCanto
+        #self.mascaraCondicaoContornoTravaY = mascaraCondicaoContornoTravaY
+        #self.mascaraCondicaoContornoTravaCanto = mascaraCondicaoContornoTravaCanto
         self.mascaraSuperficie = mascaraSuperficie
         self.nosInteresse = nosInteresse
 
@@ -348,29 +350,34 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     #
     # Fundo
     bcNomeFundo = 'fnd' + nomePart
-    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeFundo, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoFundo, ), ))
+    #mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeFundo, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoFundo, ), ))
+    mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoFundo, ), ), name=bcNomeFundo)
     mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeFundo, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeFundo], u1=SET, u2=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
     # Simetria
     bcNomeSimetriaY = 'smty' + nomePart
-    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeSimetriaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaY, ), ))
+    #mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeSimetriaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaY, ), ))
+    mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaY , ), ), name=bcNomeSimetriaY)
     mdb.models[nomeModelo].YsymmBC(createStepName='Initial', localCsys=None, name=bcNomeSimetriaY, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeSimetriaY])
     bcNomeSimetriaX = 'smtx' + nomePart
-    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeSimetriaX, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaX, ), ))
+    #mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeSimetriaX, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaX, ), ))
+    mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaX, ), ), name=bcNomeSimetriaX)
     mdb.models[nomeModelo].XsymmBC(createStepName='Initial', localCsys=None, name=bcNomeSimetriaX, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeSimetriaX])
     #
     #
+    # Trava X
+    # bcNomeTravaX = 'tvX' + nomePart
+    # mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaX, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaX, ), ))
+    # mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaX, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaX], u1=SET, u2=UNSET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
     # Trava Y
     bcNomeTravaY = 'tvY' + nomePart
-    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ))
+#    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ))
+    mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ), name=bcNomeTravaY)
     mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaY, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaY], u1=UNSET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
-    # Trava X
-    bcNomeTravaX = 'tvX' + nomePart
-    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaX, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaX, ), ))
-    mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaX, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaX], u1=SET, u2=UNSET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
     # Trava Canto
-    bcNomeTravaCanto = 'tvC' + nomePart
-    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaCanto, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaCanto, ), ))
-    mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaCanto, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaCanto], u1=SET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
+    # bcNomeTravaCanto = 'tvC' + nomePart
+    # mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaCanto, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaCanto, ), ))
+    # mdb.models[nomeModelo].YsymmBC(createStepName='Initial', localCsys=None, name=bcNomeTravaCanto, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaCanto])
+    # #mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaCanto, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaCanto], u1=SET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
     #
     # Field Output
     mdb.models[nomeModelo].fieldOutputRequests['F-Output-1'].setValues(variables=('S', 'E', 'U'))
@@ -383,7 +390,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     # Mesh
     # mdb.models[nomeModelo].parts[nomePart].seedPart(deviationFactor=0.1, minSizeFactor=0.1, size=0.25)
     # mdb.models[nomeModelo].parts[nomePart].generateMesh()
-    if aviaoSelecionado.modelo == 'B737800':
+    if aviaoSelecionado.tipoEixo == 'simples':
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#7d640008 #0 #8000700e #403f403 ]', ), ), minSizeFactor=0.1, size=0.05)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#2800227 #0 #30100000 #40440a2c ]', ), ), minSizeFactor=0.1, size=0.25)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0 #40000000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#80000000 #280420 #11 ]', ), ), maxSize=0.75, minSize=0.05)
@@ -392,7 +399,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:3 #20000000 ]', ), ), maxSize=0.75, minSize=0.25)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#950 #0 #40000000 #50 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:2 #200000 ]', ), ), maxSize=0.75, minSize=0.25)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#ad480 #afd77bdf #fcd8be0 #83a80180 #e ]', ), ), minSizeFactor=0.1, size=0.75)
-    elif aviaoSelecionado.modelo == 'B767300':
+    elif aviaoSelecionado.tipoEixo == 'tandemDuplo':
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#fe422 #80002200 #16789fff #4000fe0 #1ffa389 #10 #1e000020 ]', ), ), minSizeFactor=0.1, size=0.05)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#30005d #22240080 #49876000 #48410000 #6005c36 #c #600000', ' #10 ]'), ), minSizeFactor=0.1, size=0.25)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#ac00000 #44480000 #0 #80820000 #b8000000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:4 #40 ]', ), ), maxSize=0.75, minSize=0.25)
@@ -401,7 +408,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #400 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#1080 #4400 #0 #14 #0:3 #40 ]', ), ), maxSize=0.75, minSize=0.05)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:6 #4 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:5 #5010820 #50 ]', ), ), maxSize=0.75, minSize=0.05)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#f5000a00 #1993987f #20000000 #333cf00b #40000000 #faeef7c3 #e19f778a', ' #3a7 ]'), ), minSizeFactor=0.1, size=0.75)
-    elif aviaoSelecionado.modelo == 'B777300':
+    elif aviaoSelecionado.tipoEixo == 'tandemTriplo':
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#80007f92 #fec1c20 #44000074 #1fc8 #fff00044 #122001f3 #2003ff47', ' #1000000 #f000 ]'), ), minSizeFactor=0.1, size=0.05)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#1806d #c0102000 #ba01c988 #6000 #92801 #6cc8800c #180c00b8', ' #0 #800300 ]'), ), minSizeFactor=0.1, size=0.25)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:8 #20000000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#48000000 #41 #0 #21 #88 #0:3 #2000000 ]', ), ), maxSize=0.75, minSize=0.05)
@@ -426,17 +433,28 @@ def rangeSensibilidade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
 
 def inicializarCodigo(rodarJobs):
     # Função para inicializar o código com base em parâmetros de entrada
+    # boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
+    #                     carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#b10 #8022004 ]' ,mascaraCondicaoContornoSimetriaX = '[#14c00000 #7f99ac2 ]', mascaraCondicaoContornoSimetriaY = '[#a00c0 #594b0 ]', 
+    #                     mascaraCondicaoContornoTravaX = '[#a9100000 #4109 ]', mascaraCondicaoContornoTravaY = '[#5400]', mascaraCondicaoContornoTravaCanto = '[#42200000 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[53, 57, 56, 39, 44, 47])
+    # # Cria um objeto avião do modelo Boeing 737-800 com parâmetros específicos
+    # boeing767300 = aviao(modelo='B767300', tipoEixo = 'tandemDuplo', roda1DistanciaEixoNuloX=5.2197, roda1DistanciaEixoNuloY=0.7112, roda2DistanciaEixoNuloX=4.0767,  roda2DistanciaEixoNuloY = 0.7112, larguraContatoPneu=0.332, comprimentoContatoPneu=0.531, 
+    #                     carregamento=1344.48, mascaraCondicaoContornoFundo = '[#20be8000 #14 #82001800 #a ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #ff000000 #987bd ]', mascaraCondicaoContornoSimetriaY = '[#c0017000 #80803201 #580002c8 #4 ]', 
+    #                     mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[10, 1, 0, 13, 45, 31, 73, 71, 67])
+    # # Cria um objeto avião do modelo Boeing 767-300 com parâmetros específicos
+    # boeing777300 = aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
+    #                     carregamento=1482.37, mascaraCondicaoContornoFundo = '[#20be8000 #14 #82001800 #a ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #ff000000 #987bd ]', mascaraCondicaoContornoSimetriaY = '[#c0017000 #80803201 #580002c8 #4 ]', 
+    #                     mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[57, 71, 47, 95, 89, 85, 60, 59, 61, 96, 94, 90])
     boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
-                        carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#b10 #8022004 ]' ,mascaraCondicaoContornoSimetriaX = '[#14c00000 #7f99ac2 ]', mascaraCondicaoContornoSimetriaY = '[#a00c0 #594b0 ]', 
-                        mascaraCondicaoContornoTravaX = '[#a9100000 #4109 ]', mascaraCondicaoContornoTravaY = '[#5400]', mascaraCondicaoContornoTravaCanto = '[#42200000 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[53, 57, 56, 39, 44, 47])
+                        carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#1000000 #8181 #2010 #2 ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #20144000 #8140c409 ]', mascaraCondicaoContornoSimetriaY = '[#804a000 #42 #5a280000 ]', 
+                        mascaraCondicaoContornoTravaY = '[#0 #48890000 #24110a02 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[53, 57, 56, 39, 44, 47])
     # Cria um objeto avião do modelo Boeing 737-800 com parâmetros específicos
     boeing767300 = aviao(modelo='B767300', tipoEixo = 'tandemDuplo', roda1DistanciaEixoNuloX=5.2197, roda1DistanciaEixoNuloY=0.7112, roda2DistanciaEixoNuloX=4.0767,  roda2DistanciaEixoNuloY = 0.7112, larguraContatoPneu=0.332, comprimentoContatoPneu=0.531, 
-                        carregamento=1344.48, mascaraCondicaoContornoFundo = '[#20be8000 #14 #82001800 #a ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #ff000000 #987bd ]', mascaraCondicaoContornoSimetriaY = '[#c0017000 #80803201 #580002c8 #4 ]', 
-                        mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[10, 1, 0, 13, 45, 31, 73, 71, 67])
+                        carregamento=1344.48, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]' ,mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
+                        mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[10, 1, 0, 13, 45, 31, 73, 71, 67])
     # Cria um objeto avião do modelo Boeing 767-300 com parâmetros específicos
     boeing777300 = aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
-                        carregamento=1482.37, mascaraCondicaoContornoFundo = '[#20be8000 #14 #82001800 #a ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #ff000000 #987bd ]', mascaraCondicaoContornoSimetriaY = '[#c0017000 #80803201 #580002c8 #4 ]', 
-                        mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[57, 71, 47, 95, 89, 85, 60, 59, 61, 96, 94, 90])
+                        carregamento=1482.37, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
+                        mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[57, 71, 47, 95, 89, 85, 60, 59, 61, 96, 94, 90])
     # Cria um objeto avião do modelo Boeing 777-300 com parâmetros específicos
     #
     #aviaoSelecionado = boeing777300
@@ -461,49 +479,48 @@ def inicializarCodigo(rodarJobs):
     ###### Variacoes
     #Investigacao espessura camada revestimento
     listaAvioes = [boeing737800, boeing767300, boeing777300]
-#    listaAvioes = [boeing777300]
-    numeroRepeticoes = 1 # Mudar para 50 depois
-    for aviaoSelecionado in listaAvioes:
-        nomeSensibilidade= 'espRev'
-        for espessuraRevestimento in rangeSensibilidade(indiceInicial = 0.1, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialRevestimento.espessuraCamada = espessuraRevestimento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraRevestimento))
-        materialRevestimento = materialRevestimentoOriginal
-        nomeSensibilidade= 'espBas'
-        for espessuraBase in rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialBase.espessuraCamada = espessuraBase
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
-        materialBase = materialBaseOriginal
-        nomeSensibilidade= 'elasRev'
-        for elasticidadeRevestimento in rangeSensibilidade(indiceInicial = 300E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialRevestimento.moduloElasticidade = elasticidadeRevestimento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
-        materialRevestimento = materialRevestimentoOriginal
-        nomeSensibilidade= 'elasBas'
-        for elasticidadeBase in rangeSensibilidade(indiceInicial = 100E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialBase.moduloElasticidade = elasticidadeBase
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
-        materialBase = materialBaseOriginal
-        nomeSensibilidade= 'elasSub'
-        for elasticidadeSubleito in rangeSensibilidade(indiceInicial = 50E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialSubleito.moduloElasticidade = elasticidadeSubleito
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
-        materialSubleito = materialSubleitoOriginal
-        nomeSensibilidade= 'poiRev'
-        for poissonRevestimento in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialRevestimento.coeficientePoisson = poissonRevestimento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonRevestimento))
-        materialRevestimento = materialRevestimentoOriginal
-        nomeSensibilidade= 'poiBas'
-        for poissonBase in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialBase.coeficientePoisson = poissonBase
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonBase))
-        materialBase = materialBaseOriginal
-        nomeSensibilidade= 'poiSub'
-        for poissonSubleito in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
-            materialSubleito.coeficientePoisson = poissonSubleito
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
-        materialSubleito = materialSubleitoOriginal
+    # numeroRepeticoes = 1 # Mudar para 50 depois
+    # for aviaoSelecionado in listaAvioes:
+    #     nomeSensibilidade= 'espRev'
+    #     for espessuraRevestimento in rangeSensibilidade(indiceInicial = 0.1, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialRevestimento.espessuraCamada = espessuraRevestimento
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraRevestimento))
+    #     materialRevestimento = materialRevestimentoOriginal
+    #     nomeSensibilidade= 'espBas'
+    #     for espessuraBase in rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialBase.espessuraCamada = espessuraBase
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
+    #     materialBase = materialBaseOriginal
+    #     nomeSensibilidade= 'elasRev'
+    #     for elasticidadeRevestimento in rangeSensibilidade(indiceInicial = 300E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialRevestimento.moduloElasticidade = elasticidadeRevestimento
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
+    #     materialRevestimento = materialRevestimentoOriginal
+    #     nomeSensibilidade= 'elasBas'
+    #     for elasticidadeBase in rangeSensibilidade(indiceInicial = 100E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialBase.moduloElasticidade = elasticidadeBase
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
+    #     materialBase = materialBaseOriginal
+    #     nomeSensibilidade= 'elasSub'
+    #     for elasticidadeSubleito in rangeSensibilidade(indiceInicial = 50E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialSubleito.moduloElasticidade = elasticidadeSubleito
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
+    #     materialSubleito = materialSubleitoOriginal
+    #     nomeSensibilidade= 'poiRev'
+    #     for poissonRevestimento in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialRevestimento.coeficientePoisson = poissonRevestimento
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonRevestimento))
+    #     materialRevestimento = materialRevestimentoOriginal
+    #     nomeSensibilidade= 'poiBas'
+    #     for poissonBase in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialBase.coeficientePoisson = poissonBase
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonBase))
+    #     materialBase = materialBaseOriginal
+    #     nomeSensibilidade= 'poiSub'
+    #     for poissonSubleito in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #         materialSubleito.coeficientePoisson = poissonSubleito
+    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
+    #     materialSubleito = materialSubleitoOriginal
 # Convertendo a lista de objetos em uma lista de dicionários para saida em JSON
     modelos_Saida = []
     for objeto in listaJobs:
