@@ -258,47 +258,6 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     definirSecao(nomeModelo = nomeModelo, nomePart = nomePart, nomeCamada = materialBase.nomeCamada, mascara = '[#4 ]')
     definirSecao(nomeModelo = nomeModelo, nomePart = nomePart, nomeCamada = materialSubleito.nomeCamada, mascara = '[#1 ]')
     #
-    ####################################################################################################
-    #Criação de reference points
-    ## 0, roda ###
-    #Eixo simples
-    if aviaoSelecionado.tipoEixo == 'simples':
-        #0, topo superficie
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(0.0, aviaoSelecionado.rodaInternaY, 2*aviaoSelecionado.localizacaoRodaMediaX))
-        #0, topo da base
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(0.0, aviaoSelecionado.rodaInternaY, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada))
-        #0, topo do subleito
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(0.0, aviaoSelecionado.rodaInternaY, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada - materialBase.espessuraCamada))
-    else:
-        #Outros eixos
-        #0, topo superficie
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(0.0, 0, 2*aviaoSelecionado.localizacaoRodaMediaX))
-        #0, topo da base
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(0.0, 0, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada))
-        #0, topo do subleito
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(0.0, 0, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada - materialBase.espessuraCamada))
-    #
-    if aviaoSelecionado.tipoEixo == 'simples':
-        #0, topo superficie
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(aviaoSelecionado.rodaInternaX, aviaoSelecionado.rodaInternaY, 2*aviaoSelecionado.localizacaoRodaMediaX))
-        #0, topo da base
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(aviaoSelecionado.rodaInternaX, aviaoSelecionado.rodaInternaY, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada))
-        #0, topo do subleito
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(aviaoSelecionado.rodaInternaX, aviaoSelecionado.rodaInternaY, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada - materialBase.espessuraCamada))
-    else:
-        #Outros eixos
-        #0, topo superficie
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(aviaoSelecionado.rodaInternaX, 0, 2*aviaoSelecionado.localizacaoRodaMediaX))
-        #0, topo da base
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(aviaoSelecionado.rodaInternaX, 0, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada))
-        #0, topo do subleito
-        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=(aviaoSelecionado.rodaInternaX, 0, 2*aviaoSelecionado.localizacaoRodaMediaX - materialRevestimento.espessuraCamada - materialBase.espessuraCamada))
-    ## 0 ###
-    # Ponto de simetria do eixo - Geometrico
-    # Ponto deembaixo do pneu
-    # Ponto de simetria do pneu
-    # Para cada aeronave
-    #Datums de rodas
     criarDatum(nomeModelo = nomeModelo, nomePart = nomePart, offsetDatum = aviaoSelecionado.localizacaoDatumRoda1_1, planoPrincipalDatum = aviaoSelecionado.planoPrincipalDatumRoda1_1)
     datumRoda1_1 = mdb.models[nomeModelo].parts[nomePart].datums[11]
     criarDatum(nomeModelo = nomeModelo, nomePart = nomePart, offsetDatum = aviaoSelecionado.localizacaoDatumRoda1_2, planoPrincipalDatum = aviaoSelecionado.planoPrincipalDatumRoda1_2)
@@ -418,6 +377,17 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#560000 #0 #442002 #158000 #0 #1110000 #1700000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:5 #80000000 ]', ), ), maxSize=0.75, minSize=0.25)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#36a80000 #3003839e #1ba1601 #ffea0014 #6d730 #67e00 #86800000', ' #bc57d76d #1d3f0cfb ]'), ), minSizeFactor=0.1, size=0.75)
     mdb.models[nomeModelo].parts[nomePart].generateMesh()
+    ####################################################################################################
+    #Criação de reference points
+    ## 0, roda ###
+    # Ponto de simetria do eixo - Geometrico
+    # Ponto deembaixo do pneu
+    # Ponto de simetria do pneu
+    # Para cada aeronave
+    for noInteresse in aviaoSelecionado.nosInteresse:
+        mdb.models[nomeModelo].rootAssembly.ReferencePoint(point=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices[noInteresse])
+    #Datums de rodas
+    ####################################################################################################
     #regerar assembly
     mdb.models[nomeModelo].rootAssembly.regenerate()
     # Job
@@ -446,15 +416,15 @@ def inicializarCodigo(rodarJobs):
     #                     mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[57, 71, 47, 95, 89, 85, 60, 59, 61, 96, 94, 90])
     boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
                         carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#1000000 #8181 #2010 #2 ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #20144000 #8140c409 ]', mascaraCondicaoContornoSimetriaY = '[#804a000 #42 #5a280000 ]', 
-                        mascaraCondicaoContornoTravaY = '[#0 #48890000 #24110a02 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[53, 57, 56, 39, 44, 47])
+                        mascaraCondicaoContornoTravaY = '[#0 #48890000 #24110a02 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[23, 22, 26, 53, 54, 55, 39, 44, 47])
     # Cria um objeto avião do modelo Boeing 737-800 com parâmetros específicos
     boeing767300 = aviao(modelo='B767300', tipoEixo = 'tandemDuplo', roda1DistanciaEixoNuloX=5.2197, roda1DistanciaEixoNuloY=0.7112, roda2DistanciaEixoNuloX=4.0767,  roda2DistanciaEixoNuloY = 0.7112, larguraContatoPneu=0.332, comprimentoContatoPneu=0.531, 
                         carregamento=1344.48, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]' ,mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
-                        mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[10, 1, 0, 13, 45, 31, 73, 71, 67])
+                        mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[9, 6, 7, 10, 1, 0, 13, 12, 14, 80, 79, 83, 72, 66, 60, 73, 71, 67])
     # Cria um objeto avião do modelo Boeing 767-300 com parâmetros específicos
     boeing777300 = aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
                         carregamento=1482.37, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
-                        mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[57, 71, 47, 95, 89, 85, 60, 59, 61, 96, 94, 90])
+                        mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[56 ,53 ,54 ,57 ,48 ,47 ,60 ,59 ,61 ,23 ,22 ,26 ,95 ,89 ,85 ,96 ,94 ,90])
     # Cria um objeto avião do modelo Boeing 777-300 com parâmetros específicos
     #
     #aviaoSelecionado = boeing777300
