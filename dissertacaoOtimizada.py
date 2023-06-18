@@ -17,7 +17,7 @@ import json
 
 # Classes
 #Classe Material
-class material:
+class Material:
     def __init__(self, nomeCamada, nomeMaterial, espessuraCamada, moduloElasticidade, coeficientePoisson):
         """
         Classe que representa um material.
@@ -38,16 +38,15 @@ class material:
     
 
 # Classe aviao
-class aviao:
-    def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY , larguraContatoPneu, comprimentoContatoPneu, carregamento, 
+class Aviao:
+    def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY, larguraContatoPneu, comprimentoContatoPneu, carregamento,
                 mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaY, mascaraSuperficie, nosInteresse):
-    # def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY , larguraContatoPneu, comprimentoContatoPneu, carregamento, 
-    #             mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaX, mascaraCondicaoContornoTravaY, mascaraCondicaoContornoTravaCanto, mascaraSuperficie, nosInteresse):
         """
         Classe que representa um avião.
 
         Atributos:
         - modelo: modelo do avião.
+        - tipoEixo: tipo de eixo do avião.
         - roda1DistanciaEixoNuloX: distância da roda 1 ao eixo nulo X.
         - roda2DistanciaEixoNuloX: distância da roda 2 ao eixo nulo X.
         - roda1DistanciaEixoNuloY: distância da roda 1 ao eixo nulo Y.
@@ -55,18 +54,12 @@ class aviao:
         - larguraContatoPneu: largura de contato do pneu.
         - comprimentoContatoPneu: comprimento de contato do pneu.
         - carregamento: carga aplicada.
-        - localizacaoRodaMediaX: localização média entre as rodas X.
-        - rodaInternaX: roda interna entre as rodas duplas no eixo X.
-        - localizacaoRodaMediaY: localização média entre as rodas Y.
-        - rodaInternaY: roda interna entre as rodas duplas no eixo Y.
-        - localizacaoDatumRoda1_1: localização do Datum Roda 1_1.
-        - planoPrincipalDatumRoda1_1: plano principal do Datum Roda 1_1.
-        - localizacaoDatumRoda1_2: localização do Datum Roda 1_2.
-        - planoPrincipalDatumRoda1_2: plano principal do Datum Roda 1_2.
-        - localizacaoDatumRoda1_3: localização do Datum Roda 1_3.
-        - planoPrincipalDatumRoda1_3: plano principal do Datum Roda 1_3.
-        - localizacaoDatumRoda1_4: localização do Datum Roda 1_4.
-        - planoPrincipalDatumRoda1_4: plano principal do Datum Roda 1_4.
+        - mascaraCondicaoContornoFundo: máscara da condição de contorno de fundo.
+        - mascaraCondicaoContornoSimetriaX: máscara da condição de contorno de simetria em X.
+        - mascaraCondicaoContornoSimetriaY: máscara da condição de contorno de simetria em Y.
+        - mascaraCondicaoContornoTravaY: máscara da condição de contorno de trava em Y.
+        - mascaraSuperficie: máscara da superfície.
+        - nosInteresse: nós de interesse.
         """
         self.modelo = modelo
         self.tipoEixo = tipoEixo
@@ -77,45 +70,41 @@ class aviao:
         self.larguraContatoPneu = larguraContatoPneu
         self.comprimentoContatoPneu = comprimentoContatoPneu
         self.carregamento = carregamento
-        #
-        self.localizacaoRodaMediaX = (self.roda1DistanciaEixoNuloX + self.roda2DistanciaEixoNuloX) / 2
-        self.localizacaoRodaMediaY = (self.roda1DistanciaEixoNuloY + self.roda2DistanciaEixoNuloY) / 2
-        #
-        self.rodaInternaX = min(self.roda1DistanciaEixoNuloX, roda2DistanciaEixoNuloX)
-        self.rodaInternaY = min(self.roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloY)
-        #
-        # Para ver a simetria na reprodução 3D, comente a linha de baixo e descomente a seguinte
-        self.localizacaoDatumRoda1_1 = (self.rodaInternaX - (self.larguraContatoPneu / 2))
-        # self.localizacaoDatumRoda1_1 = self.localizacaoRodaMediaX - (self.rodaInterna - (larguraContatoPneu / 2))
-        self.planoPrincipalDatumRoda1_1 = YZPLANE
-        #
-        # Para ver a simetria na reprodução 3D, comente a linha de baixo e descomente a seguinte
-        self.localizacaoDatumRoda1_2 = (self.rodaInternaX + (self.larguraContatoPneu / 2))
-        # self.localizacaoDatumRoda1_2 = self.localizacaoRodaMediaX - (self.rodaInterna + (larguraContatoPneu / 2))
-        self.planoPrincipalDatumRoda1_2 = YZPLANE
-        #
-        #if self.rodaInternaY == 0:
-        #    self.rodaInternaY = self.localizacaoRodaMediaX
-        self.localizacaoDatumRoda1_3 = self.rodaInternaY + (self.comprimentoContatoPneu / 2)
-        self.planoPrincipalDatumRoda1_3 = XZPLANE
-        #
-        self.localizacaoDatumRoda1_4 = self.rodaInternaY - (self.comprimentoContatoPneu / 2)
-        self.planoPrincipalDatumRoda1_4 = XZPLANE
-        #
         self.mascaraCondicaoContornoFundo = mascaraCondicaoContornoFundo
         self.mascaraCondicaoContornoSimetriaX = mascaraCondicaoContornoSimetriaX
         self.mascaraCondicaoContornoSimetriaY = mascaraCondicaoContornoSimetriaY
         self.mascaraCondicaoContornoTravaY = mascaraCondicaoContornoTravaY
-        #self.mascaraCondicaoContornoTravaY = mascaraCondicaoContornoTravaY
-        #self.mascaraCondicaoContornoTravaCanto = mascaraCondicaoContornoTravaCanto
         self.mascaraSuperficie = mascaraSuperficie
         self.nosInteresse = nosInteresse
+        self.localizacaoRodaMediaX = (roda1DistanciaEixoNuloX + roda2DistanciaEixoNuloX) / 2
+        self.rodaInternaX = min(roda1DistanciaEixoNuloX, roda2DistanciaEixoNuloX)
+        self.localizacaoRodaMediaY = (roda1DistanciaEixoNuloY + roda2DistanciaEixoNuloY) / 2
+        self.rodaInternaY = min(roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloY)
+        self.localizacaoDatumRoda1_1 = rodaInternaX - (larguraContatoPneu / 2)
+        self.planoPrincipalDatumRoda1_1 = YZPLANE
+        self.localizacaoDatumRoda1_2 = rodaInternaX + (larguraContatoPneu / 2)
+        self.planoPrincipalDatumRoda1_2 = YZPLANE
+        self.localizacaoDatumRoda1_3 = rodaInternaY + (comprimentoContatoPneu / 2)
+        self.planoPrincipalDatumRoda1_3 = XZPLANE
+        self.localizacaoDatumRoda1_4 = rodaInternaY - (comprimentoContatoPneu / 2)
+        self.planoPrincipalDatumRoda1_4 = XZPLANE
 
 
 
 # Definindo uma classe para representar os objetos de saida para checagem de modelos depois
 class saidaModelos:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
+        """
+        Classe que representa a saída de modelos.
+
+        Atributos:
+        - nomeJob: nome do job associado à saída do modelo.
+        - nomeStep: nome do step associado à saída do modelo.
+        - nomeSensibilidade: nome da sensibilidade associada à saída do modelo.
+        - valorSensibilidade: valor da sensibilidade do modelo.
+        - modeloAviao: modelo de avião associado à saída do modelo.
+        - nosInteresse: nós de interesse na saída do modelo.
+        """
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
         self.nomeSensibilidade = nomeSensibilidade
@@ -133,18 +122,19 @@ def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX):
     - nomeModelo: nome do modelo.
     - nomePart: nome da parte.
     - localizacaoRodaMediaX: localização média entre as rodas no eixo X.
-    - localizacaoRodaMediaY: localização média entre as rodas no eixo Y.
     """
     mdb.models[nomeModelo].ConstrainedSketch(name='__perfil__', sheetSize=2*localizacaoRodaMediaX)
-    mdb.models[nomeModelo].sketches['__perfil__'].rectangle(point1=(0.0, 0.0), point2=(localizacaoRodaMediaX, 2* localizacaoRodaMediaX))
+    mdb.models[nomeModelo].sketches['__perfil__'].rectangle(point1=(0.0, 0.0), point2=(localizacaoRodaMediaX, 2*localizacaoRodaMediaX))
     mdb.models[nomeModelo].Part(dimensionality=THREE_D, name=nomePart, type=DEFORMABLE_BODY)
     mdb.models[nomeModelo].parts[nomePart].BaseSolidExtrude(depth=(2*localizacaoRodaMediaX), sketch=mdb.models[nomeModelo].sketches['__perfil__'])
     del mdb.models[nomeModelo].sketches['__perfil__']
+
 
 # Função criarDatum 
 def criarDatum(nomeModelo, nomePart, offsetDatum, planoPrincipalDatum):
     """
     Função para criar um datum.
+
     Parâmetros:
     - nomeModelo: nome do modelo.
     - nomePart: nome da parte.
@@ -157,6 +147,7 @@ def criarDatum(nomeModelo, nomePart, offsetDatum, planoPrincipalDatum):
     datumSaida = mdb.models[nomeModelo].parts[nomePart].DatumPlaneByPrincipalPlane(
         offset=offsetDatum, principalPlane=planoPrincipalDatum)
     return datumSaida
+
 
 
 # Função criarMaterialAbaqus
@@ -172,6 +163,7 @@ def criarMaterialAbaqus(nomeModelo, nomeMaterial, moduloElasticidade, coeficient
     """
     mdb.models[nomeModelo].Material(name=nomeMaterial)
     mdb.models[nomeModelo].materials[nomeMaterial].Elastic(table=((moduloElasticidade, coeficientePoisson),))
+
 
 # Função recortarPartPorDatum
 def recortarPartPorDatum(nomeModelo, nomePart, objetoDatum):
@@ -197,7 +189,6 @@ def definicaoSet(nomeModelo, nomeMaterial, nomeCamada):
     """
     mdb.models[nomeModelo].HomogeneousSolidSection(material=nomeMaterial, name='secao' + nomeCamada, thickness=None)
 
-
 # Função definirSecao
 def definirSecao(nomeModelo, nomePart, nomeCamada, mascara):
     """
@@ -212,8 +203,6 @@ def definirSecao(nomeModelo, nomePart, nomeCamada, mascara):
     mdb.models[nomeModelo].parts[nomePart].Set(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask((mascara, ), ), name='set' + nomeCamada)
     mdb.models[nomeModelo].parts[nomePart].SectionAssignment(offset=0.0, offsetField='', offsetType=MIDDLE_SURFACE, region=mdb.models[nomeModelo].parts[nomePart].sets['set' + nomeCamada], sectionName='secao' +  nomeCamada, thicknessAssignment=FROM_SECTION)
 
-#def converterParaTitulo(indiceSensibilidade):
-#    return '-'+ str(round(indiceSensibilidade,2))
 ##Chamadas principais
 def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSubleito, nomeSensibilidade, valorSensibilidade):
     #
@@ -280,7 +269,6 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         recortarPartPorDatum(nomeModelo = nomeModelo, nomePart = nomePart, objetoDatum = datumRoda2_2)
         recortarPartPorDatum(nomeModelo = nomeModelo, nomePart = nomePart, objetoDatum = datumRoda2_3)
     #
-    #
     mdb.models[nomeModelo].HomogeneousSolidSection(material='Camada asfaltica', name='secaoRevestimento', thickness=None)
     #
     # Definicao de Assembly
@@ -300,44 +288,24 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     #Alterar carga do aviao e objeto corrrespondente
     mdb.models[nomeModelo].Pressure(amplitude=UNSET, createStepName=nomeStep, distributionType=UNIFORM, field='', magnitude=aviaoSelecionado.carregamento, name=nomeCarga, region=mdb.models[nomeModelo].rootAssembly.surfaces[nomeSuperficie])
     #
-    #
-    # Definicao do Reference Point
-    #mdb.models[nomeModelo].parts[nomePart].ReferencePoint(point=mdb.models[nomeModelo].parts[nomePart].vertices[6])
-    #
-    # Definicao das condicoes de contorno
-    # Boeing 737-800
-    #
     # Fundo
     bcNomeFundo = 'fnd' + nomePart
-    #mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeFundo, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoFundo, ), ))
     mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoFundo, ), ), name=bcNomeFundo)
     mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeFundo, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeFundo], u1=SET, u2=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
     # Simetria
     bcNomeSimetriaY = 'smty' + nomePart
-    #mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeSimetriaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaY, ), ))
     mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaY , ), ), name=bcNomeSimetriaY)
     mdb.models[nomeModelo].YsymmBC(createStepName='Initial', localCsys=None, name=bcNomeSimetriaY, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeSimetriaY])
     bcNomeSimetriaX = 'smtx' + nomePart
-    #mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeSimetriaX, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaX, ), ))
     mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoSimetriaX, ), ), name=bcNomeSimetriaX)
     mdb.models[nomeModelo].XsymmBC(createStepName='Initial', localCsys=None, name=bcNomeSimetriaX, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeSimetriaX])
     #
     #
-    # Trava X
-    # bcNomeTravaX = 'tvX' + nomePart
-    # mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaX, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaX, ), ))
-    # mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaX, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaX], u1=SET, u2=UNSET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
     # Trava Y
     bcNomeTravaY = 'tvY' + nomePart
 #    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ))
     mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ), name=bcNomeTravaY)
     mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaY, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaY], u1=UNSET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
-    # Trava Canto
-    # bcNomeTravaCanto = 'tvC' + nomePart
-    # mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaCanto, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaCanto, ), ))
-    # mdb.models[nomeModelo].YsymmBC(createStepName='Initial', localCsys=None, name=bcNomeTravaCanto, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaCanto])
-    # #mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaCanto, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaCanto], u1=SET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
-    #
     # Field Output
     mdb.models[nomeModelo].fieldOutputRequests['F-Output-1'].setValues(variables=('S', 'E', 'U'))
     ## é tandem triplo?
@@ -403,17 +371,6 @@ def rangeSensibilidade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
 
 def inicializarCodigo(rodarJobs):
     # Função para inicializar o código com base em parâmetros de entrada
-    # boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
-    #                     carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#b10 #8022004 ]' ,mascaraCondicaoContornoSimetriaX = '[#14c00000 #7f99ac2 ]', mascaraCondicaoContornoSimetriaY = '[#a00c0 #594b0 ]', 
-    #                     mascaraCondicaoContornoTravaX = '[#a9100000 #4109 ]', mascaraCondicaoContornoTravaY = '[#5400]', mascaraCondicaoContornoTravaCanto = '[#42200000 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[53, 57, 56, 39, 44, 47])
-    # # Cria um objeto avião do modelo Boeing 737-800 com parâmetros específicos
-    # boeing767300 = aviao(modelo='B767300', tipoEixo = 'tandemDuplo', roda1DistanciaEixoNuloX=5.2197, roda1DistanciaEixoNuloY=0.7112, roda2DistanciaEixoNuloX=4.0767,  roda2DistanciaEixoNuloY = 0.7112, larguraContatoPneu=0.332, comprimentoContatoPneu=0.531, 
-    #                     carregamento=1344.48, mascaraCondicaoContornoFundo = '[#20be8000 #14 #82001800 #a ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #ff000000 #987bd ]', mascaraCondicaoContornoSimetriaY = '[#c0017000 #80803201 #580002c8 #4 ]', 
-    #                     mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[10, 1, 0, 13, 45, 31, 73, 71, 67])
-    # # Cria um objeto avião do modelo Boeing 767-300 com parâmetros específicos
-    # boeing777300 = aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
-    #                     carregamento=1482.37, mascaraCondicaoContornoFundo = '[#20be8000 #14 #82001800 #a ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #ff000000 #987bd ]', mascaraCondicaoContornoSimetriaY = '[#c0017000 #80803201 #580002c8 #4 ]', 
-    #                     mascaraCondicaoContornoTravaX = '[#94002c0 #380000 ]', mascaraCondicaoContornoTravaY = '[#0:2 #25b22000 #1 ]', mascaraCondicaoContornoTravaCanto = '[#0:2 #444000 ]',  mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[57, 71, 47, 95, 89, 85, 60, 59, 61, 96, 94, 90])
     boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
                         carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#1000000 #8181 #2010 #2 ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #20144000 #8140c409 ]', mascaraCondicaoContornoSimetriaY = '[#804a000 #42 #5a280000 ]', 
                         mascaraCondicaoContornoTravaY = '[#0 #48890000 #24110a02 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[23, 22, 26, 53, 54, 55, 39, 44, 47])
