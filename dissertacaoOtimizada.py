@@ -369,6 +369,49 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
 def rangeSensibilidade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
     return [round(indiceInicial * (fatorDeCrescimento ** i), 4) for i in range(numeroRepeticoes)]
 
+#espessura revestimento
+print("espessura revestimento 0.1 a 0.4")
+print(rangeSensibilidade(indiceInicial = 0.075, numeroRepeticoes=86, fatorDeCrescimento=1.02))
+print("\n")
+
+#espessura base
+
+print("espessura base 0.125 A 0.40")
+print(rangeSensibilidade(indiceInicial = 0.075, numeroRepeticoes=86, fatorDeCrescimento=1.02))
+print("\n")
+
+
+#poisson revestimento
+print("poisson revestimento 0.15 a 0.35")
+print(rangeSensibilidade(indiceInicial = 0.15, numeroRepeticoes=44, fatorDeCrescimento=1.02))
+print("\n")
+
+#poisson base
+print("poisson base 0.2 a 0.35")
+print(rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=30, fatorDeCrescimento=1.02))
+print("\n")
+
+#poisson subleito
+print("poisson subleito 0.2 a 0.35")
+print(rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=30, fatorDeCrescimento=1.02))
+print("\n")
+
+#elasticidade revestimento
+print("elasticidade revestimento 1380 a 30000")
+print(rangeSensibilidade(indiceInicial =1380, numeroRepeticoes=157, fatorDeCrescimento=1.02))
+print("\n")
+
+#elasticidade base
+print("elasticidade base 187.5 a 5000")
+print(rangeSensibilidade(indiceInicial =187.5, numeroRepeticoes=167, fatorDeCrescimento=1.02))
+print("\n")
+
+#elasticidade subleito
+print("elasticidade subleito 7 a 350")
+print(rangeSensibilidade(indiceInicial =7, numeroRepeticoes=199, fatorDeCrescimento=1.02))
+print("\n")
+
+
 def inicializarCodigo(rodarJobs):
     # Função para inicializar o código com base em parâmetros de entrada
     boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
@@ -386,13 +429,13 @@ def inicializarCodigo(rodarJobs):
     #
     #aviaoSelecionado = boeing777300
     # Define o avião selecionado como o Boeing 737-800
-    materialRevestimentoOriginal = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500000000, coeficientePoisson=0.30)
+    materialRevestimentoOriginal = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialRevestimento = materialRevestimentoOriginal
     # Cria um objeto material para a camada de revestimento com parâmetros específicos
-    materialBaseOriginal = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250000000, coeficientePoisson=0.35)
+    materialBaseOriginal = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
     materialBase = materialBaseOriginal
     # Cria um objeto material para a camada base com parâmetros específicos
-    materialSubleitoOriginal = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=200000000, coeficientePoisson=0.40)
+    materialSubleitoOriginal = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=200E6, coeficientePoisson=0.40)
     materialSubleito = materialSubleitoOriginal
     #
     # Cria um objeto material para o subleito com parâmetros específicos
@@ -406,45 +449,45 @@ def inicializarCodigo(rodarJobs):
     ###### Variacoes
     #Investigacao espessura camada revestimento
     listaAvioes = [boeing737800, boeing767300, boeing777300]
-    # numeroRepeticoes = 1 # Mudar para 50 depois
+    fatorCrescimento = 1.02
     # for aviaoSelecionado in listaAvioes:
     #     nomeSensibilidade= 'espRev'
-    #     for espessuraRevestimento in rangeSensibilidade(indiceInicial = 0.1, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for espessuraRevestimento in rangeSensibilidade(indiceInicial = 0.075, numeroRepeticoes=86, fatorDeCrescimento=fatorCrescimento):
     #         materialRevestimento.espessuraCamada = espessuraRevestimento
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraRevestimento))
     #     materialRevestimento = materialRevestimentoOriginal
     #     nomeSensibilidade= 'espBas'
-    #     for espessuraBase in rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for espessuraBase in rangeSensibilidade(indiceInicial = 0.15, numeroRepeticoes=51, fatorDeCrescimento=fatorCrescimento):
     #         materialBase.espessuraCamada = espessuraBase
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
     #     materialBase = materialBaseOriginal
     #     nomeSensibilidade= 'elasRev'
-    #     for elasticidadeRevestimento in rangeSensibilidade(indiceInicial = 300E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for elasticidadeRevestimento in rangeSensibilidade(indiceInicial = 1380E6, numeroRepeticoes=157, fatorDeCrescimento=fatorCrescimento):
     #         materialRevestimento.moduloElasticidade = elasticidadeRevestimento
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
     #     materialRevestimento = materialRevestimentoOriginal
     #     nomeSensibilidade= 'elasBas'
-    #     for elasticidadeBase in rangeSensibilidade(indiceInicial = 100E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for elasticidadeBase in rangeSensibilidade(indiceInicial = 187.5E6, numeroRepeticoes=167, fatorDeCrescimento=fatorCrescimento):
     #         materialBase.moduloElasticidade = elasticidadeBase
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
     #     materialBase = materialBaseOriginal
     #     nomeSensibilidade= 'elasSub'
-    #     for elasticidadeSubleito in rangeSensibilidade(indiceInicial = 50E6, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for elasticidadeSubleito in rangeSensibilidade(indiceInicial = 7E6, numeroRepeticoes=199, fatorDeCrescimento=fatorCrescimento):
     #         materialSubleito.moduloElasticidade = elasticidadeSubleito
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
     #     materialSubleito = materialSubleitoOriginal
     #     nomeSensibilidade= 'poiRev'
-    #     for poissonRevestimento in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for poissonRevestimento in rangeSensibilidade(indiceInicial = 0.15, numeroRepeticoes=44, fatorDeCrescimento=fatorCrescimento):
     #         materialRevestimento.coeficientePoisson = poissonRevestimento
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonRevestimento))
     #     materialRevestimento = materialRevestimentoOriginal
     #     nomeSensibilidade= 'poiBas'
-    #     for poissonBase in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for poissonBase in rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=30, fatorDeCrescimento=fatorCrescimento):
     #         materialBase.coeficientePoisson = poissonBase
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonBase))
     #     materialBase = materialBaseOriginal
     #     nomeSensibilidade= 'poiSub'
-    #     for poissonSubleito in rangeSensibilidade(indiceInicial = 0.08, numeroRepeticoes=numeroRepeticoes, fatorDeCrescimento=1.05):
+    #     for poissonSubleito in rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=30, fatorDeCrescimento=fatorCrescimento):
     #         materialSubleito.coeficientePoisson = poissonSubleito
     #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
     #     materialSubleito = materialSubleitoOriginal
