@@ -17,7 +17,7 @@ import json
 
 # Classes
 #Classe Material
-class Material:
+class material:
     def __init__(self, nomeCamada, nomeMaterial, espessuraCamada, moduloElasticidade, coeficientePoisson):
         """
         Classe que representa um material.
@@ -38,7 +38,7 @@ class Material:
     
 
 # Classe aviao
-class Aviao:
+class aviao:
     def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY, larguraContatoPneu, comprimentoContatoPneu, carregamento,
                 mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaY, mascaraSuperficie, nosInteresse):
         """
@@ -80,13 +80,13 @@ class Aviao:
         self.rodaInternaX = min(roda1DistanciaEixoNuloX, roda2DistanciaEixoNuloX)
         self.localizacaoRodaMediaY = (roda1DistanciaEixoNuloY + roda2DistanciaEixoNuloY) / 2
         self.rodaInternaY = min(roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloY)
-        self.localizacaoDatumRoda1_1 = rodaInternaX - (larguraContatoPneu / 2)
+        self.localizacaoDatumRoda1_1 = self.rodaInternaX - (larguraContatoPneu / 2)
         self.planoPrincipalDatumRoda1_1 = YZPLANE
-        self.localizacaoDatumRoda1_2 = rodaInternaX + (larguraContatoPneu / 2)
+        self.localizacaoDatumRoda1_2 = self.rodaInternaX + (larguraContatoPneu / 2)
         self.planoPrincipalDatumRoda1_2 = YZPLANE
-        self.localizacaoDatumRoda1_3 = rodaInternaY + (comprimentoContatoPneu / 2)
+        self.localizacaoDatumRoda1_3 = self.rodaInternaY + (comprimentoContatoPneu / 2)
         self.planoPrincipalDatumRoda1_3 = XZPLANE
-        self.localizacaoDatumRoda1_4 = rodaInternaY - (comprimentoContatoPneu / 2)
+        self.localizacaoDatumRoda1_4 = self.rodaInternaY - (comprimentoContatoPneu / 2)
         self.planoPrincipalDatumRoda1_4 = XZPLANE
 
 
@@ -411,19 +411,23 @@ print("elasticidade subleito 7 a 350")
 print(rangeSensibilidade(indiceInicial =7, numeroRepeticoes=199, fatorDeCrescimento=1.02))
 print("\n")
 
+#Carga
+print("Carga 206.84 a 1827.1")
+print(rangeSensibilidade(indiceInicial =206.84E3, numeroRepeticoes=111, fatorDeCrescimento=1.02))
+print("\n")
 
 def inicializarCodigo(rodarJobs):
     # Função para inicializar o código com base em parâmetros de entrada
     boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
-                        carregamento=1406.53,  mascaraCondicaoContornoFundo = '[#1000000 #8181 #2010 #2 ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #20144000 #8140c409 ]', mascaraCondicaoContornoSimetriaY = '[#804a000 #42 #5a280000 ]', 
+                        carregamento=1406.53E3,  mascaraCondicaoContornoFundo = '[#1000000 #8181 #2010 #2 ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #20144000 #8140c409 ]', mascaraCondicaoContornoSimetriaY = '[#804a000 #42 #5a280000 ]', 
                         mascaraCondicaoContornoTravaY = '[#0 #48890000 #24110a02 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[23, 22, 26, 53, 54, 55, 39, 44, 47])
     # Cria um objeto avião do modelo Boeing 737-800 com parâmetros específicos
     boeing767300 = aviao(modelo='B767300', tipoEixo = 'tandemDuplo', roda1DistanciaEixoNuloX=5.2197, roda1DistanciaEixoNuloY=0.7112, roda2DistanciaEixoNuloX=4.0767,  roda2DistanciaEixoNuloY = 0.7112, larguraContatoPneu=0.332, comprimentoContatoPneu=0.531, 
-                        carregamento=1344.48, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]' ,mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
+                        carregamento=1344.48E3, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]' ,mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
                         mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[9, 6, 7, 10, 1, 0, 13, 12, 14, 80, 79, 83, 72, 66, 60, 73, 71, 67])
     # Cria um objeto avião do modelo Boeing 767-300 com parâmetros específicos
     boeing777300 = aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
-                        carregamento=1482.37, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
+                        carregamento=1482.37E3, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
                         mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[56 ,53 ,54 ,57 ,48 ,47 ,60 ,59 ,61 ,23 ,22 ,26 ,95 ,89 ,85 ,96 ,94 ,90])
     # Cria um objeto avião do modelo Boeing 777-300 com parâmetros específicos
     #

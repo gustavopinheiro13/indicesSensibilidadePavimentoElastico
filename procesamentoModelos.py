@@ -35,10 +35,8 @@ def reimportarDadosDeModelos(nome_arquivo):
 def executar_modelo(job):
     # Definir o nome da plataforma da GPU
     nome_plataforma_gpu = "NVIDIA CUDA"  # Substitua pela plataforma da sua GPU
-
     # Definir o comando para executar o job com a GPU
     comando = "abaqus job=" + job + " input=" + job + ".inp ask_delete=OFF"
-
     # Executar o comando
     subprocess.run(comando, shell=True)
 
