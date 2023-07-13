@@ -451,6 +451,30 @@ def materiaisBase():
     listaMateriais.append(materialSubleito)
     return listaMateriais
 
+def processarModelos(listaJobs, rodarJobs, nomeJson):
+    # Convertendo a lista de objetos em uma lista de dicionários para saida em JSON
+    modelos_Saida = []
+    for objeto in listaJobs:
+        dicionario = {
+            "nomeJob": objeto.nomeJob,
+            "nomeStep": objeto.nomeStep,
+            "nomeSensibilidade": objeto.nomeSensibilidade,
+            "valorSensibilidade": objeto.valorSensibilidade,
+            "modeloAviao": objeto.modeloAviao,
+            "nosInteresse": objeto.nosInteresse
+        }
+        modelos_Saida.append(dicionario)
+    # Escrevendo a lista de dicionários em um arquivo JSON
+    with open(nomeJson, "w") as arquivo_json:
+        json.dump(modelos_Saida, arquivo_json, indent=4)
+        if rodarJobs == True:
+            # Se a variável rodarJobs for True, executa os jobs
+            for job in listaJobs:
+                mdb.jobs[job.nomeJob].submit(consistencyChecking=OFF)
+                #job.submit(consistencyChecking=OFF)
+                #mdb.jobs[job.nomeJob].waitForCompletion()
+                print([job.nomeJob, mdb.jobs[job.nomeJob].status])
+                # Submete cada job para execução
 
 def inicializarCodigoModelosPrincipais(rodarJobs):
     boeing737800, boeing767300, boeing777300 = avioesBase()[0], avioesBase()[1], avioesBase()[2]
@@ -511,32 +535,42 @@ def inicializarCodigoModelosPrincipais(rodarJobs):
             materialSubleito.coeficientePoisson = poissonSubleito
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
         materialSubleito = materiaisBase()[2]
-# Convertendo a lista de objetos em uma lista de dicionários para saida em JSON
-    modelos_Saida = []
-    for objeto in listaJobs:
-        dicionario = {
-            "nomeJob": objeto.nomeJob,
-            "nomeStep": objeto.nomeStep,
-            "nomeSensibilidade": objeto.nomeSensibilidade,
-            "valorSensibilidade": objeto.valorSensibilidade,
-            "modeloAviao": objeto.modeloAviao,
-            "nosInteresse": objeto.nosInteresse
-        }
-        modelos_Saida.append(dicionario)
-    # Escrevendo a lista de dicionários em um arquivo JSON
-    with open("dadosModelosSaida.json", "w") as arquivo_json:
-        json.dump(modelos_Saida, arquivo_json, indent=4)
-        if rodarJobs == True:
-            # Se a variável rodarJobs for True, executa os jobs
-            for job in listaJobs:
-                mdb.jobs[job.nomeJob].submit(consistencyChecking=OFF)
-                #job.submit(consistencyChecking=OFF)
-                #mdb.jobs[job.nomeJob].waitForCompletion()
-                print([job.nomeJob, mdb.jobs[job.nomeJob].status])
-                # Submete cada job para execução
+    processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaPrincipais.json')
+
+def iniciarCodigoCalibracaoMesh(rodarJobs):
+    boeing737800, boeing767300, boeing777300 = avioesBase()[0], avioesBase()[1], avioesBase()[2]
+    materialRevestimento, materialBase, materialSubleito = materiaisBase()[0], materiaisBase()[1], materiaisBase()[2]
+    tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
+    listaJobs = []
+    meshRevestimento = [0.05*x for x in range(1,5+1)]
+    meshBase = [0.1*x for x in range(1,5+1)]
+    meshSubleito = [0.25*x for x in range(1,5+1)]
+    for revestimento in meshRevestimento:
+        tamanhoDaMesh.camadaRevestimento = revestimento
+        listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshRevestimento", valorSensibilidade = meshRevestimento))
+        for base in meshBase:
+            tamanhoDaMesh.camadaBase = base
+            listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshBase", valorSensibilidade = meshBase))
+            for subleito in meshSubleito:
+                tamanhoDaMesh.camadaSubleito = subleito
+                listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshSubleito", valorSensibilidade = meshSubleito))
+    processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoMesh.json')
+
+def iniciarCodigoCalibracaoSubleito(rodarJobs):
+    boeing737800, boeing767300, boeing777300 = avioesBase()[0], avioesBase()[1], avioesBase()[2]
+    materialRevestimento, materialBase, materialSubleito = materiaisBase()[0], materiaisBase()[1], materiaisBase()[2]
+    tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
+    listaJobs = []
+    for alturaSubleito in [x/2 for x in range(1,25+1)]:
+        materialSubleito.espessuraCamada = alturaSubleito
+        listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "espessuraSubleito", valorSensibilidade = alturaSubleito))
+    processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoSubleito.json')
 
 #Executa a funcao que inicializa o  codigo
+iniciarCodigoCalibracaoMesh(rodarJobs = False)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False)
 inicializarCodigoModelosPrincipais(rodarJobs = False)
+
 # Remove o modelo com nome 'Model-1' do dicionário mdb.models  
 del mdb.models['Model-1']
 
