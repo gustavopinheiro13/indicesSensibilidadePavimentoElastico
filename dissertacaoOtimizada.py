@@ -210,9 +210,13 @@ def definirSecao(nomeModelo, nomePart, nomeCamada, mascara):
 
 ##Chamadas principais
 def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSubleito, nomeSensibilidade, valorSensibilidade, tamanhoDaMesh):
-    #
+    # validacao se mesh está em ordem descrescente
+    tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito = sorted([tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito], reverse=False)
     # Criação do nome do modelo
-    nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade + str(round(valorSensibilidade, 2)).replace(".", "-")
+    if nomeSensibilidade[:4] == "mesh":
+        nomeModelo = 'Md' + aviaoSelecionado.modelo + "Mesh" + str(round(tamanhoDaMesh.camadaSubleito, 3)).replace(".", ",") + "-" + str(round(tamanhoDaMesh.camadaBase, 3)).replace(".", ",") + str(round(tamanhoDaMesh.camadaSubleito, 3)).replace(".", ",")
+    else:
+        nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade + str(round(valorSensibilidade, 2)).replace(".", ",")
     mdb.Model(modelType=STANDARD_EXPLICIT, name=nomeModelo)
     modelo = mdb.models[nomeModelo]
     #
@@ -547,13 +551,13 @@ def iniciarCodigoCalibracaoMesh(rodarJobs):
     meshSubleito = [0.25*x for x in range(1,5+1)]
     for revestimento in meshRevestimento:
         tamanhoDaMesh.camadaRevestimento = revestimento
-        listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshRevestimento", valorSensibilidade = meshRevestimento))
+        #listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshRevestimento", valorSensibilidade = revestimento))
         for base in meshBase:
             tamanhoDaMesh.camadaBase = base
-            listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshBase", valorSensibilidade = meshBase))
+            #listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshBase", valorSensibilidade = base))
             for subleito in meshSubleito:
                 tamanhoDaMesh.camadaSubleito = subleito
-                listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshSubleito", valorSensibilidade = meshSubleito))
+                listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshSubleito", valorSensibilidade = subleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoMesh.json')
 
 def iniciarCodigoCalibracaoSubleito(rodarJobs):
@@ -568,8 +572,8 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs):
 
 #Executa a funcao que inicializa o  codigo
 iniciarCodigoCalibracaoMesh(rodarJobs = False)
-iniciarCodigoCalibracaoSubleito(rodarJobs = False)
-inicializarCodigoModelosPrincipais(rodarJobs = False)
+# iniciarCodigoCalibracaoSubleito(rodarJobs = False)
+# inicializarCodigoModelosPrincipais(rodarJobs = False)
 
 # Remove o modelo com nome 'Model-1' do dicionário mdb.models  
 del mdb.models['Model-1']
