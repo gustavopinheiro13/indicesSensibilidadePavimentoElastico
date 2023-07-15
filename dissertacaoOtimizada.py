@@ -571,8 +571,8 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs):
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoSubleito.json')
 
 #Executa a funcao que inicializa o  codigo
-iniciarCodigoCalibracaoMesh(rodarJobs = False)
-# iniciarCodigoCalibracaoSubleito(rodarJobs = False)
+#iniciarCodigoCalibracaoMesh(rodarJobs = False)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False)
 #inicializarCodigoModelosPrincipais(rodarJobs = False)
 
 # Remove o modelo com nome 'Model-1' do dicionário mdb.models  
