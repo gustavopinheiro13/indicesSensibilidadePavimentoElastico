@@ -27,7 +27,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     for dado in dados_json:
         # Cria um objeto com os valores do dado
         modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modeloAviao']), nosInteresse = dado['nosInteresse'])
-        # Adiciona o objeto à lista
+        # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
 
@@ -50,11 +50,11 @@ def iniciarModelos(arquivo):
     for job in lista_objetos_job:
         lista_jobs.append(job.nomeJob)
     #subprocess.run("abaqus job=jobPtMdB777300Base0-0 input=jobPtMdB777300Base0-0.inp ask_delete=OFF", cwd="C:/SIMULIA/Commands/", shell=True)
-    # Número máximo de modelos em execução simultaneamente
+    # Numero maximo de modelos em execucao simultaneamente
     num_max_execucoes = 10
-    # Criação do pool de processos
+    # Criacao do pool de processos
     pool = Pool(processes=num_max_execucoes)
-    # Mapeamento da função de execução para os jobs
+    # Mapeamento da funcao de execucao para os jobs
     pool.map(executar_modelo, lista_jobs)
     # Fechamento do pool
     pool.close()
@@ -68,4 +68,4 @@ if __name__ == '__main__':
     #iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
     iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
     tempo_final = time.time()
-    print("Tempo de execução: ", tempo_final - tempo_inicial)
+    print("Tempo de execucao: ", tempo_final - tempo_inicial)

@@ -17,7 +17,7 @@ class DadosDeslocamento:
         self.u1 = u1
         self.u2 = u2
         self.u3 = u3
-# Função para importar os dados do arquivo JSON e criar a lista de objetos
+# Funcao para importar os dados do arquivo JSON e criar a lista de objetos
 def importar_dados_deslocamento(nome_arquivo: str) -> list[DadosDeslocamento]:
     lista_objetos = []
     with open(nome_arquivo, 'r') as arquivo_json:
@@ -51,14 +51,12 @@ def iniciarProcessamentoEstatitico(nome_arquivo):
         if pd.api.types.is_numeric_dtype(group['u3']):
             group['variacao_percentual_u3'] = (group['u3'] - group['u3'].shift(1)) / group['u3'].shift(1) * 100
         return group
-    #df = dataframe_deslocamentos_calculados.groupby(['modeloAviao','nomeSensibilidade', 'no']).apply(calcular_variacao_percentual)
-    #df.reset_index('modeloAviao', inplace=True)  # Remove 'modeloAviao' do índice
     grupos = dataframe_deslocamentos_calculados.groupby(['modeloAviao','nomeSensibilidade', 'no'])
 
     dataframesDiscretizadosModeloNomeNo = []
     for grupo, dados_grupo in grupos:
-        dataframe_separado = dados_grupo.copy()  # Crie uma cópia do dataframe do grupo
-        # Adicione o dataframe separado à lista de dataframes separados
+        dataframe_separado = dados_grupo.copy()  # Crie uma copia do dataframe do grupo
+        # Adicione o dataframe separado a lista de dataframes separados
         dataframesDiscretizadosModeloNomeNo.append(dataframe_separado)
 
     for deformacao in range(len(dataframesDiscretizadosModeloNomeNo)):

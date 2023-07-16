@@ -26,7 +26,7 @@ class material:
         - nomeCamada: nome da camada do material.
         - nomeMaterial: nome do material.
         - espessuraCamada: espessura da camada do material.
-        - moduloElasticidade: módulo de elasticidade do material.
+        - moduloElasticidade: modulo de elasticidade do material.
         - coeficientePoisson: coeficiente de Poisson do material.
         """
         self.nomeCamada = nomeCamada
@@ -52,23 +52,23 @@ class aviao:
     def __init__(self, modelo, tipoEixo, roda1DistanciaEixoNuloX, roda1DistanciaEixoNuloY, roda2DistanciaEixoNuloX, roda2DistanciaEixoNuloY, larguraContatoPneu, comprimentoContatoPneu, carregamento,
                 mascaraCondicaoContornoFundo, mascaraCondicaoContornoSimetriaX, mascaraCondicaoContornoSimetriaY, mascaraCondicaoContornoTravaY, mascaraSuperficie, nosInteresse):
         """
-        Classe que representa um avião.
+        Classe que representa um aviao.
         Atributos:
-        - modelo: modelo do avião.
-        - tipoEixo: tipo de eixo do avião.
-        - roda1DistanciaEixoNuloX: distância da roda 1 ao eixo nulo X.
-        - roda2DistanciaEixoNuloX: distância da roda 2 ao eixo nulo X.
-        - roda1DistanciaEixoNuloY: distância da roda 1 ao eixo nulo Y.
-        - roda2DistanciaEixoNuloY: distância da roda 2 ao eixo nulo Y.
+        - modelo: modelo do aviao.
+        - tipoEixo: tipo de eixo do aviao.
+        - roda1DistanciaEixoNuloX: distancia da roda 1 ao eixo nulo X.
+        - roda2DistanciaEixoNuloX: distancia da roda 2 ao eixo nulo X.
+        - roda1DistanciaEixoNuloY: distancia da roda 1 ao eixo nulo Y.
+        - roda2DistanciaEixoNuloY: distancia da roda 2 ao eixo nulo Y.
         - larguraContatoPneu: largura de contato do pneu.
         - comprimentoContatoPneu: comprimento de contato do pneu.
         - carregamento: carga aplicada.
-        - mascaraCondicaoContornoFundo: máscara da condição de contorno de fundo.
-        - mascaraCondicaoContornoSimetriaX: máscara da condição de contorno de simetria em X.
-        - mascaraCondicaoContornoSimetriaY: máscara da condição de contorno de simetria em Y.
-        - mascaraCondicaoContornoTravaY: máscara da condição de contorno de trava em Y.
-        - mascaraSuperficie: máscara da superfície.
-        - nosInteresse: nós de interesse.
+        - mascaraCondicaoContornoFundo: mascara da condicao de contorno de fundo.
+        - mascaraCondicaoContornoSimetriaX: mascara da condicao de contorno de simetria em X.
+        - mascaraCondicaoContornoSimetriaY: mascara da condicao de contorno de simetria em Y.
+        - mascaraCondicaoContornoTravaY: mascara da condicao de contorno de trava em Y.
+        - mascaraSuperficie: mascara da superficie.
+        - nosInteresse: nos de interesse.
         """
         self.modelo = modelo
         self.tipoEixo = tipoEixo
@@ -117,14 +117,14 @@ def intervalosAnalise():
 class saidaModelos:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
         """
-        Classe que representa a saída de modelos.
+        Classe que representa a saida de modelos.
         Atributos:
-        - nomeJob: nome do job associado à saída do modelo.
-        - nomeStep: nome do step associado à saída do modelo.
-        - nomeSensibilidade: nome da sensibilidade associada à saída do modelo.
+        - nomeJob: nome do job associado a saida do modelo.
+        - nomeStep: nome do step associado a saida do modelo.
+        - nomeSensibilidade: nome da sensibilidade associada a saida do modelo.
         - valorSensibilidade: valor da sensibilidade do modelo.
-        - modeloAviao: modelo de avião associado à saída do modelo.
-        - nosInteresse: nós de interesse na saída do modelo.
+        - modeloAviao: modelo de aviao associado a saida do modelo.
+        - nosInteresse: nos de interesse na saida do modelo.
         """
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
@@ -139,14 +139,14 @@ class tamanhoMesh:
         self.camadaBase = camadaBase
         self.camadaSubleito = camadaSubleito
 
-# Função modelarPart
+# Funcao modelarPart
 def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX):
     """
-    Função para modelar uma parte.
-    Parâmetros:
+    Funcao para modelar uma parte.
+    Parametros:
     - nomeModelo: nome do modelo.
     - nomePart: nome da parte.
-    - localizacaoRodaMediaX: localização média entre as rodas no eixo X.
+    - localizacaoRodaMediaX: localizacao media entre as rodas no eixo X.
     """
     mdb.models[nomeModelo].ConstrainedSketch(name='__perfil__', sheetSize=2*localizacaoRodaMediaX)
     mdb.models[nomeModelo].sketches['__perfil__'].rectangle(point1=(0.0, 0.0), point2=(localizacaoRodaMediaX, 2*localizacaoRodaMediaX))
@@ -155,11 +155,11 @@ def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX):
     del mdb.models[nomeModelo].sketches['__perfil__']
 
 
-# Função criarDatum 
+# Funcao criarDatum 
 def criarDatum(nomeModelo, nomePart, offsetDatum, planoPrincipalDatum):
     """
-    Função para criar um datum.
-    Parâmetros:
+    Funcao para criar um datum.
+    Parametros:
     - nomeModelo: nome do modelo.
     - nomePart: nome da parte.
     - offsetDatum: offset do datum.
@@ -173,62 +173,62 @@ def criarDatum(nomeModelo, nomePart, offsetDatum, planoPrincipalDatum):
 
 
 
-# Função criarMaterialAbaqus
+# Funcao criarMaterialAbaqus
 def criarMaterialAbaqus(nomeModelo, nomeMaterial, moduloElasticidade, coeficientePoisson):
     """
-    Função para criar um material no Abaqus.
-    Parâmetros:
+    Funcao para criar um material no Abaqus.
+    Parametros:
     - nomeModelo: nome do modelo.
     - nomeMaterial: nome do material.
-    - moduloElasticidade: módulo de elasticidade do material.
+    - moduloElasticidade: modulo de elasticidade do material.
     - coeficientePoisson: coeficiente de Poisson do material.
     """
     mdb.models[nomeModelo].Material(name=nomeMaterial)
     mdb.models[nomeModelo].materials[nomeMaterial].Elastic(table=((moduloElasticidade, coeficientePoisson),))
 
 
-# Função recortarPartPorDatum
+# Funcao recortarPartPorDatum
 def recortarPartPorDatum(nomeModelo, nomePart, objetoDatum):
     """
-    Função para recortar uma parte por um plano de datum no Abaqus.
-    Parâmetros:
+    Funcao para recortar uma parte por um plano de datum no Abaqus.
+    Parametros:
     - nomeModelo: nome do modelo.
     - nomePart: nome da parte.
     - objetoDatum: objeto do plano de datum a ser usado para recortar a parte.
     """
     mdb.models[nomeModelo].parts[nomePart].PartitionCellByDatumPlane(cells=mdb.models[nomeModelo].parts[nomePart].cells, datumPlane=objetoDatum)
 
-# Função definicaoSet
+# Funcao definicaoSet
 def definicaoSet(nomeModelo, nomeMaterial, nomeCamada):
     """
-    Função para definir uma seção sólida homogênea no Abaqus.
+    Funcao para definir uma secao solida homogenea no Abaqus.
 
-    Parâmetros:
+    Parametros:
     - nomeModelo: nome do modelo.
-    - nomeMaterial: nome do material a ser atribuído à seção.
-    - nomeCamada: nome da camada para a qual a seção será definida.
+    - nomeMaterial: nome do material a ser atribuido a secao.
+    - nomeCamada: nome da camada para a qual a secao sera definida.
     """
     mdb.models[nomeModelo].HomogeneousSolidSection(material=nomeMaterial, name='secao' + nomeCamada, thickness=None)
 
-# Função definirSecao
+# Funcao definirSecao
 def definirSecao(nomeModelo, nomePart, nomeCamada, mascara):
     """
-    Função para definir uma seção em uma parte no Abaqus.
+    Funcao para definir uma secao em uma parte no Abaqus.
 
-    Parâmetros:
+    Parametros:
     - nomeModelo: nome do modelo.
     - nomePart: nome da parte.
-    - nomeCamada: nome da camada para a qual a seção será definida.
-    - mascara: máscara para identificar as células da parte que serão incluídas na seção.
+    - nomeCamada: nome da camada para a qual a secao sera definida.
+    - mascara: mascara para identificar as celulas da parte que serao incluidas na secao.
     """
     mdb.models[nomeModelo].parts[nomePart].Set(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask((mascara, ), ), name='set' + nomeCamada)
     mdb.models[nomeModelo].parts[nomePart].SectionAssignment(offset=0.0, offsetField='', offsetType=MIDDLE_SURFACE, region=mdb.models[nomeModelo].parts[nomePart].sets['set' + nomeCamada], sectionName='secao' +  nomeCamada, thicknessAssignment=FROM_SECTION)
 
 ##Chamadas principais
 def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSubleito, nomeSensibilidade, valorSensibilidade, tamanhoDaMesh):
-    # validacao se mesh está em ordem descrescente
+    # validacao se mesh esta em ordem descrescente
     tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito = sorted([tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito], reverse=False)
-    # Criação do nome do modelo
+    # Criacao do nome do modelo
     if nomeSensibilidade[:4] == "mesh":
         nomeModelo = 'Md' + aviaoSelecionado.modelo + "Mesh" + str(round(tamanhoDaMesh.camadaSubleito, 4)).replace(".", ",") + "-" + str(round(tamanhoDaMesh.camadaBase, 4)).replace(".", ",")  + "-"+ str(round(tamanhoDaMesh.camadaSubleito, 4)).replace(".", ",")
         print(nomeModelo)
@@ -237,19 +237,19 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         print(nomeModelo)
     mdb.Model(modelType=STANDARD_EXPLICIT, name=nomeModelo)
     #
-    # Criação do nome da part
+    # Criacao do nome da part
     nomePart = 'Pt' + nomeModelo
     #
     modelarPart(nomeModelo = nomeModelo, nomePart = nomePart, localizacaoRodaMediaX = aviaoSelecionado.localizacaoRodaMediaX)
     #
     #Datums de camadas
     # Datums de camadas
-    # Criação do material de revestimento no Abaqus 
+    # Criacao do material de revestimento no Abaqus 
     criarMaterialAbaqus(nomeModelo = nomeModelo, nomeMaterial = materialRevestimento.nomeMaterial, moduloElasticidade = materialRevestimento.moduloElasticidade, coeficientePoisson = materialRevestimento.coeficientePoisson)  
-    # Criação do datum para a camada de revestimento
+    # Criacao do datum para a camada de revestimento
     criarDatum(nomeModelo = nomeModelo, nomePart = nomePart, offsetDatum = 2*aviaoSelecionado.localizacaoRodaMediaX -(materialRevestimento.espessuraCamada), planoPrincipalDatum = XYPLANE)
     datumCamadaRevestimento = mdb.models[nomeModelo].parts[nomePart].datums[2]
-    # Criação do material de base no Abaqus
+    # Criacao do material de base no Abaqus
     criarMaterialAbaqus(nomeModelo = nomeModelo, nomeMaterial = materialBase.nomeMaterial, moduloElasticidade = materialBase.moduloElasticidade, coeficientePoisson = materialBase.coeficientePoisson)    
     criarDatum(nomeModelo=nomeModelo, nomePart=nomePart, offsetDatum= 2*aviaoSelecionado.localizacaoRodaMediaX -(materialRevestimento.espessuraCamada + materialBase.espessuraCamada), planoPrincipalDatum=XYPLANE)
     datumCamadaBase = mdb.models[nomeModelo].parts[nomePart].datums[3]
@@ -334,7 +334,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaY, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaY], u1=UNSET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
     # Field Output
     mdb.models[nomeModelo].fieldOutputRequests['F-Output-1'].setValues(variables=('S', 'E', 'U'))
-    ## é tandem triplo?
+    ## e tandem triplo?
     if aviaoSelecionado.tipoEixo == 'tandemTriplo':
         criarDatum(nomeModelo = nomeModelo, nomePart = nomePart, offsetDatum = aviaoSelecionado.comprimentoContatoPneu/2, planoPrincipalDatum = aviaoSelecionado.planoPrincipalDatumRoda1_3)
         datumRoda3_1 = mdb.models[nomeModelo].parts[nomePart].datums[23]
@@ -370,7 +370,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#36a80000 #3003839e #1ba1601 #ffea0014 #6d730 #67e00 #86800000', ' #bc57d76d #1d3f0cfb ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
     mdb.models[nomeModelo].parts[nomePart].generateMesh()
     ####################################################################################################
-    #Criação de reference points
+    #Criacao de reference points
     ## 0, roda ###
     # Ponto de simetria do eixo - Geometrico
     # Ponto deembaixo do pneu
@@ -397,16 +397,16 @@ def rangeSensibilidade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
 
 def avioesBase():
     listaAvioes = []
-    # Função para inicializar o código com base em parâmetros de entrada
-    # Cria um objeto avião do modelo Boeing 737-800 com parâmetros específicos
+    # Funcao para inicializar o codigo com base em parametros de entrada
+    # Cria um objeto aviao do modelo Boeing 737-800 com parametros especificos
     boeing737800 = aviao(modelo='B737800', tipoEixo = 'simples',roda1DistanciaEixoNuloX=3.2893,roda1DistanciaEixoNuloY=0, roda2DistanciaEixoNuloX=2.4257, roda2DistanciaEixoNuloY = 0, larguraContatoPneu=0.323, comprimentoContatoPneu=0.517, 
                         carregamento=1406.53E3,  mascaraCondicaoContornoFundo = '[#1000000 #8181 #2010 #2 ]' ,mascaraCondicaoContornoSimetriaX = '[#0 #20144000 #8140c409 ]', mascaraCondicaoContornoSimetriaY = '[#804a000 #42 #5a280000 ]', 
                         mascaraCondicaoContornoTravaY = '[#0 #48890000 #24110a02 ]', mascaraSuperficie = '[#0 #200000 #100 ]', nosInteresse=[23, 22, 26, 53, 54, 55, 39, 44, 47])
-    # Cria um objeto avião do modelo Boeing 767-300 com parâmetros específicos
+    # Cria um objeto aviao do modelo Boeing 767-300 com parametros especificos
     boeing767300 = aviao(modelo='B767300', tipoEixo = 'tandemDuplo', roda1DistanciaEixoNuloX=5.2197, roda1DistanciaEixoNuloY=0.7112, roda2DistanciaEixoNuloX=4.0767,  roda2DistanciaEixoNuloY = 0.7112, larguraContatoPneu=0.332, comprimentoContatoPneu=0.531, 
                         carregamento=1344.48E3, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]' ,mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
                         mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[9, 6, 7, 10, 1, 0, 13, 12, 14, 80, 79, 83, 72, 66, 60, 73, 71, 67])
-    # Cria um objeto avião do modelo Boeing 777-300 com parâmetros específicos
+    # Cria um objeto aviao do modelo Boeing 777-300 com parametros especificos
     boeing777300 = aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
                         carregamento=1482.37E3, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
                         mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[56 ,53 ,54 ,57 ,48 ,47 ,60 ,59 ,61 ,23 ,22 ,26 ,95 ,89 ,85 ,96 ,94 ,90])
@@ -426,7 +426,7 @@ def materiaisBase():
     return listaMateriais
 
 def processarModelos(listaJobs, rodarJobs, nomeJson):
-    # Convertendo a lista de objetos em uma lista de dicionários para saida em JSON
+    # Convertendo a lista de objetos em uma lista de dicionarios para saida em JSON
     modelos_Saida = []
     for objeto in listaJobs:
         dicionario = {
@@ -438,30 +438,30 @@ def processarModelos(listaJobs, rodarJobs, nomeJson):
             "nosInteresse": objeto.nosInteresse
         }
         modelos_Saida.append(dicionario)
-    # Escrevendo a lista de dicionários em um arquivo JSON
+    # Escrevendo a lista de dicionarios em um arquivo JSON
     with open(nomeJson, "w") as arquivo_json:
         json.dump(modelos_Saida, arquivo_json, indent=4)
         if rodarJobs == True:
-            # Se a variável rodarJobs for True, executa os jobs
+            # Se a variavel rodarJobs for True, executa os jobs
             for job in listaJobs:
                 mdb.jobs[job.nomeJob].submit(consistencyChecking=OFF)
                 #job.submit(consistencyChecking=OFF)
                 #mdb.jobs[job.nomeJob].waitForCompletion()
                 print([job.nomeJob, mdb.jobs[job.nomeJob].status])
-                # Submete cada job para execução
+                # Submete cada job para execucao
 
 def inicializarCodigoModelosPrincipais(rodarJobs, intervalos):
     boeing737800, boeing767300, boeing777300 = avioesBase()[0], avioesBase()[1], avioesBase()[2]
     materialRevestimento, materialBase, materialSubleito = materiaisBase()[0], materiaisBase()[1], materiaisBase()[2]
     #
-    # Cria um objeto material para o subleito com parâmetros específicos
+    # Cria um objeto material para o subleito com parametros especificos
     nomeSensibilidade= 'Base'    
     tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
     listaJobs = []
     listaJobs.append(criarModelo(aviaoSelecionado=boeing737800, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
     listaJobs.append(criarModelo(aviaoSelecionado=boeing767300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
     listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
-    # Cria um modelo utilizando o avião selecionado e os materiais definidos, e adiciona o job à lista de jobs
+    # Cria um modelo utilizando o aviao selecionado e os materiais definidos, e adiciona o job a lista de jobs
     ######
     ###### Variacoes
     #Investigacao espessura camada revestimento
@@ -606,7 +606,7 @@ intervalos = intervalosAnalise()
 iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
 #inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 
-# Remove o modelo com nome 'Model-1' do dicionário mdb.models  
+# Remove o modelo com nome 'Model-1' do dicionario mdb.models  
 del mdb.models['Model-1']
 
 #espessura revestimento
@@ -626,4 +626,4 @@ print("elasticidade base " + str(intervalos.intervaloElasticidadeBase) + "\n")
 #elasticidade subleito
 print("elasticidade subleito " + str(intervalos.intervaloElasticidadeSubleito) + "\n")
 #Carga
-print("Carga " + str(intervalos.intervaloCarga) + "\n")
+print("Carga " + str(intervalos.intervaloCarga) + "\n") 
