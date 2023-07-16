@@ -63,6 +63,7 @@ def iniciarModelos(arquivo):
 if __name__ == '__main__':
     tempo_inicial = time.time()
     freeze_support()
+    iniciarModelos("dadosPavimentoCritico.json")
     #iniciarModelos("dadosModelosSaida.json")
     #iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
     iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
