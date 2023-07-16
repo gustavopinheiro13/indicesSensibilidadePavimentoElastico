@@ -78,7 +78,7 @@ def iniciarProcessamentoEstatitico(nome_arquivo):
         resultadosEstatisticaTukey.append(dataframeResultadosTukey)
     print(dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist())
 
-#iniciarProcessamentoEstatitico('dadosPavimentoCritico.json')
-#iniciarProcessamentoEstatitico('dadosModelosSaida.json')
-#iniciarProcessamentoEstatitico('dadosModelosSaidaCalibracaoMesh.json')
-iniciarProcessamentoEstatitico('dadosModelosSaidaCalibracaoSubleito.json')
+#iniciarProcessamentoEstatitico('deslocamentoDadosPavimentoCritico.json')
+#iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaida.json')
+#iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaidaCalibracaoMesh.json')
+iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaidaCalibracaoSubleito.json')

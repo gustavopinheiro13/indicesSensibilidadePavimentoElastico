@@ -105,9 +105,9 @@ def intervalosAnalise():
     intervaloPoissonRevestimento = rangeSensibilidade(indiceInicial = 0.15, numeroRepeticoes=44, fatorDeCrescimento=fatorCrescimento)
     intervaloPoissonBase = rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=30, fatorDeCrescimento=fatorCrescimento)	
     intervaloPoissonSubleito = rangeSensibilidade(indiceInicial = 0.2, numeroRepeticoes=30, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeRevestimento = rangeSensibilidade(indiceInicial =1380, numeroRepeticoes=157, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeBase = rangeSensibilidade(indiceInicial =187.5, numeroRepeticoes=167, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeSubleito = rangeSensibilidade(indiceInicial =7, numeroRepeticoes=199, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeRevestimento = rangeSensibilidade(indiceInicial =1380E6, numeroRepeticoes=157, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeBase = rangeSensibilidade(indiceInicial =187.5E6, numeroRepeticoes=167, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeSubleito = rangeSensibilidade(indiceInicial =7E6, numeroRepeticoes=199, fatorDeCrescimento=fatorCrescimento)
     intervaloCarga = rangeSensibilidade(indiceInicial =206.84E3, numeroRepeticoes=111, fatorDeCrescimento=fatorCrescimento)
     intervalosDeSensibilidade = intervaloSensibilidade(intervaloEspessuraRevestimento = intervaloEspessuraRevestimento, intervaloEspessuraBase = intervaloEspessuraBase, intervaloPoissonRevestimento = intervaloPoissonRevestimento, intervaloPoissonBase = intervaloPoissonBase, intervaloPoissonSubleito = intervaloPoissonSubleito, intervaloElasticidadeRevestimento = intervaloElasticidadeRevestimento, intervaloElasticidadeBase = intervaloElasticidadeBase, intervaloElasticidadeSubleito = intervaloElasticidadeSubleito, intervaloCarga = intervaloCarga)
     return intervalosDeSensibilidade
@@ -419,7 +419,7 @@ def materiaisBase():
     listaMateriais = []
     materialRevestimento = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=200E6, coeficientePoisson=0.40)
+    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=200E6, coeficientePoisson=0.35)
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
@@ -592,7 +592,7 @@ def pavimentoCritico():
     listaMateriais = []
     materialRevestimento = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=200E6, coeficientePoisson=0.40)
+    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=7E6, coeficientePoisson=0.35)
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
@@ -602,8 +602,8 @@ def pavimentoCritico():
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
 #iniciarCodigoCalibracaoMesh(rodarJobs = False)
-#iniciarCodigoCalibracaoSubleito(rodarJobs = False)
-iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False)
+#iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
 #inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  

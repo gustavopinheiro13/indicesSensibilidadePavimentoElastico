@@ -67,11 +67,10 @@ def reimportarDadosDeModelos(nome_arquivo):
         lista_jobs.append(modelo_saida)
     return lista_jobs
 
-def gravarDadosModelo():
+def gravarDadosModelo(nome_arquivo):
     # Exemplo de uso
-    nome_arquivo = 'dadosModelosSaida.json'
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
-    nome_arquivo_saida = 'dadosDeslocamento.json'
+    nome_arquivo_saida = 'Deslocamento' + nome_arquivo
     dados_deslocamento = []
     for job in lista_jobs:
         dados = obter_dados_deslocamento(
@@ -83,23 +82,27 @@ def gravarDadosModelo():
             nosInteresse=job.nosInteresse,
             valorSensibilidade=job.valorSensibilidade
         )
-        dados_job = {
-            'nomeJob': job.nomeJob,
-            'nomeStep': job.nomeStep,
-            'nomeSensibilidade': job.nomeSensibilidade,
-            'valorSensibilidade': job.valorSensibilidade,
-            'modeloAviao': job.modeloAviao,
-            'no':  np.float64(dados[0].no),
-            'u1':  np.float64(dados[0].u1),
-            'u2':  np.float64(dados[0].u2),
-            'u3':  np.float64(dados[0].u3)
-        }
-        dados_deslocamento.append(dados_job)
+        for modeloPonto in dados:
+            dados_job = {
+                'nomeJob': modeloPonto.nomeJob,
+                'nomeStep': modeloPonto.nomeStep,
+                'nomeSensibilidade': modeloPonto.nomeSensibilidade,
+                'valorSensibilidade': modeloPonto.valorSensibilidade,
+                'modeloAviao': modeloPonto.modeloAviao,
+                'no':  int(modeloPonto.no),
+                'u1':  np.float64(modeloPonto.u1),
+                'u2':  np.float64(modeloPonto.u2),
+                'u3':  np.float64(modeloPonto.u3)
+            }
+            dados_deslocamento.append(dados_job)
     # Salva os dados em um arquivo JSON
     with open(nome_arquivo_saida, 'w') as arquivo_saida:
         json.dump(dados_deslocamento, arquivo_saida, indent=4)
 
-gravarDadosModelo()
+#gravarDadosModelo('dadosModelosSaida.json')
+gravarDadosModelo('dadosPavimentoCritico.json')
+#gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json')
+#gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
 
 #Arrumar tamanho da mesh
 #Arrumar
