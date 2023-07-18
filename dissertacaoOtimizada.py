@@ -14,7 +14,7 @@ from sketch import *
 from visualization import *
 from connectorBehavior import *
 import json
-
+import os
 # Classes
 #Classe Material
 class material:
@@ -140,7 +140,7 @@ class tamanhoMesh:
         self.camadaSubleito = camadaSubleito
 
 # Funcao modelarPart
-def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX):
+def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX, materialRevestimento, materialBase, materialSubleito):
     """
     Funcao para modelar uma parte.
     Parametros:
@@ -151,7 +151,7 @@ def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX):
     mdb.models[nomeModelo].ConstrainedSketch(name='__perfil__', sheetSize=2*localizacaoRodaMediaX)
     mdb.models[nomeModelo].sketches['__perfil__'].rectangle(point1=(0.0, 0.0), point2=(localizacaoRodaMediaX, 2*localizacaoRodaMediaX))
     mdb.models[nomeModelo].Part(dimensionality=THREE_D, name=nomePart, type=DEFORMABLE_BODY)
-    mdb.models[nomeModelo].parts[nomePart].BaseSolidExtrude(depth=(2*localizacaoRodaMediaX), sketch=mdb.models[nomeModelo].sketches['__perfil__'])
+    mdb.models[nomeModelo].parts[nomePart].BaseSolidExtrude(depth= materialRevestimento.espessuraCamada +  materialBase.espessuraCamada + materialSubleito.espessuraCamada, sketch=mdb.models[nomeModelo].sketches['__perfil__'])
     del mdb.models[nomeModelo].sketches['__perfil__']
 
 
@@ -230,7 +230,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito = sorted([tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito], reverse=False)
     # Criacao do nome do modelo
     if nomeSensibilidade[:4] == "mesh":
-        nomeModelo = 'Md' + aviaoSelecionado.modelo + "Mesh" + str(round(tamanhoDaMesh.camadaSubleito, 4)).replace(".", ",") + "-" + str(round(tamanhoDaMesh.camadaBase, 4)).replace(".", ",")  + "-"+ str(round(tamanhoDaMesh.camadaSubleito, 4)).replace(".", ",")
+        nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade
         print(nomeModelo)
     else:
         nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade + str(round(valorSensibilidade, 4)).replace(".", ",")
@@ -240,23 +240,23 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     # Criacao do nome da part
     nomePart = 'Pt' + nomeModelo
     #
-    modelarPart(nomeModelo = nomeModelo, nomePart = nomePart, localizacaoRodaMediaX = aviaoSelecionado.localizacaoRodaMediaX)
+    modelarPart(nomeModelo = nomeModelo, nomePart = nomePart, localizacaoRodaMediaX = aviaoSelecionado.localizacaoRodaMediaX, materialRevestimento = materialRevestimento, materialBase = materialBase, materialSubleito = materialSubleito)
     #
     #Datums de camadas
     # Datums de camadas
     # Criacao do material de revestimento no Abaqus 
     criarMaterialAbaqus(nomeModelo = nomeModelo, nomeMaterial = materialRevestimento.nomeMaterial, moduloElasticidade = materialRevestimento.moduloElasticidade, coeficientePoisson = materialRevestimento.coeficientePoisson)  
     # Criacao do datum para a camada de revestimento
-    criarDatum(nomeModelo = nomeModelo, nomePart = nomePart, offsetDatum = 2*aviaoSelecionado.localizacaoRodaMediaX -(materialRevestimento.espessuraCamada), planoPrincipalDatum = XYPLANE)
+    criarDatum(nomeModelo = nomeModelo, nomePart = nomePart, offsetDatum = materialBase.espessuraCamada + materialSubleito.espessuraCamada, planoPrincipalDatum = XYPLANE)
     datumCamadaRevestimento = mdb.models[nomeModelo].parts[nomePart].datums[2]
     # Criacao do material de base no Abaqus
     criarMaterialAbaqus(nomeModelo = nomeModelo, nomeMaterial = materialBase.nomeMaterial, moduloElasticidade = materialBase.moduloElasticidade, coeficientePoisson = materialBase.coeficientePoisson)    
-    criarDatum(nomeModelo=nomeModelo, nomePart=nomePart, offsetDatum= 2*aviaoSelecionado.localizacaoRodaMediaX -(materialRevestimento.espessuraCamada + materialBase.espessuraCamada), planoPrincipalDatum=XYPLANE)
+    criarDatum(nomeModelo=nomeModelo, nomePart=nomePart, offsetDatum= materialSubleito.espessuraCamada, planoPrincipalDatum=XYPLANE)
     datumCamadaBase = mdb.models[nomeModelo].parts[nomePart].datums[3]
     criarMaterialAbaqus(nomeModelo = nomeModelo, nomeMaterial = materialSubleito.nomeMaterial, moduloElasticidade = materialSubleito.moduloElasticidade, coeficientePoisson = materialSubleito.coeficientePoisson)
     criarDatum(nomeModelo=nomeModelo, nomePart=nomePart, offsetDatum= 0, planoPrincipalDatum=XYPLANE)
     datumCamadaSubleito = mdb.models[nomeModelo].parts[nomePart].datums[4]
-    criarDatum(nomeModelo=nomeModelo, nomePart=nomePart, offsetDatum= 2*aviaoSelecionado.localizacaoRodaMediaX, planoPrincipalDatum=XYPLANE)
+    criarDatum(nomeModelo=nomeModelo, nomePart=nomePart, offsetDatum=  materialRevestimento.espessuraCamada + materialBase.espessuraCamada + materialSubleito.espessuraCamada, planoPrincipalDatum=XYPLANE)
     datumCamadaSuperficie = mdb.models[nomeModelo].parts[nomePart].datums[5]
     #
     #Recortar as parts Revestimento, Base e Subleito
@@ -427,17 +427,23 @@ def materiaisBase():
 
 def processarModelos(listaJobs, rodarJobs, nomeJson):
     # Convertendo a lista de objetos em uma lista de dicionarios para saida em JSON
+    os.chdir("C:/Users/gusta/abaqus/")
+    nomesJob = []
     modelos_Saida = []
     for objeto in listaJobs:
-        dicionario = {
-            "nomeJob": objeto.nomeJob,
-            "nomeStep": objeto.nomeStep,
-            "nomeSensibilidade": objeto.nomeSensibilidade,
-            "valorSensibilidade": objeto.valorSensibilidade,
-            "modeloAviao": objeto.modeloAviao,
-            "nosInteresse": objeto.nosInteresse
-        }
-        modelos_Saida.append(dicionario)
+        if any(objeto.nomeJob == nomeJobExistente for nomeJobExistente in nomesJob):
+            pass
+        else:
+            nomesJob.append(objeto.nomeJob)
+            dicionario = {
+                "nomeJob": objeto.nomeJob,
+                "nomeStep": objeto.nomeStep,
+                "nomeSensibilidade": objeto.nomeSensibilidade,
+                "valorSensibilidade": objeto.valorSensibilidade,
+                "modeloAviao": objeto.modeloAviao,
+                "nosInteresse": objeto.nosInteresse
+            }
+            modelos_Saida.append(dicionario)
     # Escrevendo a lista de dicionarios em um arquivo JSON
     with open(nomeJson, "w") as arquivo_json:
         json.dump(modelos_Saida, arquivo_json, indent=4)
@@ -519,16 +525,23 @@ def iniciarCodigoCalibracaoMesh(rodarJobs):
     materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
     tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
     listaJobs = []
-    meshRevestimento = [0.05*x for x in range(1,10+1)]
-    meshBase = [0.1*x for x in range(1,10+1)]
-    meshSubleito = [0.25*x for x in range(1,10+1)]
+    meshRevestimento = [0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]
+    meshBase = [0.1, 0.2, 0.30, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
+    meshSubleito = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3]
+    nomesJob = []
     for revestimento in meshRevestimento:
         tamanhoDaMesh.camadaRevestimento = revestimento
         for base in meshBase:
             tamanhoDaMesh.camadaBase = base
             for subleito in meshSubleito:
+                aviaoSelecionado = boeing777300
+                nomeModelo = "Mesh" + str(round(revestimento, 4)).replace(".", ",") + "-" + str(round(base, 4)).replace(".", ",")  + "-"+ str(round(subleito, 4)).replace(".", ",")
                 tamanhoDaMesh.camadaSubleito = subleito
-                listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "meshSubleito", valorSensibilidade = subleito))
+                if any(nomeModelo == nomeJobExistente for nomeJobExistente in nomesJob):
+                    pass
+                else:
+                    nomesJob.append(nomeModelo)
+                    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeModelo, valorSensibilidade = subleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoMesh.json')
 
 def iniciarCodigoPavimentocritico(rodarJobs, intervalos):
@@ -583,8 +596,12 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs):
     materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
     tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
     listaJobs = []
-    for alturaSubleito in [x/2 for x in range(1,25+1)]:
-        listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "espessuraSubleito", valorSensibilidade = alturaSubleito))
+    nomesJob = []
+    listaAlturas =[0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5]
+    for alturaSubleito in listaAlturas:
+        aviaoSelecionado = boeing777300
+        materialSubleito.espessuraCamada = alturaSubleito
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "espessuraSubleito", valorSensibilidade = alturaSubleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoSubleito.json')
 
 
@@ -601,8 +618,8 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-#iniciarCodigoCalibracaoMesh(rodarJobs = False)
-iniciarCodigoCalibracaoSubleito(rodarJobs = False)
+iniciarCodigoCalibracaoMesh(rodarJobs = False)
+#iniciarCodigoCalibracaoSubleito(rodarJobs = False)
 #iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
 #inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 

@@ -42,7 +42,7 @@ def executar_modelo(job):
 
 def iniciarModelos(arquivo):
     # os.chdir("C:/SIMULIA/Commands/")
-    os.chdir("C:/Users/gusta/")
+    os.chdir("C:/Users/gusta/abaqus/")
     nome_arquivo = arquivo
     lista_objetos_job = reimportarDadosDeModelos(nome_arquivo)
     lista_jobs = []
@@ -63,9 +63,9 @@ def iniciarModelos(arquivo):
 if __name__ == '__main__':
     tempo_inicial = time.time()
     freeze_support()
-    iniciarModelos("dadosPavimentoCritico.json")
-    #iniciarModelos("dadosModelosSaida.json")
-    #iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
+    #iniciarModelos("dadosPavimentoCritico.json")
     #iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
+    #iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
+    iniciarModelos("dadosModelosSaida.json")
     tempo_final = time.time()
     print("Tempo de execucao: ", tempo_final - tempo_inicial)

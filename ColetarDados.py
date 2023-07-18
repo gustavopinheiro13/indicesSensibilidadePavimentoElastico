@@ -2,7 +2,7 @@ from abaqus import *
 from abaqusConstants import *
 import numpy as np
 import json
-
+import os
 class DadosDeslocamento:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
         self.nomeJob = nomeJob
@@ -68,41 +68,50 @@ def reimportarDadosDeModelos(nome_arquivo):
     return lista_jobs
 
 def gravarDadosModelo(nome_arquivo):
+    os.chdir("C:/Users/gusta/abaqus/")
     # Exemplo de uso
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
     nome_arquivo_saida = 'Deslocamento' + nome_arquivo
+    nomesJob = []
     dados_deslocamento = []
     for job in lista_jobs:
-        dados = obter_dados_deslocamento(
-            nomeJob=job.nomeJob,
-            nomeStep=job.nomeStep,
-            nome_campo='U',
-            modeloAviao=job.modeloAviao,
-            nomeSensibilidade=job.nomeSensibilidade,
-            nosInteresse=job.nosInteresse,
-            valorSensibilidade=job.valorSensibilidade
-        )
-        for modeloPonto in dados:
-            dados_job = {
-                'nomeJob': modeloPonto.nomeJob,
-                'nomeStep': modeloPonto.nomeStep,
-                'nomeSensibilidade': modeloPonto.nomeSensibilidade,
-                'valorSensibilidade': modeloPonto.valorSensibilidade,
-                'modeloAviao': modeloPonto.modeloAviao,
-                'no':  int(modeloPonto.no),
-                'u1':  np.float64(modeloPonto.u1),
-                'u2':  np.float64(modeloPonto.u2),
-                'u3':  np.float64(modeloPonto.u3)
-            }
-            dados_deslocamento.append(dados_job)
+        if any(job.nomeJob == nomeJobExistente for nomeJobExistente in nomesJob):
+            pass
+        else:
+            nomesJob.append(job.nomeJob)
+            dados = obter_dados_deslocamento(
+                nomeJob=job.nomeJob,
+                nomeStep=job.nomeStep,
+                nome_campo='U',
+                modeloAviao=job.modeloAviao,
+                nomeSensibilidade=job.nomeSensibilidade,
+                nosInteresse=job.nosInteresse,
+                valorSensibilidade=job.valorSensibilidade
+            )
+            for modeloPonto in dados:
+                dados_job = {
+                    'nomeJob': modeloPonto.nomeJob,
+                    'nomeStep': modeloPonto.nomeStep,
+                    'nomeSensibilidade': modeloPonto.nomeSensibilidade,
+                    'valorSensibilidade': modeloPonto.valorSensibilidade,
+                    'modeloAviao': modeloPonto.modeloAviao,
+                    'no':  int(modeloPonto.no),
+                    'u1':  np.float64(modeloPonto.u1),
+                    'u2':  np.float64(modeloPonto.u2),
+                    'u3':  np.float64(modeloPonto.u3)
+                }
+                dados_deslocamento.append(dados_job)
     # Salva os dados em um arquivo JSON
     with open(nome_arquivo_saida, 'w') as arquivo_saida:
         json.dump(dados_deslocamento, arquivo_saida, indent=4)
+    print(nomesJob)
+    return dados_deslocamento
 
-#gravarDadosModelo('dadosModelosSaida.json')
-gravarDadosModelo('dadosPavimentoCritico.json')
-#gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json')
+
+#gravarDadosModelo('dadosPavimentoCritico.json')
 #gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
+print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
+#gravarDadosModelo('dadosModelosSaida.json')
 
 #Arrumar tamanho da mesh
 #Arrumar

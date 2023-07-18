@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
-
+import os
 # Definir a classe DadosDeslocamento
 class DadosDeslocamento:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
@@ -41,6 +41,7 @@ def importar_dados_deslocamento(nome_arquivo: str) -> list[DadosDeslocamento]:
 
 def iniciarProcessamentoEstatitico(nome_arquivo):
     # Carrega os dados do arquivo JSON
+    os.chdir("C:/Users/gusta/abaqus/")
     with open(nome_arquivo, 'r') as arquivo_json:
         dados_deslocamento = json.load(arquivo_json)
 
