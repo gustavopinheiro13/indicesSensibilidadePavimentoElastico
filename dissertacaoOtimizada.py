@@ -462,7 +462,7 @@ def inicializarCodigoModelosPrincipais(rodarJobs, intervalos):
     #
     # Cria um objeto material para o subleito com parametros especificos
     nomeSensibilidade= 'Base'    
-    tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
+    tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.6, camadaBase = 1.20, camadaSubleito = 1.75)
     listaJobs = []
     listaJobs.append(criarModelo(aviaoSelecionado=boeing737800, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
     listaJobs.append(criarModelo(aviaoSelecionado=boeing767300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
@@ -515,7 +515,7 @@ def inicializarCodigoModelosPrincipais(rodarJobs, intervalos):
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
         materialSubleito = materiaisBase()[2]
         nomeSensibilidade= 'carregamento'
-        for carregamento in intervalos.intervaloCarregamento:
+        for carregamento in intervalos.intervaloCarga:
             aviaoSelecionado.carregamento = carregamento
             listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = carregamento))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaPrincipais.json')
@@ -618,10 +618,10 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-iniciarCodigoCalibracaoMesh(rodarJobs = False)
+#iniciarCodigoCalibracaoMesh(rodarJobs = False)
 #iniciarCodigoCalibracaoSubleito(rodarJobs = False)
 #iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
-#inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
+inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  
 del mdb.models['Model-1']
