@@ -68,7 +68,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     return lista_jobs
 
 def gravarDadosModelo(nome_arquivo):
-    os.chdir("C:/Users/gusta/abaqus/")
+    os.chdir("C:/Users/gusta/resultados_abaqus/")
     # Exemplo de uso
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
     nome_arquivo_saida = 'Deslocamento' + nome_arquivo

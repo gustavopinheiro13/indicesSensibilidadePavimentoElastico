@@ -427,7 +427,7 @@ def materiaisBase():
 
 def processarModelos(listaJobs, rodarJobs, nomeJson):
     # Convertendo a lista de objetos em uma lista de dicionarios para saida em JSON
-    os.chdir("C:/Users/gusta/abaqus/")
+    os.chdir("C:/Users/gusta/resultados_abaqus/")
     nomesJob = []
     modelos_Saida = []
     for objeto in listaJobs:

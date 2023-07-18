@@ -42,7 +42,7 @@ def executar_modelo(job):
 
 def iniciarModelos(arquivo):
     # os.chdir("C:/SIMULIA/Commands/")
-    os.chdir("C:/Users/gusta/abaqus/")
+    os.chdir("C:/Users/gusta/resultados_abaqus/")
     nome_arquivo = arquivo
     lista_objetos_job = reimportarDadosDeModelos(nome_arquivo)
     lista_jobs = []

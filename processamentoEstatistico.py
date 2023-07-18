@@ -41,7 +41,7 @@ def importar_dados_deslocamento(nome_arquivo: str) -> list[DadosDeslocamento]:
 
 def iniciarProcessamentoEstatitico(nome_arquivo):
     # Carrega os dados do arquivo JSON
-    os.chdir("C:/Users/gusta/abaqus/")
+    os.chdir("C:/Users/gusta/resultados_abaqus/")
     with open(nome_arquivo, 'r') as arquivo_json:
         dados_deslocamento = json.load(arquivo_json)
 
