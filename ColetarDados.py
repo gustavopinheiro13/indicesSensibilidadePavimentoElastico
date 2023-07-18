@@ -110,8 +110,8 @@ def gravarDadosModelo(nome_arquivo):
 
 #gravarDadosModelo('dadosPavimentoCritico.json')
 #gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
-print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
-#gravarDadosModelo('dadosModelosSaida.json')
+#print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
+gravarDadosModelo('dadosModelosSaidaPrincipais.json')
 
 #Arrumar tamanho da mesh
 #Arrumar

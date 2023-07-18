@@ -66,6 +66,6 @@ if __name__ == '__main__':
     #iniciarModelos("dadosPavimentoCritico.json")
     #iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
     #iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
-    iniciarModelos("dadosModelosSaida.json")
+    iniciarModelos("dadosModelosSaidaPrincipais.json")
     tempo_final = time.time()
     print("Tempo de execucao: ", tempo_final - tempo_inicial)

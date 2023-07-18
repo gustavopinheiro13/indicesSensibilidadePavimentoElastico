@@ -229,7 +229,7 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     # validacao se mesh esta em ordem descrescente
     tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito = sorted([tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito], reverse=False)
     # Criacao do nome do modelo
-    if nomeSensibilidade[:4] == "mesh":
+    if nomeSensibilidade[:4] == "Mesh":
         nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade
         print(nomeModelo)
     else:
@@ -419,7 +419,7 @@ def materiaisBase():
     listaMateriais = []
     materialRevestimento = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=200E6, coeficientePoisson=0.35)
+    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=11, moduloElasticidade=200E6, coeficientePoisson=0.35)
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
@@ -597,7 +597,7 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs):
     tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
     listaJobs = []
     nomesJob = []
-    listaAlturas =[0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5]
+    listaAlturas = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.1)
     for alturaSubleito in listaAlturas:
         aviaoSelecionado = boeing777300
         materialSubleito.espessuraCamada = alturaSubleito
