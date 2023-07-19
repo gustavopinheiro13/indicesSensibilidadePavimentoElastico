@@ -419,7 +419,7 @@ def materiaisBase():
     listaMateriais = []
     materialRevestimento = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=11, moduloElasticidade=200E6, coeficientePoisson=0.35)
+    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=20.2, moduloElasticidade=200E6, coeficientePoisson=0.35)
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
@@ -644,3 +644,8 @@ print("elasticidade base " + str(intervalos.intervaloElasticidadeBase) + "\n")
 print("elasticidade subleito " + str(intervalos.intervaloElasticidadeSubleito) + "\n")
 #Carga
 print("Carga " + str(intervalos.intervaloCarga) + "\n") 
+
+#Pontos no canto inferior da roda
+#B777 - 47
+#B767 - 0
+#B737 - 55

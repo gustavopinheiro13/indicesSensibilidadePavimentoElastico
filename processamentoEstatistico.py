@@ -1,19 +1,17 @@
 import json
 #from ColetarDados import DadosDeslocamento
-import numpy as np
 import pandas as pd
-from scipy import stats
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import os
 # Definir a classe DadosDeslocamento
 class DadosDeslocamento:
-    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
+    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, no, u1, u2, u3):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
         self.nomeSensibilidade = nomeSensibilidade
         self.valorSensibilidade = valorSensibilidade
         self.modeloAviao = modeloAviao
-        self.no = noInteresse
+        self.no = no
         self.u1 = u1
         self.u2 = u2
         self.u3 = u3
@@ -44,9 +42,7 @@ def iniciarProcessamentoEstatitico(nome_arquivo):
     os.chdir("C:/Users/gusta/resultados_abaqus/")
     with open(nome_arquivo, 'r') as arquivo_json:
         dados_deslocamento = json.load(arquivo_json)
-
     # Importar os dados do arquivo e criar a lista de objetos DadosDeslocamento
-    lista_deslocamentos_calculados = importar_dados_deslocamento(nome_arquivo)
     dataframe_deslocamentos_calculados = pd.DataFrame(dados_deslocamento)
     def calcular_variacao_percentual(group):
         if pd.api.types.is_numeric_dtype(group['u3']):
@@ -62,11 +58,8 @@ def iniciarProcessamentoEstatitico(nome_arquivo):
 
     for deformacao in range(len(dataframesDiscretizadosModeloNomeNo)):
         dataframesDiscretizadosModeloNomeNo[deformacao] = calcular_variacao_percentual(dataframesDiscretizadosModeloNomeNo[deformacao])
-
-
     dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=['variacao_percentual_u3'])
     dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao','nomeSensibilidade','variacao_percentual_u3']]
-
     resultadosEstatisticaTukey = []
     for aviao in dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist():
         df_filtrado = dfConcatenadoComVariacaoPercentual.loc[dfConcatenadoComVariacaoPercentual['modeloAviao'] == aviao]
@@ -76,10 +69,11 @@ def iniciarProcessamentoEstatitico(nome_arquivo):
         dataframeResultadosTukey['meandiff_abs'] = dataframeResultadosTukey['meandiff'].abs()
         dataframeResultadosTukey = dataframeResultadosTukey.sort_values(by='meandiff_abs', ascending=False)
         dataframeResultadosTukey = dataframeResultadosTukey.drop(columns=['meandiff_abs'])
+        dataframeResultadosTukey.to_csv('resultadosTukey_' + aviao + '.csv', index=False, sep=';', decimal='.')
         resultadosEstatisticaTukey.append(dataframeResultadosTukey)
     print(dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist())
 
 #iniciarProcessamentoEstatitico('deslocamentoDadosPavimentoCritico.json')
-#iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaida.json')
+#iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaidaCalibracaoSubleito.json')
 #iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaidaCalibracaoMesh.json')
-iniciarProcessamentoEstatitico('deslocamentoDadosModelosSaidaCalibracaoSubleito.json')
+iniciarProcessamentoEstatitico('DeslocamentodadosModelosSaidaPrincipais.json')
