@@ -108,13 +108,8 @@ def gravarDadosModelo(nome_arquivo):
     return dados_deslocamento
 
 
-#gravarDadosModelo('dadosPavimentoCritico.json')
-#gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
-#print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
+gravarDadosModelo('dadosPavimentoCritico.json')
+gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
+print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
 gravarDadosModelo('dadosModelosSaidaPrincipais.json')
 
-#Arrumar tamanho da mesh
-#Arrumar
-#tirar tudo de linear do documento
-#pegar os intervalos superior e inferior de cada indice de sensibilidade
-#Correcoes do Heber

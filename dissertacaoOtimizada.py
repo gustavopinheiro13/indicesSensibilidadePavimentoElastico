@@ -419,7 +419,7 @@ def materiaisBase():
     listaMateriais = []
     materialRevestimento = material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=20.2, moduloElasticidade=200E6, coeficientePoisson=0.35)
+    materialSubleito = material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=9.42, moduloElasticidade=200E6, coeficientePoisson=0.35)
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
@@ -462,7 +462,7 @@ def inicializarCodigoModelosPrincipais(rodarJobs, intervalos):
     #
     # Cria um objeto material para o subleito com parametros especificos
     nomeSensibilidade= 'Base'    
-    tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.6, camadaBase = 1.20, camadaSubleito = 1.75)
+    tamanhoDaMesh = tamanhoMesh(camadaRevestimento = 0.1, camadaBase = 0.1, camadaSubleito = 3)
     listaJobs = []
     listaJobs.append(criarModelo(aviaoSelecionado=boeing737800, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
     listaJobs.append(criarModelo(aviaoSelecionado=boeing767300, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
@@ -618,9 +618,9 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-#iniciarCodigoCalibracaoMesh(rodarJobs = False)
-#iniciarCodigoCalibracaoSubleito(rodarJobs = False)
-#iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
+iniciarCodigoCalibracaoMesh(rodarJobs = False)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False)
+iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
 inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  
