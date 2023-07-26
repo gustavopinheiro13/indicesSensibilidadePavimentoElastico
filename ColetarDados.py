@@ -33,20 +33,20 @@ def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSen
     odb = session.openOdb(caminho_modelo)
     # Obtendo o passo desejado
     passo = odb.steps[nomeStep]
-    # Obtendo o campo de saída desejado
+    # Obtendo o campo de saida desejado
     campo_saida = passo.frames[-1].fieldOutputs[nome_campo]
     # Lista de objetos para armazenar os dados dos deslocamentos
     dados_deslocamentos = []
-    # Iterando sobre os nós de interesse
+    # Iterando sobre os nos de interesse
     for noInteresse in nosInteresse:
-        # Obtendo o valor do campo de saída para o nó específico
+        # Obtendo o valor do campo de saida para o no especifico
         try:
             valor_campo = campo_saida.values[noInteresse].dataDouble
         except:
             valor_campo = campo_saida.values[noInteresse - 1].data
         # Criando objeto de dados de deslocamento
         dados = DadosDeslocamento(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = modeloAviao, noInteresse = noInteresse, u1= valor_campo[0], u2= valor_campo[1], u3 = valor_campo[2])
-        # Adicionando o objeto à lista
+        # Adicionando o objeto a lista
         dados_deslocamentos.append(dados)
     # Fechando o arquivo .odb
     odb.close()
@@ -63,7 +63,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     for dado in dados_json:
         # Cria um objeto com os valores do dado
         modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modeloAviao']), nosInteresse = dado['nosInteresse'])
-        # Adiciona o objeto à lista
+        # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
 
