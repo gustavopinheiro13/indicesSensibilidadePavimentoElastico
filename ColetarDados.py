@@ -3,6 +3,8 @@ from abaqusConstants import *
 import numpy as np
 import json
 import os
+
+# Definicao da classe para armazenar os dados de deslocamento
 class DadosDeslocamento:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
         self.nomeJob = nomeJob
@@ -15,7 +17,7 @@ class DadosDeslocamento:
         self.u2 = u2
         self.u3 = u3
 
-# Definindo uma classe para representar os objetos de saida para checagem de modelos depois
+# Definicao da classe para representar os objetos de saida para checagem de modelos
 class saidaModelos:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
         self.nomeJob = nomeJob
@@ -25,7 +27,7 @@ class saidaModelos:
         self.modeloAviao = modeloAviao
         self.nosInteresse = nosInteresse
 
-
+# Funcao para obter os dados de deslocamento
 def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSensibilidade, nosInteresse, valorSensibilidade):
     # Caminho para o arquivo .odb
     caminho_modelo = nomeJob + '.odb'
@@ -45,13 +47,14 @@ def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSen
         except:
             valor_campo = campo_saida.values[noInteresse - 1].data
         # Criando objeto de dados de deslocamento
-        dados = DadosDeslocamento(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = modeloAviao, noInteresse = noInteresse, u1= valor_campo[0], u2= valor_campo[1], u3 = valor_campo[2])
+        dados = DadosDeslocamento(nomeJob=nomeJob, nomeStep=nomeStep, nomeSensibilidade=nomeSensibilidade, valorSensibilidade=valorSensibilidade, modeloAviao=modeloAviao, noInteresse=noInteresse, u1=valor_campo[0], u2=valor_campo[1], u3=valor_campo[2])
         # Adicionando o objeto a lista
         dados_deslocamentos.append(dados)
     # Fechando o arquivo .odb
     odb.close()
     return dados_deslocamentos
 
+# Funcao para reimportar os dados de modelos a partir de um arquivo JSON
 def reimportarDadosDeModelos(nome_arquivo):
     # Abre o arquivo JSON no modo de leitura
     with open(nome_arquivo, 'r') as arquivo_json:
@@ -62,23 +65,26 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modeloAviao']), nosInteresse = dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomeSensibilidade=str(dado['nomeSensibilidade']), valorSensibilidade=str(dado['valorSensibilidade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
         # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
 
+# Funcao para gravar os dados de modelos em um arquivo JSON
 def gravarDadosModelo(nome_arquivo):
     os.chdir("C:/Users/gusta/resultados_abaqus/")
-    # Exemplo de uso
+    # Reimporta os dados de modelos a partir do arquivo JSON
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
     nome_arquivo_saida = 'Deslocamento' + nome_arquivo
     nomesJob = []
     dados_deslocamento = []
     for job in lista_jobs:
+        # Verifica se o nome do job ja foi adicionado a lista de nomes
         if any(job.nomeJob == nomeJobExistente for nomeJobExistente in nomesJob):
             pass
         else:
             nomesJob.append(job.nomeJob)
+            # Obtem os dados de deslocamento para o job atual
             dados = obter_dados_deslocamento(
                 nomeJob=job.nomeJob,
                 nomeStep=job.nomeStep,
@@ -95,10 +101,10 @@ def gravarDadosModelo(nome_arquivo):
                     'nomeSensibilidade': modeloPonto.nomeSensibilidade,
                     'valorSensibilidade': modeloPonto.valorSensibilidade,
                     'modeloAviao': modeloPonto.modeloAviao,
-                    'no':  int(modeloPonto.no),
-                    'u1':  np.float64(modeloPonto.u1),
-                    'u2':  np.float64(modeloPonto.u2),
-                    'u3':  np.float64(modeloPonto.u3)
+                    'no': int(modeloPonto.no),
+                    'u1': np.float64(modeloPonto.u1),
+                    'u2': np.float64(modeloPonto.u2),
+                    'u3': np.float64(modeloPonto.u3)
                 }
                 dados_deslocamento.append(dados_job)
     # Salva os dados em um arquivo JSON
@@ -107,9 +113,8 @@ def gravarDadosModelo(nome_arquivo):
     print(nomesJob)
     return dados_deslocamento
 
-
+# Chamadas das funcoes
 gravarDadosModelo('dadosPavimentoCritico.json')
 gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
 print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
 gravarDadosModelo('dadosModelosSaidaPrincipais.json')
-

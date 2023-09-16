@@ -9,7 +9,9 @@ from itertools import combinations
 import matplotlib.pyplot as plt
 import numpy as np
 # Definir a classe DadosDeslocamento
+# Classe DadosDeslocamento para armazenar informacoes de deslocamento
 class DadosDeslocamento:
+    # Construtor para inicializar os atributos da classe
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, no, u1, u2, u3):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
@@ -20,41 +22,57 @@ class DadosDeslocamento:
         self.u1 = u1
         self.u2 = u2
         self.u3 = u3
-# Funcao para importar os dados do arquivo JSON e criar a lista de objetos
+
+# Funcao para importar os dados do arquivo JSON e criar um DataFrame
 def importarJson(nome_arquivo):
     os.chdir("C:/Users/gusta/resultados_abaqus/")
     with open(nome_arquivo, 'r') as arquivo_json:
         dados_deslocamento = json.load(arquivo_json)
-    # Importar os dados do arquivo e criar a lista de objetos DadosDeslocamento
+    # Importar os dados do arquivo e criar um DataFrame
     dataframe_deslocamentos_calculados = pd.DataFrame(dados_deslocamento)
     return dataframe_deslocamentos_calculados
 
+# Funcao para calcular a variacao percentual em relacao ao valor anterior de u3
 def calcular_variacao_percentual(group):
     if pd.api.types.is_numeric_dtype(group['u3']):
         group['variacao_percentual_u3'] = (group['u3'] - group['u3'].shift(1)) / group['u3'].shift(1) * 100
     return group
+
 # Nome do arquivo JSON
+nome_arquivo = 'dadosModelosSaidaPrincipais.json'
 
 def dataframeVariacaoPercentual(dataframe_deslocamentos_calculados):
-    grupos = dataframe_deslocamentos_calculados.groupby(['modeloAviao','nomeSensibilidade', 'no'])
+    # Agrupa os dados pelo modelo do aviao, nome de sensibilidade e numero do no
+    grupos = dataframe_deslocamentos_calculados.groupby(['modeloAviao', 'nomeSensibilidade', 'no'])
+    
     dataframesDiscretizadosModeloNomeNo = []
+    # Itera sobre cada grupo de dados
     for grupo, dados_grupo in grupos:
-        dataframe_separado = dados_grupo.copy()  # Crie uma copia do dataframe do grupo
-        # Adicione o dataframe separado a lista de dataframes separados
+        dataframe_separado = dados_grupo.copy()  # Crie uma copia do DataFrame do grupo
+        # Adicione o DataFrame separado a lista de DataFrames separados
         dataframesDiscretizadosModeloNomeNo.append(dataframe_separado)
+    
+    # Calcula a variacao percentual para cada DataFrame no formato de lista
     for deformacao in range(len(dataframesDiscretizadosModeloNomeNo)):
         dataframesDiscretizadosModeloNomeNo[deformacao] = calcular_variacao_percentual(dataframesDiscretizadosModeloNomeNo[deformacao])
+    
+    # Concatena os DataFrames individuais de variacao percentual e remove valores NaN
     dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=['variacao_percentual_u3'])
-    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao','nomeSensibilidade','variacao_percentual_u3']]
+    
+    # Seleciona as colunas relevantes do DataFrame final
+    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'variacao_percentual_u3']]
+    
     return dfConcatenadoComVariacaoPercentual
+
 
 def iniciarProcessamentoEstatitico(nome_arquivo):
     # Carrega os dados do arquivo JSON
     dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
-    dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_calculados)
+    filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
+    dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
+    dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_filtrados)
     dfConcatenadoComVariacaoPercentual.to_csv('variacao_percentual_u3.csv', index=False, sep=';', decimal=',')
-    #Teste de Shapiro-Wilk para normalidade e teste de Levene para homogeneidade de variâncias
-    #dataframeAmostraTransposto = pd.concat([grupo.pivot(columns='nomeSensibilidade', values='variacao_percentual_u3').reset_index() for _, grupo in dfConcatenadoComVariacaoPercentual[['nomeSensibilidade','variacao_percentual_u3']].groupby('nomeSensibilidade', as_index=False)], ignore_index=False, axis=1).drop('index', axis=1)
+    #Teste de Shapiro-Wilk para normalidade e teste de Levene para homogeneidade de variancias
     dataframeAmostraTransposto = transformar_para_dataframe_transposto(dfConcatenadoComVariacaoPercentual)
     verificacaoPremissasTukey = tukey_premissas_teste(dataframeAmostraTransposto)
     pd.DataFrame(verificacaoPremissasTukey[0]).to_csv('premissasTukeyShapiro.csv', index=False, sep=';', decimal=',')
@@ -82,83 +100,88 @@ def transformar_para_dataframe_transposto(df):
     # Agrupar o DataFrame original pela coluna 'nomeSensibilidade'
     grupos = df.groupby('nomeSensibilidade')
 
-    # Para cada grupo, criar o DataFrame pivotado e adicionar à lista
+    # Para cada grupo, criar o DataFrame pivotado e adicionar a lista
     for _, grupo in grupos:
         dataframe_pivotado = grupo.pivot(columns='nomeSensibilidade', values='variacao_percentual_u3')
         dataframes_pivotados.append(dataframe_pivotado.reset_index())
 
-    # Concatenar todos os DataFrames em um único DataFrame
+    # Concatenar todos os DataFrames em um unico DataFrame
     dataframe_resultante = pd.concat(dataframes_pivotados, ignore_index=False, axis=1).drop('index', axis=1)
 
     return dataframe_resultante
 
-
+# Funcao para descrever e visualizar os dados
 def descreverDados(nome_arquivo):
+    # Importar dados e calcular variacao percentual
     dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
-    dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_calculados)
-    #dataframeAmostraTransposto = pd.concat([grupo.pivot(columns='nomeSensibilidade', values='variacao_percentual_u3').reset_index() for _, grupo in dfConcatenadoComVariacaoPercentual[['nomeSensibilidade','variacao_percentual_u3']].groupby('nomeSensibilidade', as_index=False)], ignore_index=False, axis=1).drop('index', axis=1)
-    dataframeAmostraTransposto = transformar_para_dataframe_transposto(dfConcatenadoComVariacaoPercentual)
-    # Plotar cada coluna em um gráfico de pontos
-    plt.figure(figsize=(10, 6))  # Define o tamanho da figura
-
-    # Plotar cada coluna em um gráfico de pontos com layout aprimorado
-    # Gerar cores aleatórias para cada gráfico
-    cores = np.random.rand(len(dataframeAmostraTransposto.columns), 3)
-
-    # Plotar cada coluna em um gráfico de pontos separado com cores diferentes
-    plt.figure(figsize=(10, 6))  # Define o tamanho da figura
-    plt.style.use('seaborn-whitegrid')  # Estilo de fundo com grid
-
-    for i, coluna in enumerate(dataframeAmostraTransposto.columns):
-        plt.figure()  # Cria uma nova figura para cada coluna
-        plt.scatter(dataframeAmostraTransposto.index, dataframeAmostraTransposto[coluna], color=cores[i], alpha=0.7, s=10)
-        plt.xlabel('Índice')
-        plt.ylabel(coluna)
-        plt.title(f'Gráfico de Pontos para a Coluna {coluna}')
-        plt.grid(True)
-        plt.tight_layout()  # Melhorar a disposição dos elementos no gráfico
+    filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
+    dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
+    for aviao in dataframe_deslocamentos_filtrados['modeloAviao'].tolist():
+        dataframe_deslocamentos_filtrados_por_aviao = dataframe_deslocamentos_filtrados[(dataframe_deslocamentos_filtrados['modeloAviao'] == aviao)]
+        dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_filtrados_por_aviao)
+        dataframeAmostraTransposto = transformar_para_dataframe_transposto(dfConcatenadoComVariacaoPercentual)
+        
+        # Plotar graficos de dispersao para cada coluna
+        plt.figure(figsize=(10, 6))  # Define o tamanho da figura
+        cores = np.random.rand(len(dataframeAmostraTransposto.columns), 3)
+        plt.figure(figsize=(10, 6))  # Define o tamanho da figura
+        plt.style.use('seaborn-whitegrid')  # Estilo de fundo com grid
+        
+        # Plotar graficos de dispersao para cada coluna separadamente
+        for i, coluna in enumerate(dataframeAmostraTransposto.columns):
+            nomeFigura = f'Grafico de Pontos para {coluna} em {aviao}'
+            plt.figure()  # Cria uma nova figura para cada coluna
+            plt.scatter(dataframeAmostraTransposto.index, dataframeAmostraTransposto[coluna], color=cores[i], alpha=0.7, s=10)
+            plt.xlabel('indice')
+            plt.ylabel(coluna)
+            plt.title(nomeFigura)
+            #plt.gcf().canvas.set_window_title(nomeFigura)
+            plt.grid(True)
+            plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
+            plt.savefig(nomeFigura.title().replace(" ", ""), dpi=300)
     plt.show()
 
     return []
 
+
+# Funcao para realizar o teste de Levene
 def teste_levene(col1, col2):
     estatistica, p_valor = stats.levene(col1, col2)
     return estatistica, p_valor
 
+# Funcao para realizar o teste de Shapiro-Wilk
 def teste_shapiro_wilk(coluna):
     estatistica, p_valor = stats.shapiro(coluna)
     return estatistica, p_valor
 
+# Funcao para aceitar ou rejeitar a hipotese nula
 def aceitar_rejeitar(p_valor):
     return p_valor > 0.05
 
+# Funcao para testar as premissas do teste de Tukey
 def tukey_premissas_teste(dados):
-    # Premissa 1: Amostras independentes e aleatórias
-    # Premissa 2: Normalidade das populações subjacentes`
+    # Premissa 1: Amostras independentes e aleatorias
+    # Premissa 2: Normalidade das populacoes subjacentes
     # Iterando sobre as colunas e aplicando o teste de Shapiro-Wilk
-    # Criar um DataFrame vazio para armazenar os resultados
-    resultadosLevine = []
-    resultadosShapiro = []#pd.DataFrame(columns=['Coluna', 'Estatística do teste', 'Valor-p'])
+    resultadosShapiro = []
     for coluna in dados.columns:
         estatistica, p_valor = teste_shapiro_wilk(dados[coluna].dropna())
-        resultadosShapiro.append({'Coluna': coluna, 'Estatística do teste': estatistica, 'Valor-p': p_valor, 'Aceita H0': aceitar_rejeitar(p_valor)})
-    print("Hello World")
-    # Premissa 3: Homogeneidade das variâncias
-    # _, p_levene = stats.levene(dados.columns)
-    # if p_levene < 0.05:
-    #     print("Premissa 3: As variâncias não são homogêneas.")
-    # else:
-    #     print("Premissa 3: As variâncias são homogêneas.")
-    # Iterando sobre as colunas e aplicando o teste de Levene
+        resultadosShapiro.append({'Coluna': coluna, 'Estatistica do teste': estatistica, 'Valor-p': p_valor, 'Aceita H0': aceitar_rejeitar(p_valor)})
+
+    # Premissa 3: Homogeneidade das variancias
+    resultadosLevine = []
     for col1, col2 in combinations(dados.columns, 2):
         estatistica, p_valor = teste_levene(dados[col1].dropna(), dados[col2].dropna())
         resultado = {
             'Colunas': f"{col1} - {col2}",
-            'Estatística do teste': estatistica,
+            'Estatistica do teste': estatistica,
             'Valor-p': p_valor,
             'Aceita H0': aceitar_rejeitar(p_valor)
         }
         resultadosLevine.append(resultado)
+    
     return resultadosShapiro, resultadosLevine
+
+# Chamada das funcoes
 iniciarProcessamentoEstatitico('DeslocamentodadosModelosSaidaPrincipais.json')
 descreverDados('DeslocamentodadosModelosSaidaPrincipais.json')

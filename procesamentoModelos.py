@@ -5,8 +5,7 @@ from multiprocessing import Pool
 import time
 from multiprocessing import freeze_support
 
-
-# Definindo uma classe para representar os objetos de saida para checagem de modelos depois
+# Definicao da classe para representar os objetos de saida para checagem de modelos depois
 class saidaModelos:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
         self.nomeJob = nomeJob
@@ -16,6 +15,7 @@ class saidaModelos:
         self.modeloAviao = modeloAviao
         self.nosInteresse = nosInteresse
 
+# Funcao para reimportar os dados de modelos a partir de um arquivo JSON
 def reimportarDadosDeModelos(nome_arquivo):
     # Abre o arquivo JSON no modo de leitura
     with open(nome_arquivo, 'r') as arquivo_json:
@@ -26,12 +26,12 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob = str(dado['nomeJob']), nomeStep = str(dado['nomeStep']),nomeSensibilidade = str(dado['nomeSensibilidade']), valorSensibilidade = str(dado['valorSensibilidade']), modeloAviao = str(dado['modeloAviao']), nosInteresse = dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomeSensibilidade=str(dado['nomeSensibilidade']), valorSensibilidade=str(dado['valorSensibilidade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
         # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
 
-
+# Funcao para executar um modelo usando a GPU
 def executar_modelo(job):
     # Definir o nome da plataforma da GPU
     nome_plataforma_gpu = "NVIDIA CUDA"  # Substitua pela plataforma da sua GPU
@@ -40,8 +40,9 @@ def executar_modelo(job):
     # Executar o comando
     subprocess.run(comando, shell=True)
 
+# Funcao para iniciar a execucao de modelos
 def iniciarModelos(arquivo):
-    # os.chdir("C:/SIMULIA/Commands/")
+    # Define o diretorio onde os resultados serao salvos
     os.chdir("C:/Users/gusta/resultados_abaqus/")
     nome_arquivo = arquivo
     lista_objetos_job = reimportarDadosDeModelos(nome_arquivo)
@@ -49,7 +50,6 @@ def iniciarModelos(arquivo):
     # Lista de nomes de jobs a serem executados
     for job in lista_objetos_job:
         lista_jobs.append(job.nomeJob)
-    #subprocess.run("abaqus job=jobPtMdB777300Base0-0 input=jobPtMdB777300Base0-0.inp ask_delete=OFF", cwd="C:/SIMULIA/Commands/", shell=True)
     # Numero maximo de modelos em execucao simultaneamente
     num_max_execucoes = 10
     # Criacao do pool de processos
