@@ -166,6 +166,16 @@ class TamanhoMesh:
         self.camadaBase = camadaBase
         self.camadaSubleito = camadaSubleito
 
+def substituir_tipo_elemento(caminho_arquivo, texto_antigo, texto_novo):
+    # Ler o conteúdo do arquivo
+    with open(caminho_arquivo, 'r') as arquivo:
+        conteudo = arquivo.read()
+    # Substituir o texto antigo pelo texto novo
+    conteudo_atualizado = conteudo.replace(texto_antigo, texto_novo)
+    # Escrever o conteúdo atualizado de volta no arquivo
+    with open(caminho_arquivo, 'w') as arquivo:
+        arquivo.write(conteudo_atualizado)
+
 
 # Funcao modelarPart
 def modelarPart(nomeModelo, nomePart, localizacaoRodaMediaX, materialRevestimento, materialBase, materialSubleito):
@@ -387,8 +397,17 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:3 #20000000 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#950 #0 #40000000 #50 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:2 #200000 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#ad480 #afd77bdf #fcd8be0 #83a80180 #e ]', ), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
-        mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(
-        mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f01e ]', ), ), ))
+        #
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ff0fe1 ]', ), ), technique=STRUCTURED)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[6], region=mdb.models[nomeModelo].parts[nomePart].cells[12], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[46], region=mdb.models[nomeModelo].parts[nomePart].cells[4], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[80], region=mdb.models[nomeModelo].parts[nomePart].cells[13], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[59], region=mdb.models[nomeModelo].parts[nomePart].cells[14], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[129], region=mdb.models[nomeModelo].parts[nomePart].cells[15], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#8000 #8004000 #210000 #80000100 #2 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#950 #0 #40000000 #50 ]', ), ), maxSize=3.0, minSize=0.1)
+        mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f01e ]', ), ), ))
+        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[12])
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffff ]', ), ), technique=SWEEP)
         #'[#f3c0780 #1e0 ]'
         #'[#c00f01e0 #1e1e03 ]'
     elif aviaoSelecionado.tipoEixo == 'tandemDuplo':
@@ -400,6 +419,19 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #400 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#1080 #4400 #0 #14 #0:3 #40 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaRevestimento)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:6 #4 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:5 #5010820 #50 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaRevestimento)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#f5000a00 #1993987f #20000000 #333cf00b #40000000 #faeef7c3 #e19f778a', ' #3a7 ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f0c3f87f #fe1f ]', ), ), technique=STRUCTURED)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[229], region=mdb.models[nomeModelo].parts[nomePart].cells[37], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[179], region=mdb.models[nomeModelo].parts[nomePart].cells[27], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[62], region=mdb.models[nomeModelo].parts[nomePart].cells[8], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[27], region=mdb.models[nomeModelo].parts[nomePart].cells[9], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[155], region=mdb.models[nomeModelo].parts[nomePart].cells[38], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[159], region=mdb.models[nomeModelo].parts[nomePart].cells[39], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[231], region=mdb.models[nomeModelo].parts[nomePart].cells[40], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[113], region=mdb.models[nomeModelo].parts[nomePart].cells[26], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[127], region=mdb.models[nomeModelo].parts[nomePart].cells[25], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f3c0780 #1e0 ]', ), ), ))
+        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[98])        
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), technique=SWEEP)           
     elif aviaoSelecionado.tipoEixo == 'tandemTriplo':
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#80007f92 #fec1c20 #44000074 #1fc8 #fff00044 #122001f3 #2003ff47', ' #1000000 #f000 ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaRevestimento)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#1806d #c0102000 #ba01c988 #6000 #92801 #6cc8800c #180c00b8', ' #0 #800300 ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaBase)
@@ -409,6 +441,20 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #40000000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #80080 #4 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#560000 #0 #442002 #158000 #0 #1110000 #1700000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:5 #80000000 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#36a80000 #3003839e #1ba1601 #ffea0014 #6d730 #67e00 #86800000', ' #bc57d76d #1d3f0cfb ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#3ff0fe1f #fe1e1fc ]', ), ), technique=STRUCTURED)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[49], region=mdb.models[nomeModelo].parts[nomePart].cells[8], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[20], region=mdb.models[nomeModelo].parts[nomePart].cells[18], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[17], region=mdb.models[nomeModelo].parts[nomePart].cells[17], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[18], region=mdb.models[nomeModelo].parts[nomePart].cells[16], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[26], region=mdb.models[nomeModelo].parts[nomePart].cells[19], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[118], region=mdb.models[nomeModelo].parts[nomePart].cells[44], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[213], region=mdb.models[nomeModelo].parts[nomePart].cells[49], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[212], region=mdb.models[nomeModelo].parts[nomePart].cells[50], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[214], region=mdb.models[nomeModelo].parts[nomePart].cells[51], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[282], region=mdb.models[nomeModelo].parts[nomePart].cells[52], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#c00f01e0 #1e1e03 ]', ), ), ))
+        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #fffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[141])
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #fffffff ]', ), ), technique=SWEEP)        
     mdb.models[nomeModelo].parts[nomePart].generateMesh()
     ####################################################################################################
     #Criacao de reference points
@@ -428,6 +474,12 @@ def criarModelo(aviaoSelecionado, materialRevestimento, materialBase, materialSu
     mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, memoryUnits=PERCENTAGE, model=nomeModelo, modelPrint=OFF, 
     multiprocessingMode=THREADS, name=nomeJob, nodalOutputPrecision=FULL, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
     mdb.jobs[nomeJob].writeInput(consistencyChecking=OFF)
+    del mdb.jobs[nomeJob]
+    substituir_tipo_elemento(nomeJob + '.inp','type=AC3D8R','type=CIN3D8')
+    mdb.ModelFromInputFile(inputFileName=nomeJob + '.inp', name=nomeJob)
+    mdb.JobFromInputFile(atTime=None, explicitPrecision=SINGLE,
+    getMemoryFromAnalysis=True, inputFileName=nomeJob + '.inp', memory=97, memoryUnits=PERCENTAGE, multiprocessingMode=DEFAULT, name=
+    nomeJob, nodalOutputPrecision=FULL, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
     return SaidaModelos(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = aviaoSelecionado.modelo, nosInteresse = aviaoSelecionado.nosInteresse)
 
 
@@ -467,7 +519,7 @@ def materiaisBase():
     listaMateriais = []
     materialRevestimento = Material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = Material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = Material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=9.42, moduloElasticidade=200E6, coeficientePoisson=0.35)
+    materialSubleito = Material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=3, moduloElasticidade=200E6, coeficientePoisson=0.35)
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
