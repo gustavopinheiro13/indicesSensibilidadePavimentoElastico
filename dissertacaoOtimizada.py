@@ -287,8 +287,8 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
     # Criacao do nome da part
     nomePart = 'Pt' + nomeModelo
     #
-    modelarPart(nomeModelo = nomeModelo, nomePart = nomePart, localizacaoRodaMediaX = aviaoSelecionado.localizacaoRodaMediaX, comprimentoSimulado=comprimentoSimulado materialRevestimento = materialRevestimento, materialBase = materialBase, materialSubleito = materialSubleito)
-    #
+    modelarPart(nomeModelo = nomeModelo, nomePart = nomePart, comprimentoSimulado = comprimentoSimulado, localizacaoRodaMediaX = aviaoSelecionado.localizacaoRodaMediaX, materialRevestimento = materialRevestimento, materialBase = materialBase, materialSubleito = materialSubleito)
+    #nomeModelo, nomePart, localizacaoRodaMediaX, comprimentoSimulado, materialRevestimento, materialBase, materialSubleito
     #Datums de camadas
     # Datums de camadas
     # Criacao do material de revestimento no Abaqus 
@@ -376,7 +376,7 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
     #
     # Trava Y
     bcNomeTravaY = 'tvY' + nomePart
-#    mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ))
+    # mdb.models[nomeModelo].rootAssembly.Set(name=bcNomeTravaY, vertices=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].vertices.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ))
     mdb.models[nomeModelo].rootAssembly.Set(faces=mdb.models[nomeModelo].rootAssembly.instances[nomeAssembly].faces.getSequenceFromMask((aviaoSelecionado.mascaraCondicaoContornoTravaY, ), ), name=bcNomeTravaY)
     mdb.models[nomeModelo].DisplacementBC(amplitude=UNSET, createStepName='Initial', distributionType=UNIFORM, fieldName='', localCsys=None, name=bcNomeTravaY, region=mdb.models[nomeModelo].rootAssembly.sets[bcNomeTravaY], u1=UNSET, u2=SET, u3=UNSET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
     # Field Output
@@ -638,9 +638,12 @@ def iniciarCodigoCalibracaoMesh(rodarJobs):
     materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
     tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
     listaJobs = []
-    meshRevestimento = [0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]
-    meshBase = [0.1, 0.2, 0.30, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
-    meshSubleito = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3]
+    # meshRevestimento = [0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]
+    # meshBase = [0.1, 0.2, 0.30, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
+    # meshSubleito = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3]
+    meshRevestimento = [0.05]
+    meshBase = [0.1]
+    meshSubleito = [0.25]
     nomesJob = []
     comprimentoSimulado = 20
     for revestimento in meshRevestimento:
@@ -686,7 +689,7 @@ def iniciarCodigoPavimentocritico(rodarJobs, intervalos):
     materialSubleito = materiaisBase()[2]
     #
     materialRevestimento.moduloElasticidade = intervalos.intervaloElasticidadeRevestimento[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESElasRev", valorSensibilidade = materialRevestimento.moduloElasticidade))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESElasRev", valorSensibilidade = materialRevestimento.moduloElasticidade))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.moduloElasticidade = intervalos.intervaloElasticidadeBase[0]
@@ -699,6 +702,19 @@ def iniciarCodigoPavimentocritico(rodarJobs, intervalos):
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosPavimentoCritico.json')
 
 
+def iniciarCodigoCalibracaoComprimento(rodarJobs):
+    boeing777300 = avioesBase()[2]
+    materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
+    tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
+    listaJobs = []
+    nomesJob = []
+    listaComprimentos = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
+    for comprimentoPavimento in listaComprimentos:
+        aviaoSelecionado = boeing777300
+        comprimentoSimulado=comprimentoPavimento
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "comPav", valorSensibilidade = comprimentoSimulado))
+    processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoComprimento.json')
+
 def iniciarCodigoCalibracaoSubleito(rodarJobs):
     boeing777300 = avioesBase()[2]
     materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
@@ -706,11 +722,11 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs):
     listaJobs = []
     nomesJob = []
     comprimentoSimulado = 20
-    listaAlturas = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.1)
+    listaAlturas = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
     for alturaSubleito in listaAlturas:
         aviaoSelecionado = boeing777300
         materialSubleito.espessuraCamada = alturaSubleito
-        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "espessuraSubleito", valorSensibilidade = alturaSubleito))
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "espSub", valorSensibilidade = alturaSubleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoSubleito.json')
 
 
@@ -727,10 +743,11 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-# iniciarCodigoCalibracaoMesh(rodarJobs = False)
-iniciarCodigoCalibracaoSubleito(rodarJobs = False)
-# iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
-# inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
+# iniciarCodigoCalibracaoMesh(rodarJobs = False)  #inf passa
+# iniciarCodigoCalibracaoSubleito(rodarJobs = False)  #inf passa
+# iniciarCodigoCalibracaoComprimento(rodarJobs = False)  #inf passa
+iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos) #Errada a direcao de elementos infinitos mas processa
+# inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)   #inf passa
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  
 del mdb.models['Model-1']
