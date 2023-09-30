@@ -698,7 +698,7 @@ def iniciarCodigoPavimentocritico(rodarJobs, intervalos):
     tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.10, camadaSubleito = 0.25)
     listaJobs = []
     materialRevestimento.espessuraCamada = intervalos.intervaloEspessuraRevestimento[0]
-    materialSubleito.espessuraCamada = 5
+    materialSubleito.espessuraCamada = 10
     comprimentoSimulado = 20
     listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCEspRev" , valorSensibilidade = materialRevestimento.espessuraCamada))
     materialRevestimento = materiaisBase()[0]
@@ -774,10 +774,10 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-iniciarCodigoCalibracaoMesh(rodarJobs = False)
+iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
 # iniciarCodigoCalibracaoSubleito(rodarJobs = False)
 # iniciarCodigoCalibracaoComprimento(rodarJobs = False)
-# iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
+# iniciarCodigoCalibracaoMesh(rodarJobs = False)
 # inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  

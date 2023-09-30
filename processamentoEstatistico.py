@@ -55,18 +55,36 @@ def dataframeVariacaoPercentual(dataframe_deslocamentos_calculados):
     # Calcula a variacao percentual para cada DataFrame no formato de lista
     for deformacao in range(len(dataframesDiscretizadosModeloNomeNo)):
         dataframesDiscretizadosModeloNomeNo[deformacao] = calcular_variacao_percentual(dataframesDiscretizadosModeloNomeNo[deformacao])
-    
     # Concatena os DataFrames individuais de variacao percentual e remove valores NaN
     dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=['variacao_percentual_u3'])
-    
     # Seleciona as colunas relevantes do DataFrame final
     dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'variacao_percentual_u3']]
     
     return dfConcatenadoComVariacaoPercentual
 
+# Função para calcular estatísticas de bootstrap
+def bootstrap_test_group(data1, data2, statistic, n_iterations=1000, alpha=0.05):
+    # Realiza o bootstrap e calcula a estatística de interesse para dois grupos
+    bootstrap_statistics = []
+    n1, n2 = len(data1), len(data2)
+    for _ in range(n_iterations):
+        sample1 = np.random.choice(data1, n1, replace=True)
+        sample2 = np.random.choice(data2, n2, replace=True)
+        statistic1 = statistic(sample1)  # Estatística de interesse para o grupo 1
+        statistic2 = statistic(sample2)  # Estatística de interesse para o grupo 2
+        bootstrap_statistics.append(statistic1 - statistic2)  # Diferença das estatísticas
+
+    # Calcula intervalo de confiança (1 - alpha)
+    lower_bound = np.percentile(bootstrap_statistics, 100 * alpha / 2)
+    upper_bound = np.percentile(bootstrap_statistics, 100 * (1 - alpha / 2))
+
+    return np.mean(bootstrap_statistics), lower_bound, upper_bound
+
 
 def iniciarProcessamentoEstatitico(nome_arquivo):
     # Carrega os dados do arquivo JSON
+
+
     dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
     filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
     dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
@@ -78,19 +96,46 @@ def iniciarProcessamentoEstatitico(nome_arquivo):
     pd.DataFrame(verificacaoPremissasTukey[0]).to_csv('premissasTukeyShapiro.csv', index=False, sep=';', decimal=',')
     pd.DataFrame(verificacaoPremissasTukey[1]).to_csv('premissasTukeyLevine.csv', index=False, sep=';', decimal=',')
     resultadosEstatisticaTukey = []
+    # Lista de modelos de avião
+    modelos_aviao = dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist()
+
+    # Inicializa uma lista para armazenar os resultados
+    resultados = []
+
+    # Calcula as estatísticas para cada modelo de avião
+    for aviao in modelos_aviao:
+        # Filtra o DataFrame para o modelo de avião atual
+        df_modelo = dfConcatenadoComVariacaoPercentual[dfConcatenadoComVariacaoPercentual['modeloAviao'] == aviao]
+
+        # Lista de grupos
+        grupos = df_modelo['nomeSensibilidade'].unique().tolist()
+
+        # Calcula as estatísticas para cada par de grupos
+        for grupo1, grupo2 in combinations(grupos, 2):
+            media_diff, lower_bound, upper_bound = bootstrap_test_group(
+                df_modelo[df_modelo['nomeSensibilidade'] == grupo1]['variacao_percentual_u3'],
+                df_modelo[df_modelo['nomeSensibilidade'] == grupo2]['variacao_percentual_u3'],
+                statistic=np.mean,  # Estatística é a média
+                alpha=0.05  # Alpha para o intervalo de confiança de 95%
+            )
+            # Decide se rejeita ou não a hipótese nula
+            rejeitar = (lower_bound > 0) or (upper_bound < 0)
+
+            # Adiciona os resultados à lista
+            resultados.append([grupo1, grupo2, media_diff, lower_bound, upper_bound, rejeitar, aviao])
+
+    # Cria um DataFrame com os resultados
+    df_resultadosBootstrap = pd.DataFrame(resultados, columns=['grupo 1', 'grupo 2', 'diferenca_media', 'media_inferior', 'media_superior', 'rejeitar', 'modeloAviao'])
+    resultados_estatistica_bootstrap = []
     for aviao in dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist():
         df_filtrado = dfConcatenadoComVariacaoPercentual.loc[dfConcatenadoComVariacaoPercentual['modeloAviao'] == aviao]
-        tukey_resultado = pairwise_tukeyhsd(df_filtrado['variacao_percentual_u3'], df_filtrado['nomeSensibilidade'])
-        dataframeResultadosTukey = pd.DataFrame(data=tukey_resultado._results_table.data[1:], columns=tukey_resultado._results_table.data[0])
         # Ordenando os resultados por meandiffs em ordem decrescente
-        dataframeResultadosTukey['meandiff_abs'] = dataframeResultadosTukey['meandiff'].abs()
-        dataframeResultadosTukey = dataframeResultadosTukey.sort_values(by='meandiff_abs', ascending=False)
-        dataframeResultadosTukey = dataframeResultadosTukey.drop(columns=['meandiff_abs'])
-        dataframeResultadosTukey.to_csv('resultadosTukey_' + aviao + '.csv', index=False, sep=';', decimal='.')
-        resultadosEstatisticaTukey.append(dataframeResultadosTukey)
-        # Teste de durbin watson para independencia de amostras     
-    print(dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist())
-
+        df_resultadosBootstrap['meandiff_abs'] = df_resultadosBootstrap['diferenca_media'].abs()
+        df_resultadosBootstrap = df_resultadosBootstrap.sort_values(by='meandiff_abs', ascending=False)
+        df_resultadosBootstrap = df_resultadosBootstrap.drop(columns=['meandiff_abs'])
+        df_resultadosBootstrap.to_csv('resultadosBootstrap_' + aviao + '.csv', index=False, sep=';', decimal='.')
+        resultados_estatistica_bootstrap.append(df_resultadosBootstrap)
+    print(resultados_estatistica_bootstrap)
 
 
 def transformar_para_dataframe_transposto(df):
@@ -140,7 +185,6 @@ def descreverDados(nome_arquivo):
             plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
             plt.savefig(nomeFigura.title().replace(" ", ""), dpi=300)
     plt.show()
-
     return []
 
 
@@ -184,4 +228,4 @@ def tukey_premissas_teste(dados):
 
 # Chamada das funcoes
 iniciarProcessamentoEstatitico('DeslocamentodadosModelosSaidaPrincipais.json')
-descreverDados('DeslocamentodadosModelosSaidaPrincipais.json')
+#descreverDados('DeslocamentodadosModelosSaidaPrincipais.json')
