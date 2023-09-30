@@ -83,8 +83,6 @@ def bootstrap_test_group(data1, data2, statistic, n_iterations=1000, alpha=0.05)
 
 def iniciarProcessamentoEstatitico(nome_arquivo):
     # Carrega os dados do arquivo JSON
-
-
     dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
     filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
     dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
