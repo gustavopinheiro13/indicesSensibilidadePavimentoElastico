@@ -398,7 +398,12 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#950 #0 #40000000 #50 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:2 #200000 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#ad480 #afd77bdf #fcd8be0 #83a80180 #e ]', ), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
         #
-        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ff0fe1 ]', ), ), technique=STRUCTURED)
+        # mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ff0fe1 ]', ), ), technique=STRUCTURED)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[6], region=mdb.models[nomeModelo].parts[nomePart].cells[12], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[46], region=mdb.models[nomeModelo].parts[nomePart].cells[4], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[80], region=mdb.models[nomeModelo].parts[nomePart].cells[13], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[59], region=mdb.models[nomeModelo].parts[nomePart].cells[14], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[129], region=mdb.models[nomeModelo].parts[nomePart].cells[15], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[6], region=mdb.models[nomeModelo].parts[nomePart].cells[12], sense=FORWARD)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[46], region=mdb.models[nomeModelo].parts[nomePart].cells[4], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[80], region=mdb.models[nomeModelo].parts[nomePart].cells[13], sense=REVERSE)
@@ -406,8 +411,10 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[129], region=mdb.models[nomeModelo].parts[nomePart].cells[15], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#8000 #8004000 #210000 #80000100 #2 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#950 #0 #40000000 #50 ]', ), ), maxSize=3.0, minSize=0.1)
         mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f01e ]', ), ), ))
-        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[12])
+        # mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[12])
+        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[97])
         mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffff ]', ), ), technique=SWEEP)
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ff0fe1 ]', ), ), technique=STRUCTURED)
         #'[#f3c0780 #1e0 ]'
         #'[#c00f01e0 #1e1e03 ]'
     elif aviaoSelecionado.tipoEixo == 'tandemDuplo':
@@ -419,7 +426,17 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #400 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#1080 #4400 #0 #14 #0:3 #40 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaRevestimento)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:6 #4 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:5 #5010820 #50 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaRevestimento)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#f5000a00 #1993987f #20000000 #333cf00b #40000000 #faeef7c3 #e19f778a', ' #3a7 ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
-        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f0c3f87f #fe1f ]', ), ), technique=STRUCTURED)
+        # mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f0c3f87f #fe1f ]', ), ), technique=STRUCTURED)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[229], region=mdb.models[nomeModelo].parts[nomePart].cells[37], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[179], region=mdb.models[nomeModelo].parts[nomePart].cells[27], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[62], region=mdb.models[nomeModelo].parts[nomePart].cells[8], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[27], region=mdb.models[nomeModelo].parts[nomePart].cells[9], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[155], region=mdb.models[nomeModelo].parts[nomePart].cells[38], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[159], region=mdb.models[nomeModelo].parts[nomePart].cells[39], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[231], region=mdb.models[nomeModelo].parts[nomePart].cells[40], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[113], region=mdb.models[nomeModelo].parts[nomePart].cells[26], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[127], region=mdb.models[nomeModelo].parts[nomePart].cells[25], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f0c3f87f #fe1f ]', ), ), technique=STRUCTURED)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[229], region=mdb.models[nomeModelo].parts[nomePart].cells[37], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[179], region=mdb.models[nomeModelo].parts[nomePart].cells[27], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[62], region=mdb.models[nomeModelo].parts[nomePart].cells[8], sense=FORWARD)
@@ -430,8 +447,10 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[113], region=mdb.models[nomeModelo].parts[nomePart].cells[26], sense=FORWARD)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[127], region=mdb.models[nomeModelo].parts[nomePart].cells[25], sense=FORWARD)
         mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f3c0780 #1e0 ]', ), ), ))
-        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[98])        
-        mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), technique=SWEEP)           
+        # mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[98])
+        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[183])                
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), technique=SWEEP)
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f0c3f87f #fe1f ]', ), ), technique=STRUCTURED)           
     elif aviaoSelecionado.tipoEixo == 'tandemTriplo':
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#80007f92 #fec1c20 #44000074 #1fc8 #fff00044 #122001f3 #2003ff47', ' #1000000 #f000 ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaRevestimento)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#1806d #c0102000 #ba01c988 #6000 #92801 #6cc8800c #180c00b8', ' #0 #800300 ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaBase)
@@ -441,20 +460,32 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #40000000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:7 #80080 #4 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeByBias(biasMethod=SINGLE, constraint=FINER, end1Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#560000 #0 #442002 #158000 #0 #1110000 #1700000 ]', ), ), end2Edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#0:5 #80000000 ]', ), ), maxSize=tamanhoDaMesh.camadaSubleito, minSize=tamanhoDaMesh.camadaBase)
         mdb.models[nomeModelo].parts[nomePart].seedEdgeBySize(constraint=FINER, deviationFactor=0.1, edges=mdb.models[nomeModelo].parts[nomePart].edges.getSequenceFromMask(('[#36a80000 #3003839e #1ba1601 #ffea0014 #6d730 #67e00 #86800000', ' #bc57d76d #1d3f0cfb ]'), ), minSizeFactor=0.1, size=tamanhoDaMesh.camadaSubleito)
-        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#3ff0fe1f #fe1e1fc ]', ), ), technique=STRUCTURED)
+        # mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#3ff0fe1f #fe1e1fc ]', ), ), technique=STRUCTURED)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[49], region=mdb.models[nomeModelo].parts[nomePart].cells[8], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[20], region=mdb.models[nomeModelo].parts[nomePart].cells[18], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[17], region=mdb.models[nomeModelo].parts[nomePart].cells[17], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[18], region=mdb.models[nomeModelo].parts[nomePart].cells[16], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[26], region=mdb.models[nomeModelo].parts[nomePart].cells[19], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[118], region=mdb.models[nomeModelo].parts[nomePart].cells[44], sense=REVERSE)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[213], region=mdb.models[nomeModelo].parts[nomePart].cells[49], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[212], region=mdb.models[nomeModelo].parts[nomePart].cells[50], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[214], region=mdb.models[nomeModelo].parts[nomePart].cells[51], sense=FORWARD)
+        # mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[282], region=mdb.models[nomeModelo].parts[nomePart].cells[52], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[49], region=mdb.models[nomeModelo].parts[nomePart].cells[8], sense=REVERSE)
-        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[20], region=mdb.models[nomeModelo].parts[nomePart].cells[18], sense=FORWARD)
-        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[17], region=mdb.models[nomeModelo].parts[nomePart].cells[17], sense=FORWARD)
-        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[18], region=mdb.models[nomeModelo].parts[nomePart].cells[16], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[20], region=mdb.models[nomeModelo].parts[nomePart].cells[18], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[17], region=mdb.models[nomeModelo].parts[nomePart].cells[17], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[18], region=mdb.models[nomeModelo].parts[nomePart].cells[16], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[26], region=mdb.models[nomeModelo].parts[nomePart].cells[19], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[118], region=mdb.models[nomeModelo].parts[nomePart].cells[44], sense=REVERSE)
-        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[213], region=mdb.models[nomeModelo].parts[nomePart].cells[49], sense=FORWARD)
-        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[212], region=mdb.models[nomeModelo].parts[nomePart].cells[50], sense=FORWARD)
-        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[214], region=mdb.models[nomeModelo].parts[nomePart].cells[51], sense=FORWARD)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[213], region=mdb.models[nomeModelo].parts[nomePart].cells[49], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[212], region=mdb.models[nomeModelo].parts[nomePart].cells[50], sense=REVERSE)
+        mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[214], region=mdb.models[nomeModelo].parts[nomePart].cells[51], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[282], region=mdb.models[nomeModelo].parts[nomePart].cells[52], sense=REVERSE)
         mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#c00f01e0 #1e1e03 ]', ), ), ))
-        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #fffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[141])
+        # mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #fffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[141])
+        mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #fffffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[226])
         mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #fffffff ]', ), ), technique=SWEEP)        
+        mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#3ff0fe1f #fe1e1fc ]', ), ), technique=STRUCTURED)
     mdb.models[nomeModelo].parts[nomePart].generateMesh()
     ####################################################################################################
     #Criacao de reference points
@@ -584,53 +615,53 @@ def inicializarCodigoModelosPrincipais(rodarJobs, intervalos):
     ######
     ###### Variacoes
     #Investigacao espessura camada revestimento
-    # listaAvioes = [boeing737800, boeing767300, boeing777300]
-    # fatorCrescimento = 1.02
-    # for aviaoSelecionado in listaAvioes:
-    #     nomeSensibilidade= 'espRev'
-    #     for espessuraRevestimento in intervalos.intervaloEspessuraRevestimento:
-    #         materialRevestimento.espessuraCamada = espessuraRevestimento
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraRevestimento))
-    #     materialRevestimento = materiaisBase()[0]
-    #     nomeSensibilidade= 'espBas'
-    #     for espessuraBase in intervalos.intervaloEspessuraBase:
-    #         materialBase.espessuraCamada = espessuraBase
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
-    #     materialBase = materiaisBase()[1]
-    #     nomeSensibilidade= 'elasRev'
-    #     for elasticidadeRevestimento in intervalos.intervaloElasticidadeRevestimento:
-    #         materialRevestimento.moduloElasticidade = elasticidadeRevestimento
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
-    #     materialRevestimento = materiaisBase()[0]
-    #     nomeSensibilidade= 'elasBas'
-    #     for elasticidadeBase in intervalos.intervaloElasticidadeBase:
-    #         materialBase.moduloElasticidade = elasticidadeBase
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
-    #     materialBase = materiaisBase()[1]
-    #     nomeSensibilidade= 'elasSub'
-    #     for elasticidadeSubleito in intervalos.intervaloElasticidadeSubleito:
-    #         materialSubleito.moduloElasticidade = elasticidadeSubleito
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
-    #     materialSubleito = materiaisBase()[2]
-    #     nomeSensibilidade= 'poiRev'
-    #     for poissonRevestimento in intervalos.intervaloPoissonRevestimento:
-    #         materialRevestimento.coeficientePoisson = poissonRevestimento
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonRevestimento))
-    #     materialRevestimento = materiaisBase()[0]
-    #     nomeSensibilidade= 'poiBas'
-    #     for poissonBase in intervalos.intervaloPoissonBase:
-    #         materialBase.coeficientePoisson = poissonBase
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonBase))
-    #     materialBase = materiaisBase()[1]
-    #     nomeSensibilidade= 'poiSub'
-    #     for poissonSubleito in intervalos.intervaloPoissonSubleito:
-    #         materialSubleito.coeficientePoisson = poissonSubleito
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
-    #     materialSubleito = materiaisBase()[2]
-    #     nomeSensibilidade= 'carregamento'
-    #     for carregamento in intervalos.intervaloCarga:
-    #         aviaoSelecionado.carregamento = carregamento
-    #         listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = carregamento))
+    listaAvioes = [boeing737800, boeing767300, boeing777300]
+    fatorCrescimento = 1.02
+    for aviaoSelecionado in listaAvioes:
+        nomeSensibilidade= 'espRev'
+        for espessuraRevestimento in intervalos.intervaloEspessuraRevestimento:
+            materialRevestimento.espessuraCamada = espessuraRevestimento
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraRevestimento))
+        materialRevestimento = materiaisBase()[0]
+        nomeSensibilidade= 'espBas'
+        for espessuraBase in intervalos.intervaloEspessuraBase:
+            materialBase.espessuraCamada = espessuraBase
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
+        materialBase = materiaisBase()[1]
+        nomeSensibilidade= 'elasRev'
+        for elasticidadeRevestimento in intervalos.intervaloElasticidadeRevestimento:
+            materialRevestimento.moduloElasticidade = elasticidadeRevestimento
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
+        materialRevestimento = materiaisBase()[0]
+        nomeSensibilidade= 'elasBas'
+        for elasticidadeBase in intervalos.intervaloElasticidadeBase:
+            materialBase.moduloElasticidade = elasticidadeBase
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
+        materialBase = materiaisBase()[1]
+        nomeSensibilidade= 'elasSub'
+        for elasticidadeSubleito in intervalos.intervaloElasticidadeSubleito:
+            materialSubleito.moduloElasticidade = elasticidadeSubleito
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
+        materialSubleito = materiaisBase()[2]
+        nomeSensibilidade= 'poiRev'
+        for poissonRevestimento in intervalos.intervaloPoissonRevestimento:
+            materialRevestimento.coeficientePoisson = poissonRevestimento
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonRevestimento))
+        materialRevestimento = materiaisBase()[0]
+        nomeSensibilidade= 'poiBas'
+        for poissonBase in intervalos.intervaloPoissonBase:
+            materialBase.coeficientePoisson = poissonBase
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonBase))
+        materialBase = materiaisBase()[1]
+        nomeSensibilidade= 'poiSub'
+        for poissonSubleito in intervalos.intervaloPoissonSubleito:
+            materialSubleito.coeficientePoisson = poissonSubleito
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
+        materialSubleito = materiaisBase()[2]
+        nomeSensibilidade= 'carregamento'
+        for carregamento in intervalos.intervaloCarga:
+            aviaoSelecionado.carregamento = carregamento
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = carregamento))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaPrincipais.json')
 
 def iniciarCodigoCalibracaoMesh(rodarJobs):
@@ -638,9 +669,9 @@ def iniciarCodigoCalibracaoMesh(rodarJobs):
     materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
     tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
     listaJobs = []
-    # meshRevestimento = [0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]
-    # meshBase = [0.1, 0.2, 0.30, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
-    # meshSubleito = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3]
+    meshRevestimento = [0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]
+    meshBase = [0.1, 0.2, 0.30, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
+    meshSubleito = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3]
     meshRevestimento = [0.05]
     meshBase = [0.1]
     meshSubleito = [0.25]
@@ -664,40 +695,40 @@ def iniciarCodigoCalibracaoMesh(rodarJobs):
 def iniciarCodigoPavimentocritico(rodarJobs, intervalos):
     boeing777300 = avioesBase()[2]
     materialRevestimento, materialBase, materialSubleito = materiaisBase()[0], materiaisBase()[1], materiaisBase()[2]
-    tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.20, camadaSubleito = 0.75)
+    tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.10, camadaSubleito = 0.25)
     listaJobs = []
     materialRevestimento.espessuraCamada = intervalos.intervaloEspessuraRevestimento[0]
     materialSubleito.espessuraCamada = 5
     comprimentoSimulado = 20
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESEspRev" , valorSensibilidade = materialRevestimento.espessuraCamada))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCEspRev" , valorSensibilidade = materialRevestimento.espessuraCamada))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.espessuraCamada = intervalos.intervaloEspessuraBase[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESEspBase", valorSensibilidade = materialBase.espessuraCamada))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCEspBase", valorSensibilidade = materialBase.espessuraCamada))
     materialBase = materiaisBase()[1]
     #
     materialRevestimento.coeficientePoisson = intervalos.intervaloPoissonRevestimento[-1]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESPoiRev", valorSensibilidade = materialRevestimento.coeficientePoisson))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCPoiRev", valorSensibilidade = materialRevestimento.coeficientePoisson))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.coeficientePoisson = intervalos.intervaloPoissonBase[-1]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESPoiBas", valorSensibilidade = materialBase.coeficientePoisson))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCPoiBas", valorSensibilidade = materialBase.coeficientePoisson))
     materialBase = materiaisBase()[1]
     #
     materialSubleito.coeficientePoisson = intervalos.intervaloPoissonSubleito[-1]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESPoiSub", valorSensibilidade = materialSubleito.coeficientePoisson))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCPoiSub", valorSensibilidade = materialSubleito.coeficientePoisson))
     materialSubleito = materiaisBase()[2]
     #
     materialRevestimento.moduloElasticidade = intervalos.intervaloElasticidadeRevestimento[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESElasRev", valorSensibilidade = materialRevestimento.moduloElasticidade))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCElasRev", valorSensibilidade = materialRevestimento.moduloElasticidade))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.moduloElasticidade = intervalos.intervaloElasticidadeBase[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh=tamanhoDaMesh, nomeSensibilidade = "ESElasBas", valorSensibilidade = materialBase.moduloElasticidade))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh=tamanhoDaMesh, nomeSensibilidade = "PCElasBas", valorSensibilidade = materialBase.moduloElasticidade))
     materialBase = materiaisBase()[1]
     #
     materialSubleito.moduloElasticidade = intervalos.intervaloElasticidadeSubleito[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ESElasSub", valorSensibilidade = materialSubleito.moduloElasticidade))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCElasSub", valorSensibilidade = materialSubleito.moduloElasticidade))
     materialSubleito = materiaisBase()[2]
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosPavimentoCritico.json')
 
@@ -712,7 +743,7 @@ def iniciarCodigoCalibracaoComprimento(rodarJobs):
     for comprimentoPavimento in listaComprimentos:
         aviaoSelecionado = boeing777300
         comprimentoSimulado=comprimentoPavimento
-        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "comPav", valorSensibilidade = comprimentoSimulado))
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ComPav", valorSensibilidade = comprimentoSimulado))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoComprimento.json')
 
 def iniciarCodigoCalibracaoSubleito(rodarJobs):
@@ -726,7 +757,7 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs):
     for alturaSubleito in listaAlturas:
         aviaoSelecionado = boeing777300
         materialSubleito.espessuraCamada = alturaSubleito
-        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "espSub", valorSensibilidade = alturaSubleito))
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "EspSub", valorSensibilidade = alturaSubleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoSubleito.json')
 
 
@@ -743,11 +774,11 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-# iniciarCodigoCalibracaoMesh(rodarJobs = False)  #inf passa
-# iniciarCodigoCalibracaoSubleito(rodarJobs = False)  #inf passa
-# iniciarCodigoCalibracaoComprimento(rodarJobs = False)  #inf passa
-iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos) #Errada a direcao de elementos infinitos mas processa
-# inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)   #inf passa
+iniciarCodigoCalibracaoMesh(rodarJobs = False)
+# iniciarCodigoCalibracaoSubleito(rodarJobs = False)
+# iniciarCodigoCalibracaoComprimento(rodarJobs = False)
+# iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos)
+# inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  
 del mdb.models['Model-1']
@@ -776,6 +807,4 @@ print("Carga " + str(intervalos.intervaloCarga) + "\n")
 #B767 - 0
 #B737 - 55
 
-#testar se a adaptação com comprimento do pavimento funcionou
-#Preciso ainda adicionar a reimportação de jobs na espessurasubleito, definicaoMalha, comprimento do pavimento
-#preciso criar o modelo para calibração de comprimento de pavimento
+#Rever se ordem das avaliacoes bate com a ordem dos documentos
