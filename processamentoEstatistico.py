@@ -1,5 +1,4 @@
 import json
-#from ColetarDados import DadosDeslocamento
 import pandas as pd
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import os
@@ -8,6 +7,7 @@ import statsmodels.stats.multicomp as mc
 from itertools import combinations
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns 
 # Definir a classe DadosDeslocamento
 # Classe DadosDeslocamento para armazenar informacoes de deslocamento
 class DadosDeslocamento:
@@ -35,7 +35,7 @@ def importarJson(nome_arquivo):
 # Funcao para calcular a variacao percentual em relacao ao valor anterior de u3
 def calcular_variacao_percentual(group):
     if pd.api.types.is_numeric_dtype(group['u3']):
-        group['variacao_percentual_u3'] = (group['u3'] - group['u3'].shift(1)) / group['u3'].shift(1) * 100
+        group['variacao_percentual_u3'] = ((group['u3'] - group['u3'].shift(1)) / group['u3'].shift(1)) * 100
     return group
 
 # Nome do arquivo JSON
@@ -43,7 +43,7 @@ nome_arquivo = 'dadosModelosSaidaPrincipais.json'
 
 def dataframeVariacaoPercentual(dataframe_deslocamentos_calculados):
     # Agrupa os dados pelo modelo do aviao, nome de sensibilidade e numero do no
-    grupos = dataframe_deslocamentos_calculados.groupby(['modeloAviao', 'nomeSensibilidade', 'no'])
+    grupos = dataframe_deslocamentos_calculados.groupby(['modeloAviao', 'no'])
     
     dataframesDiscretizadosModeloNomeNo = []
     # Itera sobre cada grupo de dados
@@ -58,7 +58,7 @@ def dataframeVariacaoPercentual(dataframe_deslocamentos_calculados):
     # Concatena os DataFrames individuais de variacao percentual e remove valores NaN
     dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=['variacao_percentual_u3'])
     # Seleciona as colunas relevantes do DataFrame final
-    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'variacao_percentual_u3']]
+    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'valorSensibilidade','variacao_percentual_u3']]
     
     return dfConcatenadoComVariacaoPercentual
 
@@ -81,19 +81,13 @@ def bootstrap_test_group(data1, data2, statistic, n_iterations=1000, alpha=0.05)
     return np.mean(bootstrap_statistics), lower_bound, upper_bound
 
 
-def iniciarProcessamentoEstatitico(nome_arquivo):
+def iniciarProcessamentoEstatistico(nome_arquivo):
     # Carrega os dados do arquivo JSON
     dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
     filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
     dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
     dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_filtrados)
     dfConcatenadoComVariacaoPercentual.to_csv('variacao_percentual_u3.csv', index=False, sep=';', decimal=',')
-    #Teste de Shapiro-Wilk para normalidade e teste de Levene para homogeneidade de variancias
-    dataframeAmostraTransposto = transformar_para_dataframe_transposto(dfConcatenadoComVariacaoPercentual)
-    verificacaoPremissasTukey = tukey_premissas_teste(dataframeAmostraTransposto)
-    pd.DataFrame(verificacaoPremissasTukey[0]).to_csv('premissasTukeyShapiro.csv', index=False, sep=';', decimal=',')
-    pd.DataFrame(verificacaoPremissasTukey[1]).to_csv('premissasTukeyLevine.csv', index=False, sep=';', decimal=',')
-    resultadosEstatisticaTukey = []
     # Lista de modelos de avião
     modelos_aviao = dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist()
 
@@ -155,75 +149,56 @@ def transformar_para_dataframe_transposto(df):
 
 # Funcao para descrever e visualizar os dados
 def descreverDados(nome_arquivo):
+    sns.set_context('notebook')
     # Importar dados e calcular variacao percentual
     dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
     filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
     dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
-    for aviao in dataframe_deslocamentos_filtrados['modeloAviao'].tolist():
+    dataframe_deslocamentos_filtrados['valorSensibilidade'] = pd.to_numeric(dataframe_deslocamentos_filtrados['valorSensibilidade'], errors='raise')
+    for aviao in dataframe_deslocamentos_filtrados['modeloAviao'].unique().tolist():
         dataframe_deslocamentos_filtrados_por_aviao = dataframe_deslocamentos_filtrados[(dataframe_deslocamentos_filtrados['modeloAviao'] == aviao)]
-        dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_filtrados_por_aviao)
-        dataframeAmostraTransposto = transformar_para_dataframe_transposto(dfConcatenadoComVariacaoPercentual)
-        
-        # Plotar graficos de dispersao para cada coluna
-        plt.figure(figsize=(10, 6))  # Define o tamanho da figura
-        cores = np.random.rand(len(dataframeAmostraTransposto.columns), 3)
-        plt.figure(figsize=(10, 6))  # Define o tamanho da figura
-        plt.style.use('seaborn-whitegrid')  # Estilo de fundo com grid
-        
-        # Plotar graficos de dispersao para cada coluna separadamente
-        for i, coluna in enumerate(dataframeAmostraTransposto.columns):
-            nomeFigura = f'Grafico de Pontos para {coluna} em {aviao}'
-            plt.figure()  # Cria uma nova figura para cada coluna
-            plt.scatter(dataframeAmostraTransposto.index, dataframeAmostraTransposto[coluna], color=cores[i], alpha=0.7, s=10)
-            plt.xlabel('indice')
-            plt.ylabel(coluna)
-            plt.title(nomeFigura)
-            #plt.gcf().canvas.set_window_title(nomeFigura)
-            plt.grid(True)
-            plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
-            plt.savefig(nomeFigura.title().replace(" ", ""), dpi=300)
-    plt.show()
+        for sensibilidade in dataframe_deslocamentos_filtrados_por_aviao['nomeSensibilidade'].unique().tolist():
+            # caso_base = pd.DataFrame([dataframe_deslocamentos_filtrados_por_aviao[(dataframe_deslocamentos_filtrados_por_aviao['nomeSensibilidade'] == 'Base')].iloc[0]])
+            if sensibilidade != "Base":
+                dataframe_filtrado_por_sensibilidade = dataframe_deslocamentos_filtrados_por_aviao[(dataframe_deslocamentos_filtrados_por_aviao['nomeSensibilidade'] == sensibilidade)]
+                # dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(pd.concat([caso_base, dataframe_filtrado_por_sensibilidade],ignore_index=True) )
+                dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade)
+                nomeFigura = f'Gráfico de pontos para {sensibilidade} no {aviao}'
+                #plt.figure()  # Cria uma nova figura para cada coluna
+                cores = np.random.rand(1,3)
+                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual['variacao_percentual_u3'], color=cores, alpha=0.7, s=10)
+                unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
+                if unidadeSensibilidade[sensibilidade] == '':
+                    plt.xlabel(sensibilidade)
+                else:
+                    plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
+                plt.ylabel("Variação percentual (%)")
+                # Desative a formatação automática no eixo Y
+                #plt.ticklabel_format(style='plain', axis='y')
+                plt.title(nomeFigura)
+                #plt.figure(figsize=(10, 6))  # Define o tamanho da figura
+                plt.grid(True)
+                plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
+                # Mostra apenas 10% dos valores no eixo X
+                # total_valores = len(dfConcatenadoComVariacaoPercentual['valorSensibilidade'])
+                plt.ticklabel_format(style='plain', axis='y')
+                # mostrar_a_cada = total_valores // 10  # Ajuste para mostrar 10% dos valores
+                # plt.xticks(dfConcatenadoComVariacaoPercentual['valorSensibilidade'][::mostrar_a_cada], rotation=45)
+                sns.set_style('whitegrid')
+                # plt.tight_layout()  # Melhorar a disposição dos elementos no gráfico
+                plt.savefig(nomeFigura.title().replace(" ", ""), dpi=300)
+                plt.close()
+                # Plotar graficos de dispersao para cada coluna
+                #plt.style.use('seaborn-whitegrid')  # Estilo de fundo com grid
+                print(aviao + " " + sensibilidade + " OK")
+            # Plotar graficos de dispersao para cada coluna separadamente
+    #plt.show()        
     return []
 
 
-# Funcao para realizar o teste de Levene
-def teste_levene(col1, col2):
-    estatistica, p_valor = stats.levene(col1, col2)
-    return estatistica, p_valor
-
-# Funcao para realizar o teste de Shapiro-Wilk
-def teste_shapiro_wilk(coluna):
-    estatistica, p_valor = stats.shapiro(coluna)
-    return estatistica, p_valor
-
-# Funcao para aceitar ou rejeitar a hipotese nula
-def aceitar_rejeitar(p_valor):
-    return p_valor > 0.05
-
-# Funcao para testar as premissas do teste de Tukey
-def tukey_premissas_teste(dados):
-    # Premissa 1: Amostras independentes e aleatorias
-    # Premissa 2: Normalidade das populacoes subjacentes
-    # Iterando sobre as colunas e aplicando o teste de Shapiro-Wilk
-    resultadosShapiro = []
-    for coluna in dados.columns:
-        estatistica, p_valor = teste_shapiro_wilk(dados[coluna].dropna())
-        resultadosShapiro.append({'Coluna': coluna, 'Estatistica do teste': estatistica, 'Valor-p': p_valor, 'Aceita H0': aceitar_rejeitar(p_valor)})
-
-    # Premissa 3: Homogeneidade das variancias
-    resultadosLevine = []
-    for col1, col2 in combinations(dados.columns, 2):
-        estatistica, p_valor = teste_levene(dados[col1].dropna(), dados[col2].dropna())
-        resultado = {
-            'Colunas': f"{col1} - {col2}",
-            'Estatistica do teste': estatistica,
-            'Valor-p': p_valor,
-            'Aceita H0': aceitar_rejeitar(p_valor)
-        }
-        resultadosLevine.append(resultado)
-    
-    return resultadosShapiro, resultadosLevine
-
 # Chamada das funcoes
-iniciarProcessamentoEstatitico('DeslocamentodadosModelosSaidaPrincipais.json')
-#descreverDados('DeslocamentodadosModelosSaidaPrincipais.json')
+#iniciarProcessamentoEstatitico('DeslocamentodadosModelosSaidaPrincipais.json')
+descreverDados('DeslocamentodadosModelosSaidaPrincipais.json')
+
+
+#Consertar os graficos para mostrarrem tambem o valor da sensibilidade, ficar valor da sensibilidade e variacao percentual
