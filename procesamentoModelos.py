@@ -36,7 +36,7 @@ def executar_modelo(job):
     # Definir o nome da plataforma da GPU
     nome_plataforma_gpu = "NVIDIA CUDA"  # Substitua pela plataforma da sua GPU
     # Definir o comando para executar o job com a GPU
-    comando = "abaqus job=" + job + " input=" + job + ".inp ask_delete=OFF"
+    comando = "abaqus job=" + job + " input=" + job + ".inp ask_delete=OFF cpus=12 output_precision=FULL gpus=1"
     # Executar o comando
     subprocess.run(comando, shell=True)
 
@@ -63,9 +63,10 @@ def iniciarModelos(arquivo):
 if __name__ == '__main__':
     tempo_inicial = time.time()
     freeze_support()
-    iniciarModelos("dadosPavimentoCritico.json")
+    # iniciarModelos("dadosPavimentoCritico.json")
     iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
-    iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
-    iniciarModelos("dadosModelosSaidaPrincipais.json")
+    iniciarModelos("dadosModelosSaidaCalibracaoComprimento.json")
+    # iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
+    # iniciarModelos("dadosModelosSaidaPrincipais.json")
     tempo_final = time.time()
     print("Tempo de execucao: ", tempo_final - tempo_inicial)

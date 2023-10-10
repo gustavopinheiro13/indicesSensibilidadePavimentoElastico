@@ -29,8 +29,8 @@ def importarJson(nome_arquivo):
     with open(nome_arquivo, 'r') as arquivo_json:
         dados_deslocamento = json.load(arquivo_json)
     # Importar os dados do arquivo e criar um DataFrame
-    dataframe_deslocamentos_calculados = pd.DataFrame(dados_deslocamento)
-    return dataframe_deslocamentos_calculados
+    dataframe_deslocamentos_deformacao_calculados = pd.DataFrame(dados_deslocamento)
+    return dataframe_deslocamentos_deformacao_calculados
 
 # Funcao para calcular a variacao percentual em relacao ao valor anterior de u3
 def calcular_variacao_percentual(group):

@@ -16,7 +16,31 @@ class DadosDeslocamento:
         self.u1 = u1
         self.u2 = u2
         self.u3 = u3
+#
 
+class DadosDeformacao:
+    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, e1, e2, e3):
+        self.nomeJob = nomeJob
+        self.nomeStep = nomeStep
+        self.nomeSensibilidade = nomeSensibilidade
+        self.valorSensibilidade = valorSensibilidade
+        self.modeloAviao = modeloAviao
+        self.no = noInteresse
+        self.e1 = e1
+        self.e2 = e2
+        self.e3 = e3
+
+# class DadosDeformacao:
+#     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, e1, e2, e3):
+#         self.nomeJob = nomeJob
+#         self.nomeStep = nomeStep
+#         self.nomeSensibilidade = nomeSensibilidade
+#         self.valorSensibilidade = valorSensibilidade
+#         self.modeloAviao = modeloAviao
+#         self.no = noInteresse
+#         self.e1 = e1
+#         self.e2 = e2
+#         self.e3 = e3
 # Definicao da classe para representar os objetos de saida para checagem de modelos
 class saidaModelos:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
@@ -54,6 +78,34 @@ def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSen
     odb.close()
     return dados_deslocamentos
 
+# Funcao para obter os dados de Deformacao
+def obter_dados_Deformacao(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSensibilidade, nosInteresse, valorSensibilidade):
+    # Caminho para o arquivo .odb
+    caminho_modelo = nomeJob + '.odb'
+    # Carregando o arquivo .odb
+    odb = session.openOdb(caminho_modelo)
+    # Obtendo o passo desejado
+    passo = odb.steps[nomeStep]
+    # Obtendo o campo de saida desejado
+    campo_saida = passo.frames[-1].fieldOutputs[nome_campo]
+    # Lista de objetos para armazenar os dados dos Deformacaos
+    dados_Deformacao = []
+    # Iterando sobre os nos de interesse
+    for noInteresse in nosInteresse:
+        # Obtendo o valor do campo de saida para o no especifico
+        try:
+            valor_campo = campo_saida.values[noInteresse].dataDouble
+        except:
+            valor_campo = campo_saida.values[noInteresse - 1].data
+        # Criando objeto de dados de Deformacao
+        #print(valor_campo)
+        dados = DadosDeformacao(nomeJob=nomeJob, nomeStep=nomeStep, nomeSensibilidade=nomeSensibilidade, valorSensibilidade=valorSensibilidade, modeloAviao=modeloAviao, noInteresse=noInteresse, e1=valor_campo[0], e2=valor_campo[1], e3=valor_campo[2])
+        # Adicionando o objeto a lista
+        dados_Deformacao.append(dados)
+    # Fechando o arquivo .odb
+    odb.close()
+    return dados_Deformacao
+
 # Funcao para reimportar os dados de modelos a partir de um arquivo JSON
 def reimportarDadosDeModelos(nome_arquivo):
     # Abre o arquivo JSON no modo de leitura
@@ -71,7 +123,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     return lista_jobs
 
 # Funcao para gravar os dados de modelos em um arquivo JSON
-def gravarDadosModelo(nome_arquivo):
+def gravarDadosModeloDeslocamento(nome_arquivo):
     os.chdir("C:/Users/gusta/resultados_abaqus/")
     # Reimporta os dados de modelos a partir do arquivo JSON
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
@@ -113,8 +165,61 @@ def gravarDadosModelo(nome_arquivo):
     print(nomesJob)
     return dados_deslocamento
 
+# Funcao para gravar os dados de modelos em um arquivo JSON
+def gravarDadosModeloDeformacao(nome_arquivo):
+    os.chdir("C:/Users/gusta/resultados_abaqus/")
+    # Reimporta os dados de modelos a partir do arquivo JSON
+    lista_jobs = reimportarDadosDeModelos(nome_arquivo)
+    nome_arquivo_saida = 'Deformacao' + nome_arquivo
+    nomesJob = []
+    dados_Deformacao = []
+    for job in lista_jobs:
+        print(job.nomeJob)
+        # Verifica se o nome do job ja foi adicionado a lista de nomes
+        if any(job.nomeJob == nomeJobExistente for nomeJobExistente in nomesJob):
+            pass
+        else:
+            nomesJob.append(job.nomeJob)
+            # Obtem os dados de Deformacao para o job atual
+            dados = obter_dados_Deformacao(
+                nomeJob=job.nomeJob,
+                nomeStep=job.nomeStep,
+                nome_campo='E',
+                modeloAviao=job.modeloAviao,
+                nomeSensibilidade=job.nomeSensibilidade,
+                nosInteresse=job.nosInteresse,
+                valorSensibilidade=job.valorSensibilidade
+            )
+            for modeloPonto in dados:
+                dados_job = {
+                    'nomeJob': modeloPonto.nomeJob,
+                    'nomeStep': modeloPonto.nomeStep,
+                    'nomeSensibilidade': modeloPonto.nomeSensibilidade,
+                    'valorSensibilidade': modeloPonto.valorSensibilidade,
+                    'modeloAviao': modeloPonto.modeloAviao,
+                    'no': int(modeloPonto.no),
+                    'e1': np.float64(modeloPonto.e1),
+                    'e2': np.float64(modeloPonto.e2),
+                    'e3': np.float64(modeloPonto.e3)
+                }
+                dados_Deformacao.append(dados_job)
+    # Salva os dados em um arquivo JSON
+    with open(nome_arquivo_saida, 'w') as arquivo_saida:
+        json.dump(dados_Deformacao, arquivo_saida, indent=4)
+    print(nomesJob)
+    return dados_Deformacao
+
+# # Chamadas das funcoes
+# gravarDadosModeloDeslocamento('dadosPavimentoCritico.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoSubleito.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoComprimento.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoMesh.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaPrincipais.json')
+
+
 # Chamadas das funcoes
-gravarDadosModelo('dadosPavimentoCritico.json')
-gravarDadosModelo('dadosModelosSaidaCalibracaoSubleito.json')
-print(gravarDadosModelo('dadosModelosSaidaCalibracaoMesh.json'))
-gravarDadosModelo('dadosModelosSaidaPrincipais.json')
+# gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
+gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoMesh.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaPrincipais.json')
