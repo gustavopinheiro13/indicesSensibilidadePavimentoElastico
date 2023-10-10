@@ -116,16 +116,16 @@ class Aviao:
 
 # Funcao para definir os intervalos de sensibilidade
 def intervalosAnalise():
-    fatorCrescimento = 1.02
-    intervaloEspessuraRevestimento = rangeSensibilidade(indiceInicial=0.075, numeroRepeticoes=86, fatorDeCrescimento=fatorCrescimento)
-    intervaloEspessuraBase = rangeSensibilidade(indiceInicial=0.075, numeroRepeticoes=86, fatorDeCrescimento=fatorCrescimento)
-    intervaloPoissonRevestimento = rangeSensibilidade(indiceInicial=0.15, numeroRepeticoes=44, fatorDeCrescimento=fatorCrescimento)
-    intervaloPoissonBase = rangeSensibilidade(indiceInicial=0.2, numeroRepeticoes=30, fatorDeCrescimento=fatorCrescimento)	
-    intervaloPoissonSubleito = rangeSensibilidade(indiceInicial=0.2, numeroRepeticoes=30, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeRevestimento = rangeSensibilidade(indiceInicial=1380E6, numeroRepeticoes=157, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeBase = rangeSensibilidade(indiceInicial=187.5E6, numeroRepeticoes=167, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeSubleito = rangeSensibilidade(indiceInicial=7E6, numeroRepeticoes=199, fatorDeCrescimento=fatorCrescimento)
-    intervaloCarga = rangeSensibilidade(indiceInicial=206.84E3, numeroRepeticoes=111, fatorDeCrescimento=fatorCrescimento)
+    fatorCrescimento = 1.03
+    intervaloEspessuraRevestimento = rangeSensibilidade(indiceInicial=0.075, numeroRepeticoes=66, fatorDeCrescimento=fatorCrescimento)
+    intervaloEspessuraBase = rangeSensibilidade(indiceInicial=0.075, numeroRepeticoes=93, fatorDeCrescimento=fatorCrescimento)
+    intervaloPoissonRevestimento = rangeSensibilidade(indiceInicial=0.15, numeroRepeticoes=41, fatorDeCrescimento=fatorCrescimento)
+    intervaloPoissonBase = rangeSensibilidade(indiceInicial=0.01, numeroRepeticoes=132, fatorDeCrescimento=fatorCrescimento)	
+    intervaloPoissonSubleito = rangeSensibilidade(indiceInicial=0.01, numeroRepeticoes=132, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeRevestimento = rangeSensibilidade(indiceInicial=517.11E6, numeroRepeticoes=149, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeBase = rangeSensibilidade(indiceInicial=206.84E6, numeroRepeticoes=175, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeSubleito = rangeSensibilidade(indiceInicial=50E6, numeroRepeticoes=31, fatorDeCrescimento=fatorCrescimento)
+    intervaloCarga = rangeSensibilidade(indiceInicial=206.84E3, numeroRepeticoes=75, fatorDeCrescimento=fatorCrescimento)
     intervalosDeSensibilidade = IntervaloSensibilidade(
         intervaloEspessuraRevestimento=intervaloEspessuraRevestimento,
         intervaloEspessuraBase=intervaloEspessuraBase,
@@ -469,14 +469,14 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
     # Job
     nomeJob = 'job' + nomePart
     mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, memoryUnits=PERCENTAGE, model=nomeModelo, modelPrint=OFF, 
-    multiprocessingMode=THREADS, name=nomeJob, nodalOutputPrecision=FULL, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+    multiprocessingMode=THREADS, name=nomeJob, nodalOutputPrecision=SINGLE, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
     mdb.jobs[nomeJob].writeInput(consistencyChecking=OFF)
     del mdb.jobs[nomeJob]
     substituir_tipo_elemento(nomeJob + '.inp','type=AC3D8R','type=CIN3D8')
     mdb.ModelFromInputFile(inputFileName=nomeJob + '.inp', name=nomeJob)
     mdb.JobFromInputFile(atTime=None, explicitPrecision=SINGLE,
     getMemoryFromAnalysis=True, inputFileName=nomeJob + '.inp', memory=97, memoryUnits=PERCENTAGE, multiprocessingMode=DEFAULT, name=
-    nomeJob, nodalOutputPrecision=FULL, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+    nomeJob, nodalOutputPrecision=SINGLE, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
     return SaidaModelos(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = aviaoSelecionado.modelo, nosInteresse = aviaoSelecionado.nosInteresse)
 
 
@@ -664,7 +664,7 @@ def iniciarCodigoPavimentocritico(rodarJobs, intervalos, comprimentoPavimentoSim
     tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.10, camadaSubleito = 0.25)
     listaJobs = []
     materialRevestimento.espessuraCamada = intervalos.intervaloEspessuraRevestimento[0]
-    materialSubleito.espessuraCamada = 20
+    materialSubleito.espessuraCamada = 10
     comprimentoSimulado = comprimentoPavimentoSimulado
     listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCEspRev" , valorSensibilidade = materialRevestimento.espessuraCamada))
     materialRevestimento = materiaisBase()[0]
@@ -703,7 +703,7 @@ def iniciarCodigoCalibracaoComprimento(rodarJobs):
     boeing777300 = avioesBase()[2]
     materialRevestimento, materialBase, materialSubleito = pavimentoCritico()[0], pavimentoCritico()[1], pavimentoCritico()[2]
     tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.10, camadaSubleito = 0.25)
-    materialSubleito.espessuraCamada = 20
+    materialSubleito.espessuraCamada = 10
     listaJobs = []
     nomesJob = []
     listaComprimentos = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
@@ -732,7 +732,7 @@ def pavimentoCritico():
     listaMateriais = []
     materialRevestimento = Material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
     materialBase = Material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = Material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=7E6, coeficientePoisson=0.35)
+    materialSubleito = Material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=50E6, coeficientePoisson=0.35) #Critico modulo de elasticidade 50MPa para subleito
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
@@ -741,10 +741,10 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 20)
-# iniciarCodigoCalibracaoSubleito(rodarJobs = False, comprimentoPavimentoSimulado = 20)
-# iniciarCodigoCalibracaoComprimento(rodarJobs = False)
-# iniciarCodigoCalibracaoMesh(rodarJobs = False, comprimentoPavimentoSimulado = 20)
+# iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 10)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False, comprimentoPavimentoSimulado = 10)
+iniciarCodigoCalibracaoComprimento(rodarJobs = False)
+# iniciarCodigoCalibracaoMesh(rodarJobs = False, comprimentoPavimentoSimulado = 10)
 # inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 20)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  
