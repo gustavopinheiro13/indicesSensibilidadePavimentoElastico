@@ -8,42 +8,28 @@ from itertools import combinations
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns 
-# Definir a classe DadosDeslocamento
-# Classe DadosDeslocamento para armazenar informacoes de deslocamento
-class DadosDeslocamento:
-    # Construtor para inicializar os atributos da classe
-    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, no, u1, u2, u3):
-        self.nomeJob = nomeJob
-        self.nomeStep = nomeStep
-        self.nomeSensibilidade = nomeSensibilidade
-        self.valorSensibilidade = valorSensibilidade
-        self.modeloAviao = modeloAviao
-        self.no = no
-        self.u1 = u1
-        self.u2 = u2
-        self.u3 = u3
+
 
 # Funcao para importar os dados do arquivo JSON e criar um DataFrame
 def importarJson(nome_arquivo):
     os.chdir("C:/Users/gusta/resultados_abaqus/")
     with open(nome_arquivo, 'r') as arquivo_json:
-        dados_deslocamento = json.load(arquivo_json)
+        dados = json.load(arquivo_json)
     # Importar os dados do arquivo e criar um DataFrame
-    dataframe_deslocamentos_deformacao_calculados = pd.DataFrame(dados_deslocamento)
-    return dataframe_deslocamentos_deformacao_calculados
+    dataframe_calculado = pd.DataFrame(dados)
+    return dataframe_calculado
 
-# Funcao para calcular a variacao percentual em relacao ao valor anterior de u3
-def calcular_variacao_percentual(group):
-    if pd.api.types.is_numeric_dtype(group['u3']):
-        group['variacao_percentual_u3'] = ((group['u3'] - group['u3'].shift(1)) / group['u3'].shift(1)) * 100
+def calcular_variacao_percentual(group, nome_csv, variavel_avaliada):
+    if pd.api.types.is_numeric_dtype(group[variavel_avaliada]):
+        group[nome_csv] = ((group[variavel_avaliada] - group[variavel_avaliada].shift(1)) / group[variavel_avaliada].shift(1)) * 100
     return group
 
 # Nome do arquivo JSON
 nome_arquivo = 'dadosModelosSaidaPrincipais.json'
 
-def dataframeVariacaoPercentual(dataframe_deslocamentos_calculados):
+def dataframeVariacaoPercentual(dataframe_calculado, nome_csv, variavel_avaliada):
     # Agrupa os dados pelo modelo do aviao, nome de sensibilidade e numero do no
-    grupos = dataframe_deslocamentos_calculados.groupby(['modeloAviao', 'no'])
+    grupos = dataframe_calculado.groupby(['modeloAviao', 'no'])
     
     dataframesDiscretizadosModeloNomeNo = []
     # Itera sobre cada grupo de dados
@@ -54,11 +40,11 @@ def dataframeVariacaoPercentual(dataframe_deslocamentos_calculados):
     
     # Calcula a variacao percentual para cada DataFrame no formato de lista
     for deformacao in range(len(dataframesDiscretizadosModeloNomeNo)):
-        dataframesDiscretizadosModeloNomeNo[deformacao] = calcular_variacao_percentual(dataframesDiscretizadosModeloNomeNo[deformacao])
+        dataframesDiscretizadosModeloNomeNo[deformacao] = calcular_variacao_percentual(dataframesDiscretizadosModeloNomeNo[deformacao], nome_csv=nome_csv, variavel_avaliada = variavel_avaliada)
     # Concatena os DataFrames individuais de variacao percentual e remove valores NaN
-    dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=['variacao_percentual_u3'])
+    dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=[nome_csv])
     # Seleciona as colunas relevantes do DataFrame final
-    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'valorSensibilidade','variacao_percentual_u3']]
+    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'valorSensibilidade', nome_csv]]
     
     return dfConcatenadoComVariacaoPercentual
 
@@ -81,13 +67,14 @@ def bootstrap_test_group(data1, data2, statistic, n_iterations=1000, alpha=0.05)
     return np.mean(bootstrap_statistics), lower_bound, upper_bound
 
 
-def iniciarProcessamentoEstatistico(nome_arquivo):
+def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada):
     # Carrega os dados do arquivo JSON
-    dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
-    filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
-    dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
-    dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_deslocamentos_filtrados)
-    dfConcatenadoComVariacaoPercentual.to_csv('variacao_percentual_u3.csv', index=False, sep=';', decimal=',')
+    nome_csv = 'variacao_percentual_'+ variavel_avaliada
+    dataframe_calculado = importarJson(nome_arquivo)
+    filtro = ((dataframe_calculado['modeloAviao'] == 'B737800')& (dataframe_calculado['no'] == 55)) | ((dataframe_calculado['modeloAviao'] == 'B767300')& (dataframe_calculado['no'] == 0)) | ((dataframe_calculado['modeloAviao'] == 'B777300')& (dataframe_calculado['no'] == 47))
+    dataframe_filtrado = dataframe_calculado[filtro]
+    dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado, nome_csv, variavel_avaliada = variavel_avaliada)
+    dfConcatenadoComVariacaoPercentual.to_csv(nome_csv + '.csv', index=False, sep=';', decimal=',')
     # Lista de modelos de avião
     modelos_aviao = dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist()
 
@@ -105,8 +92,8 @@ def iniciarProcessamentoEstatistico(nome_arquivo):
         # Calcula as estatísticas para cada par de grupos
         for grupo1, grupo2 in combinations(grupos, 2):
             media_diff, lower_bound, upper_bound = bootstrap_test_group(
-                df_modelo[df_modelo['nomeSensibilidade'] == grupo1]['variacao_percentual_u3'],
-                df_modelo[df_modelo['nomeSensibilidade'] == grupo2]['variacao_percentual_u3'],
+                df_modelo[df_modelo['nomeSensibilidade'] == grupo1][nome_csv],
+                df_modelo[df_modelo['nomeSensibilidade'] == grupo2][nome_csv],
                 statistic=np.mean,  # Estatística é a média
                 alpha=0.05  # Alpha para o intervalo de confiança de 95%
             )
@@ -130,43 +117,26 @@ def iniciarProcessamentoEstatistico(nome_arquivo):
     print(resultados_estatistica_bootstrap)
 
 
-def transformar_para_dataframe_transposto(df):
-    # Criar uma lista para armazenar os DataFrames pivotados de cada grupo
-    dataframes_pivotados = []
-
-    # Agrupar o DataFrame original pela coluna 'nomeSensibilidade'
-    grupos = df.groupby('nomeSensibilidade')
-
-    # Para cada grupo, criar o DataFrame pivotado e adicionar a lista
-    for _, grupo in grupos:
-        dataframe_pivotado = grupo.pivot(columns='nomeSensibilidade', values='variacao_percentual_u3')
-        dataframes_pivotados.append(dataframe_pivotado.reset_index())
-
-    # Concatenar todos os DataFrames em um unico DataFrame
-    dataframe_resultante = pd.concat(dataframes_pivotados, ignore_index=False, axis=1).drop('index', axis=1)
-
-    return dataframe_resultante
-
 # Funcao para descrever e visualizar os dados
-def descreverDados(nome_arquivo):
+def descreverDados(nome_arquivo, variavel_avaliada):
+    nome_csv = 'variacao_percentual_' + variavel_avaliada
     sns.set_context('notebook')
     # Importar dados e calcular variacao percentual
-    dataframe_deslocamentos_calculados = importarJson(nome_arquivo)
-    filtro = ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B737800')& (dataframe_deslocamentos_calculados['no'] == 55)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B767300')& (dataframe_deslocamentos_calculados['no'] == 0)) | ((dataframe_deslocamentos_calculados['modeloAviao'] == 'B777300')& (dataframe_deslocamentos_calculados['no'] == 47))
-    dataframe_deslocamentos_filtrados = dataframe_deslocamentos_calculados[filtro]
-    dataframe_deslocamentos_filtrados['valorSensibilidade'] = pd.to_numeric(dataframe_deslocamentos_filtrados['valorSensibilidade'], errors='raise')
-    for aviao in dataframe_deslocamentos_filtrados['modeloAviao'].unique().tolist():
-        dataframe_deslocamentos_filtrados_por_aviao = dataframe_deslocamentos_filtrados[(dataframe_deslocamentos_filtrados['modeloAviao'] == aviao)]
-        for sensibilidade in dataframe_deslocamentos_filtrados_por_aviao['nomeSensibilidade'].unique().tolist():
-            # caso_base = pd.DataFrame([dataframe_deslocamentos_filtrados_por_aviao[(dataframe_deslocamentos_filtrados_por_aviao['nomeSensibilidade'] == 'Base')].iloc[0]])
+    dataframe_calculado = importarJson(nome_arquivo)
+    filtro = ((dataframe_calculado['modeloAviao'] == 'B737800')& (dataframe_calculado['no'] == 55)) | ((dataframe_calculado['modeloAviao'] == 'B767300')& (dataframe_calculado['no'] == 0)) | ((dataframe_calculado['modeloAviao'] == 'B777300')& (dataframe_calculado['no'] == 47))
+    dataframe_filtrado = dataframe_calculado[filtro]
+    dataframe_filtrado['valorSensibilidade'] = pd.to_numeric(dataframe_filtrado['valorSensibilidade'], errors='raise')
+    for aviao in dataframe_filtrado['modeloAviao'].unique().tolist():
+        dataframe_filtradoo_por_aviao = dataframe_filtrado[(dataframe_filtrado['modeloAviao'] == aviao)]
+        for sensibilidade in dataframe_filtradoo_por_aviao['nomeSensibilidade'].unique().tolist():
             if sensibilidade != "Base":
-                dataframe_filtrado_por_sensibilidade = dataframe_deslocamentos_filtrados_por_aviao[(dataframe_deslocamentos_filtrados_por_aviao['nomeSensibilidade'] == sensibilidade)]
+                dataframe_filtrado_por_sensibilidade = dataframe_filtradoo_por_aviao[(dataframe_filtradoo_por_aviao['nomeSensibilidade'] == sensibilidade)]
                 # dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(pd.concat([caso_base, dataframe_filtrado_por_sensibilidade],ignore_index=True) )
                 dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade)
                 nomeFigura = f'Gráfico de pontos para {sensibilidade} no {aviao}'
                 #plt.figure()  # Cria uma nova figura para cada coluna
                 cores = np.random.rand(1,3)
-                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual['variacao_percentual_u3'], color=cores, alpha=0.7, s=10)
+                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual[nome_csv], color=cores, alpha=0.7, s=10)
                 unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
                 if unidadeSensibilidade[sensibilidade] == '':
                     plt.xlabel(sensibilidade)
@@ -196,9 +166,11 @@ def descreverDados(nome_arquivo):
     return []
 
 
-# Chamada das funcoes
-#iniciarProcessamentoEstatitico('DeslocamentodadosModelosSaidaPrincipais.json')
-descreverDados('DeslocamentodadosModelosSaidaPrincipais.json')
+# # Chamada das funcoes deslocamento
+# iniciarProcessamentoEstatistico('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3')
+# descreverDados('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3')
 
-
+# Chamada das funcoes deformacao
+iniciarProcessamentoEstatistico('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')
+# descreverDados('DeformacaodadosModelosSaidaPrincipais .json', variavel_avaliada = 'e3')
 #Consertar os graficos para mostrarrem tambem o valor da sensibilidade, ficar valor da sensibilidade e variacao percentual
