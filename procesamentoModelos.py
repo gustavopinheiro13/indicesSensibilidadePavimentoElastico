@@ -36,12 +36,12 @@ def executar_modelo(job):
     # Definir o nome da plataforma da GPU
     nome_plataforma_gpu = "NVIDIA CUDA"  # Substitua pela plataforma da sua GPU
     # Definir o comando para executar o job com a GPU
-    comando = "abaqus job=" + job + " input=" + job + ".inp ask_delete=OFF cpus=12 output_precision=FULL gpus=1"
+    comando = "abaqus job=" + job + " input=" + job + ".inp ask_delete=OFF cpus=3 output_precision=FULL"
     # Executar o comando
     subprocess.run(comando, shell=True)
 
 # Funcao para iniciar a execucao de modelos
-def iniciarModelos(arquivo):
+def iniciarModelos(arquivo, num_max_execucoes=4):
     # Define o diretorio onde os resultados serao salvos
     os.chdir("C:/Users/gusta/resultados_abaqus/")
     nome_arquivo = arquivo
@@ -51,7 +51,6 @@ def iniciarModelos(arquivo):
     for job in lista_objetos_job:
         lista_jobs.append(job.nomeJob)
     # Numero maximo de modelos em execucao simultaneamente
-    num_max_execucoes = 10
     # Criacao do pool de processos
     pool = Pool(processes=num_max_execucoes)
     # Mapeamento da funcao de execucao para os jobs
@@ -64,9 +63,9 @@ if __name__ == '__main__':
     tempo_inicial = time.time()
     freeze_support()
     # iniciarModelos("dadosPavimentoCritico.json")
-    iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
-    iniciarModelos("dadosModelosSaidaCalibracaoComprimento.json")
-    # iniciarModelos("dadosModelosSaidaCalibracaoMesh.json")
-    # iniciarModelos("dadosModelosSaidaPrincipais.json")
+    # iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
+    # iniciarModelos("dadosModelosSaidaCalibracaoComprimento.json")
+    # iniciarModelos("dadosModelosSaidaCalibracaoMesh.json", num_max_execucoes=8)
+    iniciarModelos("dadosModelosSaidaPrincipais.json", num_max_execucoes=12)
     tempo_final = time.time()
     print("Tempo de execucao: ", tempo_final - tempo_inicial)
