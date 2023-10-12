@@ -219,7 +219,7 @@ def gravarDadosModeloDeformacao(nome_arquivo):
 
 # Chamadas das funcoes
 # gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
-gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
 # gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')
 # gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoMesh.json')
-# gravarDadosModeloDeformacao('dadosModelosSaidaPrincipais.json')
+gravarDadosModeloDeformacao('dadosModelosSaidaPrincipais.json')
