@@ -1,9 +1,6 @@
 import json
 import pandas as pd
-from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import os
-import scipy.stats as stats
-import statsmodels.stats.multicomp as mc
 from itertools import combinations
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,7 +46,7 @@ def dataframeVariacaoPercentual(dataframe_calculado, nome_csv, variavel_avaliada
     return dfConcatenadoComVariacaoPercentual
 
 # Função para calcular estatísticas de bootstrap
-def bootstrap_test_group(data1, data2, statistic, n_iterations=1000, alpha=0.05):
+def bootstrap_test_group(data1, data2, statistic, n_iterations=100000, alpha=0.05):
     # Realiza o bootstrap e calcula a estatística de interesse para dois grupos
     bootstrap_statistics = []
     n1, n2 = len(data1), len(data2)
@@ -106,14 +103,14 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada):
     # Cria um DataFrame com os resultados
     df_resultadosBootstrap = pd.DataFrame(resultados, columns=['grupo 1', 'grupo 2', 'diferenca_media', 'media_inferior', 'media_superior', 'rejeitar', 'modeloAviao'])
     resultados_estatistica_bootstrap = []
-    for aviao in dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist():
-        df_filtrado = dfConcatenadoComVariacaoPercentual.loc[dfConcatenadoComVariacaoPercentual['modeloAviao'] == aviao]
+    for aviao in df_resultadosBootstrap['modeloAviao'].unique().tolist():
+        df_filtrado = df_resultadosBootstrap.loc[df_resultadosBootstrap['modeloAviao'] == aviao]
         # Ordenando os resultados por meandiffs em ordem decrescente
-        df_resultadosBootstrap['meandiff_abs'] = df_resultadosBootstrap['diferenca_media'].abs()
-        df_resultadosBootstrap = df_resultadosBootstrap.sort_values(by='meandiff_abs', ascending=False)
-        df_resultadosBootstrap = df_resultadosBootstrap.drop(columns=['meandiff_abs'])
-        df_resultadosBootstrap.to_csv('resultadosBootstrap_' + aviao + '.csv', index=False, sep=';', decimal='.')
-        resultados_estatistica_bootstrap.append(df_resultadosBootstrap)
+        df_filtrado['diferenca_media_absoluta'] = df_filtrado['diferenca_media'].abs()
+        df_filtrado = df_filtrado.sort_values(by='diferenca_media_absoluta', ascending=False)
+        df_filtrado = df_filtrado.drop(columns=['diferenca_media_absoluta'])
+        df_filtrado.to_csv('resultadosBootstrap_' + aviao + '.csv', index=False, sep=';', decimal='.')
+        resultados_estatistica_bootstrap.append(df_filtrado)
     print(resultados_estatistica_bootstrap)
 
 
@@ -132,8 +129,9 @@ def descreverDados(nome_arquivo, variavel_avaliada):
             if sensibilidade != "Base":
                 dataframe_filtrado_por_sensibilidade = dataframe_filtradoo_por_aviao[(dataframe_filtradoo_por_aviao['nomeSensibilidade'] == sensibilidade)]
                 # dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(pd.concat([caso_base, dataframe_filtrado_por_sensibilidade],ignore_index=True) )
-                dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade)
+                dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade, nome_csv, variavel_avaliada = variavel_avaliada)
                 nomeFigura = f'Gráfico de pontos para {sensibilidade} no {aviao}'
+                nomeFiguraArquivo = f'Grafico de pontos para {sensibilidade} no {aviao}'
                 #plt.figure()  # Cria uma nova figura para cada coluna
                 cores = np.random.rand(1,3)
                 plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual[nome_csv], color=cores, alpha=0.7, s=10)
@@ -143,23 +141,14 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 else:
                     plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
                 plt.ylabel("Variação percentual (%)")
-                # Desative a formatação automática no eixo Y
-                #plt.ticklabel_format(style='plain', axis='y')
+
                 plt.title(nomeFigura)
-                #plt.figure(figsize=(10, 6))  # Define o tamanho da figura
                 plt.grid(True)
                 plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
-                # Mostra apenas 10% dos valores no eixo X
-                # total_valores = len(dfConcatenadoComVariacaoPercentual['valorSensibilidade'])
                 plt.ticklabel_format(style='plain', axis='y')
-                # mostrar_a_cada = total_valores // 10  # Ajuste para mostrar 10% dos valores
-                # plt.xticks(dfConcatenadoComVariacaoPercentual['valorSensibilidade'][::mostrar_a_cada], rotation=45)
                 sns.set_style('whitegrid')
-                # plt.tight_layout()  # Melhorar a disposição dos elementos no gráfico
-                plt.savefig(nomeFigura.title().replace(" ", ""), dpi=300)
+                plt.savefig(nomeFiguraArquivo.title().replace(" ", ""), dpi=300)
                 plt.close()
-                # Plotar graficos de dispersao para cada coluna
-                #plt.style.use('seaborn-whitegrid')  # Estilo de fundo com grid
                 print(aviao + " " + sensibilidade + " OK")
             # Plotar graficos de dispersao para cada coluna separadamente
     #plt.show()        
@@ -172,5 +161,5 @@ def descreverDados(nome_arquivo, variavel_avaliada):
 
 # Chamada das funcoes deformacao
 iniciarProcessamentoEstatistico('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')
-# descreverDados('DeformacaodadosModelosSaidaPrincipais .json', variavel_avaliada = 'e3')
+# descreverDados('DeformacaodadosModelosSaidaPrinc\ipais.json', variavel_avaliada = 'e3')
 #Consertar os graficos para mostrarrem tambem o valor da sensibilidade, ficar valor da sensibilidade e variacao percentual
