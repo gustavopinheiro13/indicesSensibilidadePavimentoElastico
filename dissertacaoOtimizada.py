@@ -571,7 +571,7 @@ def inicializarCodigoModelosPrincipais(rodarJobs, intervalos, comprimentoPavimen
     #
     # Cria um objeto material para o subleito com parametros especificos
     nomeSensibilidade= 'Base'    
-    tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.1, camadaSubleito = 1.5)
+    tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.1, camadaSubleito = 0.5)
     listaJobs = []
     comprimentoSimulado = comprimentoPavimentoSimulado
     listaJobs.append(criarModelo(aviaoSelecionado=boeing737800, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
