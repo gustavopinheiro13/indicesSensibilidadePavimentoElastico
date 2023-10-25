@@ -61,8 +61,27 @@ def bootstrap_test_group(data1, data2, statistic, n_iterations=100000, alpha=0.0
     lower_bound = np.percentile(bootstrap_statistics, 100 * alpha / 2)
     upper_bound = np.percentile(bootstrap_statistics, 100 * (1 - alpha / 2))
 
-    return np.mean(bootstrap_statistics), lower_bound, upper_bound
+    return statistic1, statistic2, np.mean(bootstrap_statistics), lower_bound, upper_bound
 
+def filtrar_outliers(dataframe):
+    # Calcula o IQR da coluna "variacao_percentual_e3"
+    Q1 = dataframe["variacao_percentual_e3"].quantile(0.25)
+    Q3 = dataframe["variacao_percentual_e3"].quantile(0.75)
+    IQR = Q3 - Q1
+    
+    # Define os limites para identificar outliers
+    limite_inferior = Q1 - 1.5 * IQR
+    limite_superior = Q3 + 1.5 * IQR
+    
+    # Filtra os outliers
+    outliers = dataframe[(dataframe["variacao_percentual_e3"] < limite_inferior) |
+                         (dataframe["variacao_percentual_e3"] > limite_superior)]
+    
+    # Filtra os valores sem outliers
+    sem_outliers = dataframe[(dataframe["variacao_percentual_e3"] >= limite_inferior) &
+                            (dataframe["variacao_percentual_e3"] <= limite_superior)]
+    
+    return sem_outliers, outliers
 
 def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada):
     # Carrega os dados do arquivo JSON
@@ -88,7 +107,7 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada):
 
         # Calcula as estatísticas para cada par de grupos
         for grupo1, grupo2 in combinations(grupos, 2):
-            media_diff, lower_bound, upper_bound = bootstrap_test_group(
+            media1, media2, media_diff, lower_bound, upper_bound = bootstrap_test_group(
                 df_modelo[df_modelo['nomeSensibilidade'] == grupo1][nome_csv],
                 df_modelo[df_modelo['nomeSensibilidade'] == grupo2][nome_csv],
                 statistic=np.mean,  # Estatística é a média
@@ -98,10 +117,10 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada):
             rejeitar = (lower_bound > 0) or (upper_bound < 0)
 
             # Adiciona os resultados à lista
-            resultados.append([grupo1, grupo2, media_diff, lower_bound, upper_bound, rejeitar, aviao])
+            resultados.append([grupo1, grupo2, media1, media2, media_diff, lower_bound, upper_bound, rejeitar, aviao])
 
     # Cria um DataFrame com os resultados
-    df_resultadosBootstrap = pd.DataFrame(resultados, columns=['grupo 1', 'grupo 2', 'diferenca_media', 'media_inferior', 'media_superior', 'rejeitar', 'modeloAviao'])
+    df_resultadosBootstrap = pd.DataFrame(resultados, columns=['grupo 1', 'grupo 2', 'media grupo_1', 'media grupo_2','diferenca_media', 'media_inferior', 'media_superior', 'rejeitar', 'modeloAviao'])
     resultados_estatistica_bootstrap = []
     for aviao in df_resultadosBootstrap['modeloAviao'].unique().tolist():
         df_filtrado = df_resultadosBootstrap.loc[df_resultadosBootstrap['modeloAviao'] == aviao]
@@ -128,12 +147,13 @@ def descreverDados(nome_arquivo, variavel_avaliada):
         for sensibilidade in dataframe_filtradoo_por_aviao['nomeSensibilidade'].unique().tolist():
             if sensibilidade != "Base":
                 dataframe_filtrado_por_sensibilidade = dataframe_filtradoo_por_aviao[(dataframe_filtradoo_por_aviao['nomeSensibilidade'] == sensibilidade)]
-                # dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(pd.concat([caso_base, dataframe_filtrado_por_sensibilidade],ignore_index=True) )
                 dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade, nome_csv, variavel_avaliada = variavel_avaliada)
-                nomeFigura = f'Gráfico de pontos para {sensibilidade} no {aviao}'
+                dfConcatenadoComVariacaoPercentual_sem_outliers, outliers_dfConcatenadoComVariacaoPercentual = filtrar_outliers(dfConcatenadoComVariacaoPercentual)
                 nomeFiguraArquivo = f'Grafico de pontos para {sensibilidade} no {aviao}'
+                outliers_dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_outliers.csv', index=False, sep=';', decimal=',')
                 #plt.figure()  # Cria uma nova figura para cada coluna
                 cores = np.random.rand(1,3)
+                #Gráfico Variação Percentual
                 plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual[nome_csv], color=cores, alpha=0.7, s=10)
                 unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
                 if unidadeSensibilidade[sensibilidade] == '':
@@ -141,13 +161,45 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 else:
                     plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
                 plt.ylabel("Variação percentual (%)")
-
-                plt.title(nomeFigura)
+                #plt.title(nomeFigura) Retirado titulo da figura
                 plt.grid(True)
                 plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", ""), dpi=300)
+                plt.close()
+                #Gráfico sem outliers
+                cores = np.random.rand(1,3)
+                plt.scatter(dfConcatenadoComVariacaoPercentual_sem_outliers['valorSensibilidade'], dfConcatenadoComVariacaoPercentual_sem_outliers[nome_csv], color=cores, alpha=0.7, s=10)
+                unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
+                if unidadeSensibilidade[sensibilidade] == '':
+                    plt.xlabel(sensibilidade)
+                else:
+                    plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
+                plt.ylabel("Variação percentual (%)")
+                #plt.title(nomeFigura) Retirado titulo da figura
+                plt.grid(True)
+                plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
+                plt.ticklabel_format(style='plain', axis='y')
+                sns.set_style('whitegrid')
+                plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_sem_outliers", dpi=300)
+                plt.close()
+                print(aviao + " " + sensibilidade + " OK")
+                #Gráfico deformações absolutas
+                cores = np.random.rand(1,3) 
+                plt.scatter(dataframe_filtrado_por_sensibilidade['valorSensibilidade'], dataframe_filtrado_por_sensibilidade["e3"], color=cores, alpha=0.7, s=10)
+                unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
+                if unidadeSensibilidade[sensibilidade] == '':
+                    plt.xlabel(sensibilidade)
+                else:
+                    plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
+                plt.ylabel("Deformação absoluta (m)")
+                #plt.title(nomeFigura) Retirado titulo da figura
+                plt.grid(True)
+                plt.tight_layout()  # Melhorar a disposicao dos elementos no grafico
+                plt.ticklabel_format(style='plain', axis='y')
+                sns.set_style('whitegrid')
+                plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_deformacoes_absolutas", dpi=300)
                 plt.close()
                 print(aviao + " " + sensibilidade + " OK")
             # Plotar graficos de dispersao para cada coluna separadamente
@@ -160,6 +212,6 @@ def descreverDados(nome_arquivo, variavel_avaliada):
 # descreverDados('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3')
 
 # Chamada das funcoes deformacao
-iniciarProcessamentoEstatistico('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')
-# descreverDados('DeformacaodadosModelosSaidaPrinc\ipais.json', variavel_avaliada = 'e3')
+# iniciarProcessamentoEstatistico('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')
+descreverDados('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')
 #Consertar os graficos para mostrarrem tambem o valor da sensibilidade, ficar valor da sensibilidade e variacao percentual
