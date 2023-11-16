@@ -167,12 +167,12 @@ class TamanhoMesh:
         self.camadaSubleito = camadaSubleito
 
 def substituir_tipo_elemento(caminho_arquivo, texto_antigo, texto_novo):
-    # Ler o conteúdo do arquivo
+    # Ler o conteudo do arquivo
     with open(caminho_arquivo, 'r') as arquivo:
         conteudo = arquivo.read()
     # Substituir o texto antigo pelo texto novo
     conteudo_atualizado = conteudo.replace(texto_antigo, texto_novo)
-    # Escrever o conteúdo atualizado de volta no arquivo
+    # Escrever o conteudo atualizado de volta no arquivo
     with open(caminho_arquivo, 'w') as arquivo:
         arquivo.write(conteudo_atualizado)
 
