@@ -30,18 +30,6 @@ class DadosDeformacao:
         self.e2 = e2
         self.e3 = e3
 
-# class DadosDeformacao:
-#     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, e1, e2, e3):
-#         self.nomeJob = nomeJob
-#         self.nomeStep = nomeStep
-#         self.nomeSensibilidade = nomeSensibilidade
-#         self.valorSensibilidade = valorSensibilidade
-#         self.modeloAviao = modeloAviao
-#         self.no = noInteresse
-#         self.e1 = e1
-#         self.e2 = e2
-#         self.e3 = e3
-# Definicao da classe para representar os objetos de saida para checagem de modelos
 class saidaModelos:
     def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
         self.nomeJob = nomeJob
@@ -167,7 +155,7 @@ def gravarDadosModeloDeslocamento(nome_arquivo):
 
 # Funcao para gravar os dados de modelos em um arquivo JSON
 def gravarDadosModeloDeformacao(nome_arquivo):
-    os.chdir("C:/Users/gusta/resultados_abaqus/")
+    # os.chdir("C:/Users/gusta/resultados_abaqus/")
     # Reimporta os dados de modelos a partir do arquivo JSON
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
     nome_arquivo_saida = 'Deformacao' + nome_arquivo
@@ -209,17 +197,17 @@ def gravarDadosModeloDeformacao(nome_arquivo):
     print(nomesJob)
     return dados_Deformacao
 
-# # Chamadas das funcoes
-# gravarDadosModeloDeslocamento('dadosPavimentoCritico.json')
-# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoSubleito.json')
-# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoComprimento.json')
-# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoMesh.json')
-# gravarDadosModeloDeslocamento('dadosModelosSaidaPrincipais.json')
+# Chamadas das funcoes
+gravarDadosModeloDeslocamento('dadosPavimentoCritico.json')
+gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoSubleito.json')
+gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoComprimento.json')
+gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoMesh.json')
+gravarDadosModeloDeslocamento('dadosModelosSaidaPrincipais.json')
 
 
 # Chamadas das funcoes
-# gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
-# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
-# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')
-# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoMesh.json')
+gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
+gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
+gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')
+gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoMesh.json')
 gravarDadosModeloDeformacao('dadosModelosSaidaPrincipais.json')

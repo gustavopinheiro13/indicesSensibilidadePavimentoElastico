@@ -44,6 +44,8 @@ def executar_modelo(job):
 def iniciarModelos(arquivo, num_max_execucoes=4):
     # Define o diretorio onde os resultados serao salvos
     os.chdir("C:/Users/gusta/resultados_abaqus/")
+    # os.chdir("C:/Users/gusta/artigos_abaqus/ComparacaoEspessuraSubleito/Antigo")
+    # os.chdir("C:/Users/gusta/artigos_abaqus/ComparacaoEspessuraSubleito/Novo")
     nome_arquivo = arquivo
     lista_objetos_job = reimportarDadosDeModelos(nome_arquivo)
     lista_jobs = []
@@ -51,7 +53,7 @@ def iniciarModelos(arquivo, num_max_execucoes=4):
     for job in lista_objetos_job:
         lista_jobs.append(job.nomeJob)
     # Numero maximo de modelos em execucao simultaneamente
-    # Criacao do pool de processos
+    # Criacao do pool de processos  
     pool = Pool(processes=num_max_execucoes)
     # Mapeamento da funcao de execucao para os jobs
     pool.map(executar_modelo, lista_jobs)
@@ -62,10 +64,10 @@ def iniciarModelos(arquivo, num_max_execucoes=4):
 if __name__ == '__main__':
     tempo_inicial = time.time()
     freeze_support()
-    # iniciarModelos("dadosPavimentoCritico.json")
-    # iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json")
-    # iniciarModelos("dadosModelosSaidaCalibracaoComprimento.json")
-    # iniciarModelos("dadosModelosSaidaCalibracaoMesh.json", num_max_execucoes=8)
+    iniciarModelos("dadosPavimentoCritico.json")
+    iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json", 3)
+    iniciarModelos("dadosModelosSaidaCalibracaoComprimento.json")
+    iniciarModelos("dadosModelosSaidaCalibracaoMesh.json", num_max_execucoes=8)
     iniciarModelos("dadosModelosSaidaPrincipais.json", num_max_execucoes=8)
     tempo_final = time.time()
     print("Tempo de execucao: ", tempo_final - tempo_inicial)

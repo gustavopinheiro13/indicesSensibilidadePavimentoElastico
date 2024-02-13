@@ -28,6 +28,23 @@ def calcular_variacao_percentual(group, nome_csv, variavel_avaliada):
 # Nome do arquivo JSON
 nome_arquivo = 'dadosModelosSaidaPrincipais.json'
 
+def analise_quantitativa(vetor, nome_sensibilidade, nome_aeronave):
+    # Cria um dicionário com os resultados
+    resultados = {
+        'Media': np.mean(vetor),
+        'Desvio Padrao': np.std(vetor),
+        'Minimo': np.min(vetor),
+        'Maximo': np.max(vetor),
+        'quartil_25%': np.percentile(vetor, 25),
+        'Mediana': np.median(vetor),
+        'quartil_75%': np.percentile(vetor, 75),
+        'nome_sensibilidade': nome_sensibilidade,
+        'nome_aeronave': nome_aeronave
+    }
+    # Cria um DataFrame a partir do dicionário
+    df_resultados = pd.DataFrame(resultados, index=[0])
+    return df_resultados
+
 # Funcao para criar um DataFrame de variacao percentual
 def dataframeVariacaoPercentual(dataframe_calculado, nome_csv, variavel_avaliada):
     # Agrupa os dados pelo modelo do aviao, nome de sensibilidade e numero do no
@@ -51,8 +68,9 @@ def dataframeVariacaoPercentual(dataframe_calculado, nome_csv, variavel_avaliada
     return dfConcatenadoComVariacaoPercentual
 
 # Funcao para calcular estatisticas de bootstrap
-def bootstrap_test_group(data1, data2, statistic, tamanho_subamostragem=0.75, n_iterations = 100000, alpha=0.05):
+def bootstrap_test_group(data1, data2, statistic, tamanho_subamostragem=0.75, n_iterations = 100000, alpha=0.05, paired=False):
     # Realiza o bootstrap e calcula a estatistica de interesse para dois grupos
+    # inversao_valores_medias = False
     diferencaMedias = []
     medias1 = []
     medias2 = []
@@ -64,17 +82,14 @@ def bootstrap_test_group(data1, data2, statistic, tamanho_subamostragem=0.75, n_
         statistic2 = statistic(amostra2)  # Estatistica de interesse para o grupo 2
         medias1.append(statistic1)
         medias2.append(statistic2)
-        diferencaMedias.append(statistic1 - statistic2)  # Diferenca das estatisticas
-    estatistica_t, valor_p = stats.ttest_ind(medias1, medias2)
-    #Formula de graus de liberdade nao assumindo variancia uniforme para as variaveis
-    graus_liberdade = (np.var(medias1, ddof=1) / len(medias1) + np.var(medias2, ddof=1) / len(medias2))**2 / ((1/(len(medias1) - 1)) * (np.var(medias1, ddof=1)**2 / len(medias1)**2) + (1/(len(medias2) - 1)) * (np.var(medias2, ddof=1)**2 / len(medias2)**2))
-    t_critico = stats.t.ppf(1 - alpha / 2, graus_liberdade)
-    erro_padrao = (np.std(medias1) ** 2 / len(medias1) + np.std(medias2) ** 2 / len(medias2)) ** 0.5
-    media_diferencas_medias = np.mean(medias1) - np.mean(medias2)
-    lower_bound = media_diferencas_medias - t_critico * erro_padrao
-    upper_bound = media_diferencas_medias + t_critico * erro_padrao
-    rejeitar = valor_p < alpha
-    return np.mean(medias1), np.mean(medias2), estatistica_t, lower_bound, upper_bound, valor_p, rejeitar
+        diferencaMedias.append(statistic1 - statistic2)  # Diferenca das es tatisticas
+    resultado = stats.ttest_ind(medias1, medias2, equal_var=False, alternative="greater")
+    intervalos_confianca = resultado.confidence_interval(confidence_level=1-alpha)
+    estatistica_t, valor_p = resultado
+    lower_bound = intervalos_confianca[0]
+    upper_bound = intervalos_confianca[-1]
+    rejeitar = estatistica_t < lower_bound
+    return np.mean(medias1), np.mean(medias2), estatistica_t, lower_bound, upper_bound, valor_p, rejeitar#, inversao_valores_medias
 
 # Funcao para filtrar outliers em um DataFrame
 def filtrar_outliers(dataframe):
@@ -121,11 +136,12 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
     for aviao in modelos_aviao:
         # Filtra o DataFrame para o modelo de aviao atual
         df_modelo = dfConcatenadoComVariacaoPercentual[dfConcatenadoComVariacaoPercentual['modeloAviao'] == aviao]
-
+        inverter_valores_medias = False
         # Lista de grupos
 
         # Calcula as estatisticas para cada par de grupos
         for grupo1, grupo2 in combinations(nomesPropriedades, 2):
+            #media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, inverter_valores_medias = bootstrap_test_group(
             media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar = bootstrap_test_group(
                 df_modelo[df_modelo['nomeSensibilidade'] == grupo1][nome_csv],
                 df_modelo[df_modelo['nomeSensibilidade'] == grupo2][nome_csv],
@@ -133,9 +149,15 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
                 alpha=alpha,  # Alpha para o intervalo de confianca de 95%
                 n_iterations= quantidadeSimulacoes
             )
-            # Decide se rejeita ou nao a hipotese nula
-            # Adiciona os resultados a lista
             resultadosBootstrapEntrePropriedades.append([grupo1, grupo2, media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, aviao])
+            media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar = bootstrap_test_group(
+                df_modelo[df_modelo['nomeSensibilidade'] == grupo2][nome_csv],
+                df_modelo[df_modelo['nomeSensibilidade'] == grupo1][nome_csv],
+                statistic=np.mean,  # Estatistica e a media
+                alpha=alpha,  # Alpha para o intervalo de confianca de 95%
+                n_iterations= quantidadeSimulacoes
+            )
+            resultadosBootstrapEntrePropriedades.append([grupo2, grupo1, media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, aviao])
     
     for propriedade in nomesPropriedades: 
         df_modelo = dfConcatenadoComVariacaoPercentual[dfConcatenadoComVariacaoPercentual['nomeSensibilidade'] == propriedade]
@@ -149,9 +171,17 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
                 alpha=alpha,  # Alpha para o intervalo de confianca de 95%
                 n_iterations=quantidadeSimulacoes
             )
-            # Decide se rejeita ou nao a hipotese nula
             # Adiciona os resultados a lista
             resultadosBootstrapEntreAvioes.append([grupo1, grupo2, media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, propriedade])
+            media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar = bootstrap_test_group(
+                df_modelo[df_modelo['modeloAviao'] == grupo2][nome_csv],
+                df_modelo[df_modelo['modeloAviao'] == grupo1][nome_csv],
+                statistic=np.mean,  # Estatistica e a media
+                alpha=alpha,  # Alpha para o intervalo de confianca de 95%
+                n_iterations=quantidadeSimulacoes
+            )
+            resultadosBootstrapEntreAvioes.append([grupo2, grupo1, media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, propriedade])
+
     # Cria um DataFrame com os resultados
     df_resultadosBootstrapEntrePropriedades = pd.DataFrame(resultadosBootstrapEntrePropriedades, columns=['grupo 1', 'grupo 2', 'media grupo_1', 'media grupo_2', 'estatistica_t', 'media_inferior', 'media_superior', 'valor-p', 'rejeitar', 'modeloAviao'])
     df_resultadosBootstrapEntreAvioes = pd.DataFrame(resultadosBootstrapEntreAvioes, columns=['grupo 1', 'grupo 2', 'media grupo_1', 'media grupo_2', 'estatistica_t', 'media_inferior', 'media_superior', 'valor-p', 'rejeitar', 'propriedade'])
@@ -206,7 +236,8 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
 def descreverDados(nome_arquivo, variavel_avaliada):
     nome_csv = 'variacao_percentual_' + variavel_avaliada
     sns.set_context('notebook')
-    
+    df_analise_descritiva_deformacao = pd.DataFrame()
+    df_analise_descritiva_variacao_deformacao = pd.DataFrame()
     # Importar dados e calcular variacao percentual
     dataframe_calculado = importarJson(nome_arquivo)
     
@@ -229,13 +260,16 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 # Calcular a variacao percentual
                 dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade, nome_csv, variavel_avaliada = variavel_avaliada)
                 dfConcatenadoComVariacaoPercentual_sem_outliers, outliers_dfConcatenadoComVariacaoPercentual = filtrar_outliers(dfConcatenadoComVariacaoPercentual)
-                
+                df_analise_descritiva_deformacao_atual = analise_quantitativa(dataframe_filtrado_por_sensibilidade["e3"], sensibilidade, aviao)
+                df_analise_descritiva_variacao_deformacao_atual = analise_quantitativa(dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], sensibilidade, aviao)
+                df_analise_descritiva_deformacao = pd.concat([df_analise_descritiva_deformacao, df_analise_descritiva_deformacao_atual], ignore_index=True)
+                df_analise_descritiva_variacao_deformacao = pd.concat([df_analise_descritiva_variacao_deformacao, df_analise_descritiva_variacao_deformacao_atual], ignore_index=True)
                 # Nome do arquivo de figura
                 nomeFiguraArquivo = f'Grafico de pontos para {sensibilidade} no {aviao}'
                 
                 # Salvar os DataFrames em arquivos CSV
-                dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_dataframe_variacao_percentual.csv', index=False, sep=';', decimal=',')
-                outliers_dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_outliers.csv', index=False, sep=';', decimal=',')
+                dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_dataframe_variacao_percentual.csv', index=False, sep=';', decimal='.')
+                outliers_dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_outliers.csv', index=False, sep=';', decimal='.')
                 
                 # Grafico de Variacao Percentual
                 cores = np.random.rand(1,3)
@@ -251,11 +285,11 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
+                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], color=cores, alpha=0.7, s=10)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", ""), dpi=300)
                 plt.close()
-                
                 # Grafico sem outliers
-                cores = np.random(1,3)
+                cores = np.random.rand(1,3)
                 plt.scatter(dfConcatenadoComVariacaoPercentual_sem_outliers['valorSensibilidade'], dfConcatenadoComVariacaoPercentual_sem_outliers[nome_csv], color=cores, alpha=0.7, s=10)
                 
                 if unidadeSensibilidade[sensibilidade] == '':
@@ -279,7 +313,7 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                     plt.xlabel(sensibilidade)
                 else:
                     plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
-                plt.ylabel("Deformacao absoluta (m)")
+                plt.ylabel("Deformacao absoluta (m/m)")
                 plt.grid(True)
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
@@ -288,13 +322,15 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 plt.close()
                 print(aviao + " " + sensibilidade + " OK")
                 # Plotar graficos de dispersao para cada coluna separadamente
+    df_analise_descritiva_deformacao.to_csv('analise_descritiva_deformacao.csv', index=False, sep=';', decimal=',')
+    df_analise_descritiva_variacao_deformacao.to_csv('analise_descritiva_variacao_deformacao.csv', index=False, sep=';', decimal=',')
     return []
 
 
-# # Chamada das funcoes deslocamento
-# iniciarProcessamentoEstatistico('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3', alpha = 0.05)
-# descreverDados('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3')
+# # # Chamada das funcoes deslocamento
+iniciarProcessamentoEstatistico('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3', alpha = 0.05)
+descreverDados('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3')
 
-# Chamada das funcoes deformacao
+# # Chamada das funcoes deformacao
 iniciarProcessamentoEstatistico('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3', alpha = 0.05, quantidadeSimulacoes = 100000)
-# descreverDados('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')
+descreverDados('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')

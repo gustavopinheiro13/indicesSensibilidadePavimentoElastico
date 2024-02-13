@@ -79,11 +79,11 @@ class Aviao:
         - larguraContatoPneu: largura de contato do pneu.
         - comprimentoContatoPneu: comprimento de contato do pneu.
         - carregamento: carga aplicada.
-        - mascaraCondicaoContornoFundo: mascara da condicao de contorno de fundo.
-        - mascaraCondicaoContornoSimetriaX: mascara da condicao de contorno de simetria em X.
-        - mascaraCondicaoContornoSimetriaY: mascara da condicao de contorno de simetria em Y.
-        - mascaraCondicaoContornoTravaY: mascara da condicao de contorno de trava em Y.
-        - mascaraSuperficie: mascara da superficie.
+        - mascaraCondicaoContornoFundo: mascara de elementos da condicao de contorno de fundo.
+        - mascaraCondicaoContornoSimetriaX: mascara de elementos da condicao de contorno de simetria em X.
+        - mascaraCondicaoContornoSimetriaY: mascara de elementos da condicao de contorno de simetria em Y.
+        - mascaraCondicaoContornoTravaY: mascara de elementos da condicao de contorno de trava em Y.
+        - mascaraSuperficie: mascara de elementos da superficie.
         - nosInteresse: nos de interesse.
         """
         self.modelo = modelo
@@ -738,10 +738,10 @@ def pavimentoCritico():
 
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
-# iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 10)
-# iniciarCodigoCalibracaoSubleito(rodarJobs = False, comprimentoPavimentoSimulado = 10)
-# iniciarCodigoCalibracaoComprimento(rodarJobs = False)
-# iniciarCodigoCalibracaoMesh(rodarJobs = False, comprimentoPavimentoSimulado = 3.15, espessuraSubleito=3.15)
+iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 10)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False, comprimentoPavimentoSimulado = 10)
+iniciarCodigoCalibracaoComprimento(rodarJobs = False)
+iniciarCodigoCalibracaoMesh(rodarJobs = False, comprimentoPavimentoSimulado = 3.15, espessuraSubleito=3.15)
 inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 3.15)
 
 # Remove o modelo com nome 'Model-1' do dicionario mdb.models  
