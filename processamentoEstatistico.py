@@ -276,61 +276,74 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_variacao_percentual.csv', index=False, sep=';', decimal=',')
                 unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
                 
+                #Grafico variacao percentual
+                largura = 720 / 80
+                altura = 480 / 80
+                plt.figure() #figsize=(largura, altura)
+                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], color=cores, alpha=0.7, s=10)
                 if unidadeSensibilidade[sensibilidade] == '':
                     plt.xlabel(sensibilidade)
                 else:
                     plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
-                plt.ylabel("Variacao percentual (%)")
+                plt.ylabel("Variação percentual (%)")
                 plt.grid(True)
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
-                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], color=cores, alpha=0.7, s=10)
+                intervaloPlotado = 1.02
+                multiplicador = 0.8
+                margem = 0.1
+                plt.margins(x = margem, y = margem) 
+                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorSensibilidade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", ""), dpi=300)
                 plt.close()
+                print(aviao + " " + sensibilidade + " Variacao Percentual OK")
                 # Grafico sem outliers
+                plt.figure() #figsize=(largura, altura)
                 cores = np.random.rand(1,3)
-                plt.scatter(dfConcatenadoComVariacaoPercentual_sem_outliers['valorSensibilidade'], dfConcatenadoComVariacaoPercentual_sem_outliers[nome_csv], color=cores, alpha=0.7, s=10)
-                
+                plt.scatter(dfConcatenadoComVariacaoPercentual_sem_outliers['valorSensibilidade'], dfConcatenadoComVariacaoPercentual_sem_outliers[nome_csv], color=cores, alpha=0.7, s=10)                
                 if unidadeSensibilidade[sensibilidade] == '':
                     plt.xlabel(sensibilidade)
                 else:
                     plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
-                plt.ylabel("Variacao percentual (%)")
+                plt.ylabel("Variação percentual (%)")
+                plt.margins(x = margem, y = margem) 
                 plt.grid(True)
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
+                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorSensibilidade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_sem_outliers", dpi=300)
                 plt.close()
-                print(aviao + " " + sensibilidade + " OK")
-                
+                print(aviao + " " + sensibilidade + " Sem outliers OK")
                 # Grafico de Deformacoes Absolutas
+                plt.figure() #figsize=(largura, altura)
                 cores = np.random.rand(1,3) 
-                plt.scatter(dataframe_filtrado_por_sensibilidade['valorSensibilidade'], dataframe_filtrado_por_sensibilidade["e3"], color=cores, alpha=0.7, s=10)
-                
+                plt.scatter(dataframe_filtrado_por_sensibilidade['valorSensibilidade'], dataframe_filtrado_por_sensibilidade["e3"], color=cores, alpha=0.7, s=10) 
                 if unidadeSensibilidade[sensibilidade] == '':
                     plt.xlabel(sensibilidade)
                 else:
                     plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
-                plt.ylabel("Deformacao absoluta (m/m)")
+                plt.ylabel("Deformação absoluta (m/m)")
+                plt.margins(x = margem, y = margem) 
                 plt.grid(True)
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
+                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorSensibilidade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_deformacoes_absolutas", dpi=300)
                 plt.close()
-                print(aviao + " " + sensibilidade + " OK")
+                print(aviao + " " + sensibilidade + " Deformacoes absolutas OK")
                 # Plotar graficos de dispersao para cada coluna separadamente
     df_analise_descritiva_deformacao.to_csv('analise_descritiva_deformacao.csv', index=False, sep=';', decimal=',')
     df_analise_descritiva_variacao_deformacao.to_csv('analise_descritiva_variacao_deformacao.csv', index=False, sep=';', decimal=',')
     return []
 
 
-# # # Chamada das funcoes deslocamento
+# # # # Chamada das funcoes deslocamento
 iniciarProcessamentoEstatistico('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3', alpha = 0.05)
 descreverDados('DeslocamentodadosModelosSaidaPrincipais.json', variavel_avaliada = 'u3')
 
-# # Chamada das funcoes deformacao
+# # # Chamada das funcoes deformacao
 iniciarProcessamentoEstatistico('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3', alpha = 0.05, quantidadeSimulacoes = 100000)
 descreverDados('DeformacaodadosModelosSaidaPrincipais.json', variavel_avaliada = 'e3')

@@ -197,17 +197,17 @@ def gravarDadosModeloDeformacao(nome_arquivo):
     print(nomesJob)
     return dados_Deformacao
 
-# Chamadas das funcoes
-gravarDadosModeloDeslocamento('dadosPavimentoCritico.json')
-gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoSubleito.json')
-gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoComprimento.json')
-gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoMesh.json')
-gravarDadosModeloDeslocamento('dadosModelosSaidaPrincipais.json')
+# # Chamadas das funcoes
+# gravarDadosModeloDeslocamento('dadosPavimentoCritico.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoSubleito.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoComprimento.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoMesh.json')
+# gravarDadosModeloDeslocamento('dadosModelosSaidaPrincipais.json')
 
 
-# Chamadas das funcoes
-gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
-gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
-gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')
-gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoMesh.json')
+# # Chamadas das funcoes
+# gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')
+# gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoMesh.json')
 gravarDadosModeloDeformacao('dadosModelosSaidaPrincipais.json')
