@@ -44,8 +44,6 @@ def executar_modelo(job):
 def iniciarModelos(arquivo, num_max_execucoes=4):
     # Define o diretorio onde os resultados serao salvos
     os.chdir("C:/Users/gusta/resultados_abaqus/")
-    # os.chdir("C:/Users/gusta/artigos_abaqus/ComparacaoEspessuraSubleito/Antigo")
-    # os.chdir("C:/Users/gusta/artigos_abaqus/ComparacaoEspessuraSubleito/Novo")
     nome_arquivo = arquivo
     lista_objetos_job = reimportarDadosDeModelos(nome_arquivo)
     lista_jobs = []
