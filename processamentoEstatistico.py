@@ -28,7 +28,7 @@ def calcular_variacao_percentual(group, nome_csv, variavel_avaliada):
 # Nome do arquivo JSON
 nome_arquivo = 'dadosModelosSaidaPrincipais.json'
 
-def analise_quantitativa(vetor, nome_sensibilidade, nome_aeronave):
+def analise_quantitativa(vetor, nome_Propriedade, nome_aeronave):
     # Cria um dicionário com os resultados
     resultados = {
         'Media': np.mean(vetor),
@@ -38,7 +38,7 @@ def analise_quantitativa(vetor, nome_sensibilidade, nome_aeronave):
         'quartil_25%': np.percentile(vetor, 25),
         'Mediana': np.median(vetor),
         'quartil_75%': np.percentile(vetor, 75),
-        'nome_sensibilidade': nome_sensibilidade,
+        'nome_Propriedade': nome_Propriedade,
         'nome_aeronave': nome_aeronave
     }
     # Cria um DataFrame a partir do dicionário
@@ -47,7 +47,7 @@ def analise_quantitativa(vetor, nome_sensibilidade, nome_aeronave):
 
 # Funcao para criar um DataFrame de variacao percentual
 def dataframeVariacaoPercentual(dataframe_calculado, nome_csv, variavel_avaliada):
-    # Agrupa os dados pelo modelo do aviao, nome de sensibilidade e numero do no
+    # Agrupa os dados pelo modelo do aviao, nome de Propriedade e numero do no
     grupos = dataframe_calculado.groupby(['modeloAviao', 'no'])
     
     dataframesDiscretizadosModeloNomeNo = []
@@ -63,7 +63,7 @@ def dataframeVariacaoPercentual(dataframe_calculado, nome_csv, variavel_avaliada
     # Concatena os DataFrames individuais de variacao percentual e remove valores NaN
     dfConcatenadoComVariacaoPercentual = pd.concat(dataframesDiscretizadosModeloNomeNo, ignore_index=True).dropna(subset=[nome_csv])
     # Seleciona as colunas relevantes do DataFrame final
-    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomeSensibilidade', 'valorSensibilidade', nome_csv]]
+    dfConcatenadoComVariacaoPercentual = dfConcatenadoComVariacaoPercentual[['modeloAviao', 'nomePropriedade', 'valorPropriedade', nome_csv]]
     
     return dfConcatenadoComVariacaoPercentual
 
@@ -126,7 +126,7 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
     dfConcatenadoComVariacaoPercentual_outliers.to_csv(nome_csv + '_outliers.csv', index=False, sep=';', decimal=',')
     # Lista de modelos de aviao
     modelos_aviao = dfConcatenadoComVariacaoPercentual['modeloAviao'].unique().tolist()
-    nomesPropriedades = dfConcatenadoComVariacaoPercentual['nomeSensibilidade'].unique().tolist()
+    nomesPropriedades = dfConcatenadoComVariacaoPercentual['nomePropriedade'].unique().tolist()
 
     # Inicializa uma lista para armazenar os resultados
     resultadosBootstrapEntrePropriedades = []
@@ -143,16 +143,16 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
         for grupo1, grupo2 in combinations(nomesPropriedades, 2):
             #media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, inverter_valores_medias = bootstrap_test_group(
             media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar = bootstrap_test_group(
-                df_modelo[df_modelo['nomeSensibilidade'] == grupo1][nome_csv],
-                df_modelo[df_modelo['nomeSensibilidade'] == grupo2][nome_csv],
+                df_modelo[df_modelo['nomePropriedade'] == grupo1][nome_csv],
+                df_modelo[df_modelo['nomePropriedade'] == grupo2][nome_csv],
                 statistic=np.mean,  # Estatistica e a media
                 alpha=alpha,  # Alpha para o intervalo de confianca de 95%
                 n_iterations= quantidadeSimulacoes
             )
             resultadosBootstrapEntrePropriedades.append([grupo1, grupo2, media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, aviao])
             media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar = bootstrap_test_group(
-                df_modelo[df_modelo['nomeSensibilidade'] == grupo2][nome_csv],
-                df_modelo[df_modelo['nomeSensibilidade'] == grupo1][nome_csv],
+                df_modelo[df_modelo['nomePropriedade'] == grupo2][nome_csv],
+                df_modelo[df_modelo['nomePropriedade'] == grupo1][nome_csv],
                 statistic=np.mean,  # Estatistica e a media
                 alpha=alpha,  # Alpha para o intervalo de confianca de 95%
                 n_iterations= quantidadeSimulacoes
@@ -160,7 +160,7 @@ def iniciarProcessamentoEstatistico(nome_arquivo, variavel_avaliada, alpha, quan
             resultadosBootstrapEntrePropriedades.append([grupo2, grupo1, media1, media2, media_diff, lower_bound, upper_bound, p_value, rejeitar, aviao])
     
     for propriedade in nomesPropriedades: 
-        df_modelo = dfConcatenadoComVariacaoPercentual[dfConcatenadoComVariacaoPercentual['nomeSensibilidade'] == propriedade]
+        df_modelo = dfConcatenadoComVariacaoPercentual[dfConcatenadoComVariacaoPercentual['nomePropriedade'] == propriedade]
         # Lista de grupos
         # Calcula as estatisticas para cada par de grupos
         for grupo1, grupo2 in combinations(modelos_aviao, 2):
@@ -246,26 +246,26 @@ def descreverDados(nome_arquivo, variavel_avaliada):
     
     # Aplicar o filtro ao DataFrame
     dataframe_filtrado = dataframe_calculado[filtro]
-    dataframe_filtrado['valorSensibilidade'] = pd.to_numeric(dataframe_filtrado['valorSensibilidade'], errors='raise')
+    dataframe_filtrado['valorPropriedade'] = pd.to_numeric(dataframe_filtrado['valorPropriedade'], errors='raise')
     
     # Iterar sobre os modelos de aviao unicos
     for aviao in dataframe_filtrado['modeloAviao'].unique().tolist():
         dataframe_filtradoo_por_aviao = dataframe_filtrado[(dataframe_filtrado['modeloAviao'] == aviao)]
         
-        # Iterar sobre as sensibilidades unicas
-        for sensibilidade in dataframe_filtradoo_por_aviao['nomeSensibilidade'].unique().tolist():
-            if sensibilidade != "Base":
-                dataframe_filtrado_por_sensibilidade = dataframe_filtradoo_por_aviao[(dataframe_filtradoo_por_aviao['nomeSensibilidade'] == sensibilidade)]
+        # Iterar sobre as Propriedades unicas
+        for Propriedade in dataframe_filtradoo_por_aviao['nomePropriedade'].unique().tolist():
+            if Propriedade != "Base":
+                dataframe_filtrado_por_Propriedade = dataframe_filtradoo_por_aviao[(dataframe_filtradoo_por_aviao['nomePropriedade'] == Propriedade)]
                 
                 # Calcular a variacao percentual
-                dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_sensibilidade, nome_csv, variavel_avaliada = variavel_avaliada)
+                dfConcatenadoComVariacaoPercentual = dataframeVariacaoPercentual(dataframe_filtrado_por_Propriedade, nome_csv, variavel_avaliada = variavel_avaliada)
                 dfConcatenadoComVariacaoPercentual_sem_outliers, outliers_dfConcatenadoComVariacaoPercentual = filtrar_outliers(dfConcatenadoComVariacaoPercentual)
-                df_analise_descritiva_deformacao_atual = analise_quantitativa(dataframe_filtrado_por_sensibilidade["e3"], sensibilidade, aviao)
-                df_analise_descritiva_variacao_deformacao_atual = analise_quantitativa(dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], sensibilidade, aviao)
+                df_analise_descritiva_deformacao_atual = analise_quantitativa(dataframe_filtrado_por_Propriedade["e3"], Propriedade, aviao)
+                df_analise_descritiva_variacao_deformacao_atual = analise_quantitativa(dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], Propriedade, aviao)
                 df_analise_descritiva_deformacao = pd.concat([df_analise_descritiva_deformacao, df_analise_descritiva_deformacao_atual], ignore_index=True)
                 df_analise_descritiva_variacao_deformacao = pd.concat([df_analise_descritiva_variacao_deformacao, df_analise_descritiva_variacao_deformacao_atual], ignore_index=True)
                 # Nome do arquivo de figura
-                nomeFiguraArquivo = f'Grafico de pontos para {sensibilidade} no {aviao}'
+                nomeFiguraArquivo = f'Grafico de pontos para {Propriedade} no {aviao}'
                 
                 # Salvar os DataFrames em arquivos CSV
                 dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_dataframe_variacao_percentual.csv', index=False, sep=';', decimal='.')
@@ -274,17 +274,17 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 # Grafico de Variacao Percentual
                 cores = np.random.rand(1,3)
                 dfConcatenadoComVariacaoPercentual.to_csv(nomeFiguraArquivo.title().replace(" ", "") + '_variacao_percentual.csv', index=False, sep=';', decimal=',')
-                unidadeSensibilidade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
+                unidadePropriedade = {'carregamento': 'Pa', 'elasBas': 'Pa', 'elasRev': 'Pa', 'elasSub': 'Pa', 'espBas': 'm', 'espRev': 'm', 'poiBas': '', 'poiRev': '', 'poiSub': '' }
                 
                 #Grafico variacao percentual
                 largura = 720 / 80
                 altura = 480 / 80
                 plt.figure() #figsize=(largura, altura)
-                plt.scatter(dfConcatenadoComVariacaoPercentual['valorSensibilidade'], dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], color=cores, alpha=0.7, s=10)
-                if unidadeSensibilidade[sensibilidade] == '':
-                    plt.xlabel(sensibilidade)
+                plt.scatter(dfConcatenadoComVariacaoPercentual['valorPropriedade'], dfConcatenadoComVariacaoPercentual["variacao_percentual_e3"], color=cores, alpha=0.7, s=10)
+                if unidadePropriedade[Propriedade] == '':
+                    plt.xlabel(Propriedade)
                 else:
-                    plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
+                    plt.xlabel(Propriedade + ' (' + unidadePropriedade[Propriedade]+ ')' )
                 plt.ylabel("Variação percentual (%)")
                 plt.grid(True)
                 plt.tight_layout()
@@ -294,46 +294,46 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 multiplicador = 0.8
                 margem = 0.1
                 plt.margins(x = margem, y = margem) 
-                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorSensibilidade'].max()* intervaloPlotado)
+                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorPropriedade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", ""), dpi=300)
                 plt.close()
-                print(aviao + " " + sensibilidade + " Variacao Percentual OK")
+                print(aviao + " " + Propriedade + " Variacao Percentual OK")
                 # Grafico sem outliers
                 plt.figure() #figsize=(largura, altura)
                 cores = np.random.rand(1,3)
-                plt.scatter(dfConcatenadoComVariacaoPercentual_sem_outliers['valorSensibilidade'], dfConcatenadoComVariacaoPercentual_sem_outliers[nome_csv], color=cores, alpha=0.7, s=10)                
-                if unidadeSensibilidade[sensibilidade] == '':
-                    plt.xlabel(sensibilidade)
+                plt.scatter(dfConcatenadoComVariacaoPercentual_sem_outliers['valorPropriedade'], dfConcatenadoComVariacaoPercentual_sem_outliers[nome_csv], color=cores, alpha=0.7, s=10)                
+                if unidadePropriedade[Propriedade] == '':
+                    plt.xlabel(Propriedade)
                 else:
-                    plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
+                    plt.xlabel(Propriedade + ' (' + unidadePropriedade[Propriedade]+ ')' )
                 plt.ylabel("Variação percentual (%)")
                 plt.margins(x = margem, y = margem) 
                 plt.grid(True)
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
-                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorSensibilidade'].max()* intervaloPlotado)
+                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorPropriedade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_sem_outliers", dpi=300)
                 plt.close()
-                print(aviao + " " + sensibilidade + " Sem outliers OK")
+                print(aviao + " " + Propriedade + " Sem outliers OK")
                 # Grafico de Deformacoes Absolutas
                 plt.figure() #figsize=(largura, altura)
                 cores = np.random.rand(1,3) 
-                plt.scatter(dataframe_filtrado_por_sensibilidade['valorSensibilidade'], dataframe_filtrado_por_sensibilidade["e3"], color=cores, alpha=0.7, s=10) 
-                if unidadeSensibilidade[sensibilidade] == '':
-                    plt.xlabel(sensibilidade)
+                plt.scatter(dataframe_filtrado_por_Propriedade['valorPropriedade'], dataframe_filtrado_por_Propriedade["e3"], color=cores, alpha=0.7, s=10) 
+                if unidadePropriedade[Propriedade] == '':
+                    plt.xlabel(Propriedade)
                 else:
-                    plt.xlabel(sensibilidade + ' (' + unidadeSensibilidade[sensibilidade]+ ')' )
+                    plt.xlabel(Propriedade + ' (' + unidadePropriedade[Propriedade]+ ')' )
                 plt.ylabel("Deformação absoluta (m/m)")
                 plt.margins(x = margem, y = margem) 
                 plt.grid(True)
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
-                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorSensibilidade'].max()* intervaloPlotado)
+                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorPropriedade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_deformacoes_absolutas", dpi=300)
                 plt.close()
-                print(aviao + " " + sensibilidade + " Deformacoes absolutas OK")
+                print(aviao + " " + Propriedade + " Deformacoes absolutas OK")
                 # Plotar graficos de dispersao para cada coluna separadamente
     df_analise_descritiva_deformacao.to_csv('analise_descritiva_deformacao.csv', index=False, sep=';', decimal=',')
     df_analise_descritiva_variacao_deformacao.to_csv('analise_descritiva_variacao_deformacao.csv', index=False, sep=';', decimal=',')

@@ -7,11 +7,11 @@ from multiprocessing import freeze_support
 
 # Definicao da classe para representar os objetos de saida para checagem de modelos depois
 class saidaModelos:
-    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
+    def __init__(self, nomeJob, nomeStep, nomePropriedade, valorPropriedade, modeloAviao, nosInteresse):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
-        self.nomeSensibilidade = nomeSensibilidade
-        self.valorSensibilidade = valorSensibilidade
+        self.nomePropriedade = nomePropriedade
+        self.valorPropriedade = valorPropriedade
         self.modeloAviao = modeloAviao
         self.nosInteresse = nosInteresse
 
@@ -26,7 +26,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomeSensibilidade=str(dado['nomeSensibilidade']), valorSensibilidade=str(dado['valorSensibilidade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomePropriedade=str(dado['nomePropriedade']), valorPropriedade=str(dado['valorPropriedade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
         # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
@@ -62,7 +62,7 @@ def iniciarModelos(arquivo, num_max_execucoes=4):
 if __name__ == '__main__':
     tempo_inicial = time.time()
     freeze_support()
-    iniciarModelos("dadosPavimentoCritico.json")
+    iniciarModelos("dadosPavimentoCritico.json", num_max_execucoes=10)
     iniciarModelos("dadosModelosSaidaCalibracaoSubleito.json", 10)
     iniciarModelos("dadosModelosSaidaCalibracaoComprimento.json")
     iniciarModelos("dadosModelosSaidaCalibracaoMesh.json", num_max_execucoes=10)

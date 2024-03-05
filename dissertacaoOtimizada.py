@@ -35,11 +35,11 @@ class Material:
         self.moduloElasticidade = moduloElasticidade
         self.coeficientePoisson = coeficientePoisson
 
-# Classe intervaloSensibilidade
-class IntervaloSensibilidade:
+# Classe intervaloPropriedade
+class IntervaloPropriedade:
     def __init__(self, intervaloEspessuraRevestimento, intervaloEspessuraBase, intervaloPoissonRevestimento, intervaloPoissonBase, intervaloPoissonSubleito, intervaloElasticidadeRevestimento, intervaloElasticidadeBase, intervaloElasticidadeSubleito, intervaloCarga):
         """
-        Classe que representa um intervalo de sensibilidade.
+        Classe que representa um intervalo de Propriedade.
 
         Atributos:
         - intervaloEspessuraRevestimento: intervalo da espessura do revestimento.
@@ -114,19 +114,19 @@ class Aviao:
         self.localizacaoDatumRoda1_4 = self.rodaInternaY - (comprimentoContatoPneu / 2)
         self.planoPrincipalDatumRoda1_4 = XZPLANE
 
-# Funcao para definir os intervalos de sensibilidade
+# Funcao para definir os intervalos de Propriedade
 def intervalosAnalise():
     fatorCrescimento = 1.03
-    intervaloEspessuraRevestimento = rangeSensibilidade(indiceInicial=0.075, numeroRepeticoes=66, fatorDeCrescimento=fatorCrescimento)
-    intervaloEspessuraBase = rangeSensibilidade(indiceInicial=0.075, numeroRepeticoes=93, fatorDeCrescimento=fatorCrescimento)
-    intervaloPoissonRevestimento = rangeSensibilidade(indiceInicial=0.15, numeroRepeticoes=41, fatorDeCrescimento=fatorCrescimento)
-    intervaloPoissonBase = rangeSensibilidade(indiceInicial=0.01, numeroRepeticoes=132, fatorDeCrescimento=fatorCrescimento)	
-    intervaloPoissonSubleito = rangeSensibilidade(indiceInicial=0.01, numeroRepeticoes=132, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeRevestimento = rangeSensibilidade(indiceInicial=517.11E6, numeroRepeticoes=149, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeBase = rangeSensibilidade(indiceInicial=206.84E6, numeroRepeticoes=175, fatorDeCrescimento=fatorCrescimento)
-    intervaloElasticidadeSubleito = rangeSensibilidade(indiceInicial=50E6, numeroRepeticoes=31, fatorDeCrescimento=fatorCrescimento)
-    intervaloCarga = rangeSensibilidade(indiceInicial=206.84E3, numeroRepeticoes=75, fatorDeCrescimento=fatorCrescimento)
-    intervalosDeSensibilidade = IntervaloSensibilidade(
+    intervaloEspessuraRevestimento = rangePropriedade(indiceInicial=0.075, numeroRepeticoes=66, fatorDeCrescimento=fatorCrescimento)
+    intervaloEspessuraBase = rangePropriedade(indiceInicial=0.075, numeroRepeticoes=93, fatorDeCrescimento=fatorCrescimento)
+    intervaloPoissonRevestimento = rangePropriedade(indiceInicial=0.15, numeroRepeticoes=41, fatorDeCrescimento=fatorCrescimento)
+    intervaloPoissonBase = rangePropriedade(indiceInicial=0.01, numeroRepeticoes=132, fatorDeCrescimento=fatorCrescimento)	
+    intervaloPoissonSubleito = rangePropriedade(indiceInicial=0.01, numeroRepeticoes=132, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeRevestimento = rangePropriedade(indiceInicial=517.11E6, numeroRepeticoes=149, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeBase = rangePropriedade(indiceInicial=206.84E6, numeroRepeticoes=175, fatorDeCrescimento=fatorCrescimento)
+    intervaloElasticidadeSubleito = rangePropriedade(indiceInicial=50E6, numeroRepeticoes=31, fatorDeCrescimento=fatorCrescimento)
+    intervaloCarga = rangePropriedade(indiceInicial=206.84E3, numeroRepeticoes=75, fatorDeCrescimento=fatorCrescimento)
+    intervalosDePropriedade = IntervaloPropriedade(
         intervaloEspessuraRevestimento=intervaloEspessuraRevestimento,
         intervaloEspessuraBase=intervaloEspessuraBase,
         intervaloPoissonRevestimento=intervaloPoissonRevestimento,
@@ -137,25 +137,25 @@ def intervalosAnalise():
         intervaloElasticidadeSubleito=intervaloElasticidadeSubleito,
         intervaloCarga=intervaloCarga
     )
-    return intervalosDeSensibilidade
+    return intervalosDePropriedade
 
 # Classe para representar a saida dos modelos
 class SaidaModelos:
-    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
+    def __init__(self, nomeJob, nomeStep, nomePropriedade, valorPropriedade, modeloAviao, nosInteresse):
         """
         Classe que representa a saida de modelos.
         Atributos:
         - nomeJob: nome do job associado a saida do modelo.
         - nomeStep: nome do step associado a saida do modelo.
-        - nomeSensibilidade: nome da sensibilidade associada a saida do modelo.
-        - valorSensibilidade: valor da sensibilidade do modelo.
+        - nomePropriedade: nome da Propriedade associada a saida do modelo.
+        - valorPropriedade: valor da Propriedade do modelo.
         - modeloAviao: modelo de aviao associado a saida do modelo.
         - nosInteresse: nos de interesse na saida do modelo.
         """
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
-        self.nomeSensibilidade = nomeSensibilidade
-        self.valorSensibilidade = valorSensibilidade
+        self.nomePropriedade = nomePropriedade
+        self.valorPropriedade = valorPropriedade
         self.modeloAviao = modeloAviao
         self.nosInteresse = nosInteresse
 
@@ -272,15 +272,15 @@ def definirSecao(nomeModelo, nomePart, nomeCamada, mascara):
     mdb.models[nomeModelo].parts[nomePart].SectionAssignment(offset=0.0, offsetField='', offsetType=MIDDLE_SURFACE, region=mdb.models[nomeModelo].parts[nomePart].sets['set' + nomeCamada], sectionName='secao' + nomeCamada, thicknessAssignment=FROM_SECTION)
 
 ## chamada principal para a criacao do modelo
-def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, materialBase, materialSubleito, nomeSensibilidade, valorSensibilidade, tamanhoDaMesh):
+def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, materialBase, materialSubleito, nomePropriedade, valorPropriedade, tamanhoDaMesh):
     # validacao se mesh esta em ordem descrescente
     tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito = sorted([tamanhoDaMesh.camadaRevestimento, tamanhoDaMesh.camadaBase, tamanhoDaMesh.camadaSubleito], reverse=False)
     # Criacao do nome do modelo
-    if nomeSensibilidade[:4] == "Mesh":
-        nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade
+    if nomePropriedade[:4] == "Mesh":
+        nomeModelo = 'Md' + aviaoSelecionado.modelo + nomePropriedade
         print(nomeModelo)
     else:
-        nomeModelo = 'Md' + aviaoSelecionado.modelo + nomeSensibilidade + str(round(valorSensibilidade, 4)).replace(".", ",")
+        nomeModelo = 'Md' + aviaoSelecionado.modelo + nomePropriedade + str(round(valorPropriedade, 4)).replace(".", ",")
         print(nomeModelo)
     mdb.Model(modelType=STANDARD_EXPLICIT, name=nomeModelo)
     #
@@ -477,11 +477,11 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
     mdb.JobFromInputFile(atTime=None, explicitPrecision=SINGLE,
     getMemoryFromAnalysis=True, inputFileName=nomeJob + '.inp', memory=97, memoryUnits=PERCENTAGE, multiprocessingMode=DEFAULT, name=
     nomeJob, nodalOutputPrecision=SINGLE, numCpus=24, numDomains=24, numGPUs=1, queue=None, resultsFormat=ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
-    return SaidaModelos(nomeJob = nomeJob, nomeStep = nomeStep, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = valorSensibilidade, modeloAviao = aviaoSelecionado.modelo, nosInteresse = aviaoSelecionado.nosInteresse)
+    return SaidaModelos(nomeJob = nomeJob, nomeStep = nomeStep, nomePropriedade = nomePropriedade, valorPropriedade = valorPropriedade, modeloAviao = aviaoSelecionado.modelo, nosInteresse = aviaoSelecionado.nosInteresse)
 
 
-def rangeSensibilidade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
-    # Funcao para gerar uma lista de valores sensibilidade com base no fator de crescimento
+def rangePropriedade(indiceInicial, numeroRepeticoes, fatorDeCrescimento):
+    # Funcao para gerar uma lista de valores Propriedade com base no fator de crescimento
     return [round(indiceInicial * (fatorDeCrescimento ** i), 4) for i in range(numeroRepeticoes)]
 
 
@@ -539,8 +539,8 @@ def processarModelos(listaJobs, rodarJobs, nomeJson):
             dicionario = {
                 "nomeJob": objeto.nomeJob,
                 "nomeStep": objeto.nomeStep,
-                "nomeSensibilidade": objeto.nomeSensibilidade,
-                "valorSensibilidade": objeto.valorSensibilidade,
+                "nomePropriedade": objeto.nomePropriedade,
+                "valorPropriedade": objeto.valorPropriedade,
                 "modeloAviao": objeto.modeloAviao,
                 "nosInteresse": objeto.nosInteresse
             }
@@ -570,63 +570,63 @@ def inicializarCodigoModelosPrincipais(rodarJobs, intervalos, comprimentoPavimen
     materialRevestimento, materialBase, materialSubleito= materiaisBase()[0], materiaisBase()[1], materiaisBase()[2]
     #
     # Cria um objeto material para o subleito com parametros especificos
-    nomeSensibilidade= 'Base'    
+    nomePropriedade= 'Base'    
     tamanhoDaMesh = TamanhoMesh(camadaRevestimento = 0.05, camadaBase = 0.1, camadaSubleito = 0.5)
     listaJobs = []
     comprimentoSimulado = comprimentoPavimentoSimulado
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing737800, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing767300, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = 0))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing737800, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = 0))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing767300, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = 0))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, materialRevestimento=materialRevestimento, comprimentoSimulado=comprimentoSimulado, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = 0))
     # Cria um modelo utilizando o aviao selecionado e os materiais definidos, e adiciona o job a lista de jobs
     ######
     ###### Variacoes
     #Investigacao espessura camada revestimento
     listaAvioes = [boeing737800, boeing767300, boeing777300]
     for aviaoSelecionado in listaAvioes:
-        nomeSensibilidade= 'espRev'
+        nomePropriedade= 'espRev'
         for espessuraRevestimento in intervalos.intervaloEspessuraRevestimento:
             materialRevestimento.espessuraCamada = espessuraRevestimento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraRevestimento))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = espessuraRevestimento))
         materialRevestimento = materiaisBase()[0]
-        nomeSensibilidade= 'espBas'
+        nomePropriedade= 'espBas'
         for espessuraBase in intervalos.intervaloEspessuraBase:
             materialBase.espessuraCamada = espessuraBase
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = espessuraBase))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = espessuraBase))
         materialBase = materiaisBase()[1]
-        nomeSensibilidade= 'elasRev'
+        nomePropriedade= 'elasRev'
         for elasticidadeRevestimento in intervalos.intervaloElasticidadeRevestimento:
             materialRevestimento.moduloElasticidade = elasticidadeRevestimento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeRevestimento))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = elasticidadeRevestimento))
         materialRevestimento = materiaisBase()[0]
-        nomeSensibilidade= 'elasBas'
+        nomePropriedade= 'elasBas'
         for elasticidadeBase in intervalos.intervaloElasticidadeBase:
             materialBase.moduloElasticidade = elasticidadeBase
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeBase))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = elasticidadeBase))
         materialBase = materiaisBase()[1]
-        nomeSensibilidade= 'elasSub'
+        nomePropriedade= 'elasSub'
         for elasticidadeSubleito in intervalos.intervaloElasticidadeSubleito:
             materialSubleito.moduloElasticidade = elasticidadeSubleito
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = elasticidadeSubleito))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = elasticidadeSubleito))
         materialSubleito = materiaisBase()[2]
-        nomeSensibilidade= 'poiRev'
+        nomePropriedade= 'poiRev'
         for poissonRevestimento in intervalos.intervaloPoissonRevestimento:
             materialRevestimento.coeficientePoisson = poissonRevestimento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonRevestimento))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = poissonRevestimento))
         materialRevestimento = materiaisBase()[0]
-        nomeSensibilidade= 'poiBas'
+        nomePropriedade= 'poiBas'
         for poissonBase in intervalos.intervaloPoissonBase:
             materialBase.coeficientePoisson = poissonBase
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonBase))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = poissonBase))
         materialBase = materiaisBase()[1]
-        nomeSensibilidade= 'poiSub'
+        nomePropriedade= 'poiSub'
         for poissonSubleito in intervalos.intervaloPoissonSubleito:
             materialSubleito.coeficientePoisson = poissonSubleito
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = poissonSubleito))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = poissonSubleito))
         materialSubleito = materiaisBase()[2]
-        nomeSensibilidade= 'carregamento'
+        nomePropriedade= 'carregamento'
         for carregamento in intervalos.intervaloCarga:
             aviaoSelecionado.carregamento = carregamento
-            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeSensibilidade, valorSensibilidade = carregamento))
+            listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomePropriedade, valorPropriedade = carregamento))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaPrincipais.json')
 
 def iniciarCodigoCalibracaoMesh(rodarJobs, comprimentoPavimentoSimulado, espessuraSubleito):
@@ -652,7 +652,7 @@ def iniciarCodigoCalibracaoMesh(rodarJobs, comprimentoPavimentoSimulado, espessu
                     pass
                 else:
                     nomesJob.append(nomeModelo)
-                    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = nomeModelo, valorSensibilidade = subleito))
+                    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = nomeModelo, valorPropriedade = subleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoMesh.json')
 
 def iniciarCodigoPavimentocritico(rodarJobs, intervalos, comprimentoPavimentoSimulado):
@@ -663,36 +663,39 @@ def iniciarCodigoPavimentocritico(rodarJobs, intervalos, comprimentoPavimentoSim
     materialRevestimento.espessuraCamada = intervalos.intervaloEspessuraRevestimento[0]
     materialSubleito.espessuraCamada = 10
     comprimentoSimulado = comprimentoPavimentoSimulado
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCEspRev" , valorSensibilidade = materialRevestimento.espessuraCamada))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCEspRev" , valorPropriedade = materialRevestimento.espessuraCamada))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.espessuraCamada = intervalos.intervaloEspessuraBase[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCEspBase", valorSensibilidade = materialBase.espessuraCamada))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCEspBase", valorPropriedade = materialBase.espessuraCamada))
     materialBase = materiaisBase()[1]
     #
     materialRevestimento.coeficientePoisson = intervalos.intervaloPoissonRevestimento[-1]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCPoiRev", valorSensibilidade = materialRevestimento.coeficientePoisson))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCPoiRev", valorPropriedade = materialRevestimento.coeficientePoisson))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.coeficientePoisson = intervalos.intervaloPoissonBase[-1]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCPoiBas", valorSensibilidade = materialBase.coeficientePoisson))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCPoiBas", valorPropriedade = materialBase.coeficientePoisson))
     materialBase = materiaisBase()[1]
     #
     materialSubleito.coeficientePoisson = intervalos.intervaloPoissonSubleito[-1]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCPoiSub", valorSensibilidade = materialSubleito.coeficientePoisson))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCPoiSub", valorPropriedade = materialSubleito.coeficientePoisson))
     materialSubleito = materiaisBase()[2]
+    materialSubleito.espessuraCamada = 10
     #
     materialRevestimento.moduloElasticidade = intervalos.intervaloElasticidadeRevestimento[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCElasRev", valorSensibilidade = materialRevestimento.moduloElasticidade))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCElasRev", valorPropriedade = materialRevestimento.moduloElasticidade))
     materialRevestimento = materiaisBase()[0]
     #
     materialBase.moduloElasticidade = intervalos.intervaloElasticidadeBase[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh=tamanhoDaMesh, nomeSensibilidade = "PCElasBas", valorSensibilidade = materialBase.moduloElasticidade))
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh=tamanhoDaMesh, nomePropriedade = "PCElasBas", valorPropriedade = materialBase.moduloElasticidade))
     materialBase = materiaisBase()[1]
     #
     materialSubleito.moduloElasticidade = intervalos.intervaloElasticidadeSubleito[0]
-    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "PCElasSub", valorSensibilidade = materialSubleito.moduloElasticidade))
+    materialSubleito.espessuraCamada = 10
+    listaJobs.append(criarModelo(aviaoSelecionado=boeing777300, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito,tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "PCElasSub", valorPropriedade = materialSubleito.moduloElasticidade))
     materialSubleito = materiaisBase()[2]
+    materialSubleito.espessuraCamada = 10
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosPavimentoCritico.json')
 
 
@@ -703,11 +706,11 @@ def iniciarCodigoCalibracaoComprimento(rodarJobs):
     materialSubleito.espessuraCamada = 3.15
     listaJobs = []
     nomesJob = []
-    listaComprimentos = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
+    listaComprimentos = rangePropriedade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
     for comprimentoPavimento in listaComprimentos:
         aviaoSelecionado = boeing777300
         comprimentoSimulado=comprimentoPavimento
-        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "ComPav", valorSensibilidade = comprimentoSimulado))
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "ComPav", valorPropriedade = comprimentoSimulado))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoComprimento.json')
 
 def iniciarCodigoCalibracaoSubleito(rodarJobs, comprimentoPavimentoSimulado):
@@ -717,19 +720,19 @@ def iniciarCodigoCalibracaoSubleito(rodarJobs, comprimentoPavimentoSimulado):
     listaJobs = []
     nomesJob = []
     comprimentoSimulado = comprimentoPavimentoSimulado
-    listaAlturas = rangeSensibilidade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
+    listaAlturas = rangePropriedade(indiceInicial=3, numeroRepeticoes=25, fatorDeCrescimento=1.05)
     for alturaSubleito in listaAlturas:
         aviaoSelecionado = boeing777300
         materialSubleito.espessuraCamada = alturaSubleito
-        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomeSensibilidade = "EspSub", valorSensibilidade = alturaSubleito))
+        listaJobs.append(criarModelo(aviaoSelecionado=aviaoSelecionado, comprimentoSimulado=comprimentoSimulado, materialRevestimento=materialRevestimento, materialBase=materialBase, materialSubleito=materialSubleito, tamanhoDaMesh= tamanhoDaMesh, nomePropriedade = "EspSub", valorPropriedade = alturaSubleito))
     processarModelos(listaJobs, rodarJobs, nomeJson = 'dadosModelosSaidaCalibracaoSubleito.json')
 
 
 def pavimentoCritico():
     listaMateriais = []
     materialRevestimento = Material(nomeCamada='Revestimento', nomeMaterial='Camada asfaltica', espessuraCamada=0.1, moduloElasticidade=1500E6, coeficientePoisson=0.30)
-    materialBase = Material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.3, moduloElasticidade=250E6, coeficientePoisson=0.35)
-    materialSubleito = Material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=5, moduloElasticidade=50E6, coeficientePoisson=0.35) #Critico modulo de elasticidade 50MPa para subleito
+    materialBase = Material(nomeCamada='Base', nomeMaterial='BGS', espessuraCamada=0.075, moduloElasticidade=250E6, coeficientePoisson=0.35)
+    materialSubleito = Material(nomeCamada='Subleito', nomeMaterial='Material do Subleito', espessuraCamada=10, moduloElasticidade=200E6, coeficientePoisson=0.35) #Critico modulo de elasticidade 50MPa para subleito
     listaMateriais.append(materialRevestimento)
     listaMateriais.append(materialBase)
     listaMateriais.append(materialSubleito)
