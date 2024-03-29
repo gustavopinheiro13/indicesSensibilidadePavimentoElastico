@@ -6,11 +6,11 @@ import os
 
 # Definicao da classe para armazenar os dados de deslocamento
 class DadosDeslocamento:
-    def __init__(self, nomeJob, nomeStep, nomePropriedade, valorPropriedade, modeloAviao, noInteresse, u1, u2, u3):
+    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
-        self.nomePropriedade = nomePropriedade
-        self.valorPropriedade = valorPropriedade
+        self.nomeSensibilidade = nomeSensibilidade
+        self.valorSensibilidade = valorSensibilidade
         self.modeloAviao = modeloAviao
         self.no = noInteresse
         self.u1 = u1
@@ -19,11 +19,11 @@ class DadosDeslocamento:
 #
 
 class DadosDeformacao:
-    def __init__(self, nomeJob, nomeStep, nomePropriedade, valorPropriedade, modeloAviao, noInteresse, e1, e2, e3):
+    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, e1, e2, e3):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
-        self.nomePropriedade = nomePropriedade
-        self.valorPropriedade = valorPropriedade
+        self.nomeSensibilidade = nomeSensibilidade
+        self.valorSensibilidade = valorSensibilidade
         self.modeloAviao = modeloAviao
         self.no = noInteresse
         self.e1 = e1
@@ -31,16 +31,16 @@ class DadosDeformacao:
         self.e3 = e3
 
 class saidaModelos:
-    def __init__(self, nomeJob, nomeStep, nomePropriedade, valorPropriedade, modeloAviao, nosInteresse):
+    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, nosInteresse):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
-        self.nomePropriedade = nomePropriedade
-        self.valorPropriedade = valorPropriedade
+        self.nomeSensibilidade = nomeSensibilidade
+        self.valorSensibilidade = valorSensibilidade
         self.modeloAviao = modeloAviao
         self.nosInteresse = nosInteresse
 
 # Funcao para obter os dados de deslocamento
-def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomePropriedade, nosInteresse, valorPropriedade):
+def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSensibilidade, nosInteresse, valorSensibilidade):
     # Caminho para o arquivo .odb
     caminho_modelo = nomeJob + '.odb'
     # Carregando o arquivo .odb
@@ -59,7 +59,7 @@ def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomePro
         except:
             valor_campo = campo_saida.values[noInteresse - 1].data
         # Criando objeto de dados de deslocamento
-        dados = DadosDeslocamento(nomeJob=nomeJob, nomeStep=nomeStep, nomePropriedade=nomePropriedade, valorPropriedade=valorPropriedade, modeloAviao=modeloAviao, noInteresse=noInteresse, u1=valor_campo[0], u2=valor_campo[1], u3=valor_campo[2])
+        dados = DadosDeslocamento(nomeJob=nomeJob, nomeStep=nomeStep, nomeSensibilidade=nomeSensibilidade, valorSensibilidade=valorSensibilidade, modeloAviao=modeloAviao, noInteresse=noInteresse, u1=valor_campo[0], u2=valor_campo[1], u3=valor_campo[2])
         # Adicionando o objeto a lista
         dados_deslocamentos.append(dados)
     # Fechando o arquivo .odb
@@ -67,7 +67,7 @@ def obter_dados_deslocamento(nomeJob, nomeStep, nome_campo, modeloAviao, nomePro
     return dados_deslocamentos
 
 # Funcao para obter os dados de Deformacao
-def obter_dados_Deformacao(nomeJob, nomeStep, nome_campo, modeloAviao, nomePropriedade, nosInteresse, valorPropriedade):
+def obter_dados_Deformacao(nomeJob, nomeStep, nome_campo, modeloAviao, nomeSensibilidade, nosInteresse, valorSensibilidade):
     # Caminho para o arquivo .odb
     caminho_modelo = nomeJob + '.odb'
     # Carregando o arquivo .odb
@@ -87,7 +87,7 @@ def obter_dados_Deformacao(nomeJob, nomeStep, nome_campo, modeloAviao, nomePropr
             valor_campo = campo_saida.values[noInteresse - 1].data
         # Criando objeto de dados de Deformacao
         #print(valor_campo)
-        dados = DadosDeformacao(nomeJob=nomeJob, nomeStep=nomeStep, nomePropriedade=nomePropriedade, valorPropriedade=valorPropriedade, modeloAviao=modeloAviao, noInteresse=noInteresse, e1=valor_campo[0], e2=valor_campo[1], e3=valor_campo[2])
+        dados = DadosDeformacao(nomeJob=nomeJob, nomeStep=nomeStep, nomeSensibilidade=nomeSensibilidade, valorSensibilidade=valorSensibilidade, modeloAviao=modeloAviao, noInteresse=noInteresse, e1=valor_campo[0], e2=valor_campo[1], e3=valor_campo[2])
         # Adicionando o objeto a lista
         dados_Deformacao.append(dados)
     # Fechando o arquivo .odb
@@ -105,7 +105,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomePropriedade=str(dado['nomePropriedade']), valorPropriedade=str(dado['valorPropriedade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomeSensibilidade=str(dado['nomeSensibilidade']), valorSensibilidade=str(dado['valorSensibilidade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
         # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs
@@ -130,16 +130,16 @@ def gravarDadosModeloDeslocamento(nome_arquivo):
                 nomeStep=job.nomeStep,
                 nome_campo='U',
                 modeloAviao=job.modeloAviao,
-                nomePropriedade=job.nomePropriedade,
+                nomeSensibilidade=job.nomeSensibilidade,
                 nosInteresse=job.nosInteresse,
-                valorPropriedade=job.valorPropriedade
+                valorSensibilidade=job.valorSensibilidade
             )
             for modeloPonto in dados:
                 dados_job = {
                     'nomeJob': modeloPonto.nomeJob,
                     'nomeStep': modeloPonto.nomeStep,
-                    'nomePropriedade': modeloPonto.nomePropriedade,
-                    'valorPropriedade': modeloPonto.valorPropriedade,
+                    'nomeSensibilidade': modeloPonto.nomeSensibilidade,
+                    'valorSensibilidade': modeloPonto.valorSensibilidade,
                     'modeloAviao': modeloPonto.modeloAviao,
                     'no': int(modeloPonto.no),
                     'u1': np.float64(modeloPonto.u1),
@@ -155,7 +155,7 @@ def gravarDadosModeloDeslocamento(nome_arquivo):
 
 # Funcao para gravar os dados de modelos em um arquivo JSON
 def gravarDadosModeloDeformacao(nome_arquivo):
-    # os.chdir("C:/Users/gusta/resultados_abaqus/")
+    os.chdir("C:/Users/gusta/resultados_abaqus/")
     # Reimporta os dados de modelos a partir do arquivo JSON
     lista_jobs = reimportarDadosDeModelos(nome_arquivo)
     nome_arquivo_saida = 'Deformacao' + nome_arquivo
@@ -174,16 +174,16 @@ def gravarDadosModeloDeformacao(nome_arquivo):
                 nomeStep=job.nomeStep,
                 nome_campo='E',
                 modeloAviao=job.modeloAviao,
-                nomePropriedade=job.nomePropriedade,
+                nomeSensibilidade=job.nomeSensibilidade,
                 nosInteresse=job.nosInteresse,
-                valorPropriedade=job.valorPropriedade
+                valorSensibilidade=job.valorSensibilidade
             )
             for modeloPonto in dados:
                 dados_job = {
                     'nomeJob': modeloPonto.nomeJob,
                     'nomeStep': modeloPonto.nomeStep,
-                    'nomePropriedade': modeloPonto.nomePropriedade,
-                    'valorPropriedade': modeloPonto.valorPropriedade,
+                    'nomeSensibilidade': modeloPonto.nomeSensibilidade,
+                    'valorSensibilidade': modeloPonto.valorSensibilidade,
                     'modeloAviao': modeloPonto.modeloAviao,
                     'no': int(modeloPonto.no),
                     'e1': np.float64(modeloPonto.e1),
@@ -205,7 +205,7 @@ gravarDadosModeloDeslocamento('dadosModelosSaidaCalibracaoMesh.json')
 gravarDadosModeloDeslocamento('dadosModelosSaidaPrincipais.json')
 
 
-# # # Chamadas das funcoes
+# # # # Chamadas das funcoes
 gravarDadosModeloDeformacao('dadosPavimentoCritico.json')
 gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoSubleito.json')
 gravarDadosModeloDeformacao('dadosModelosSaidaCalibracaoComprimento.json')

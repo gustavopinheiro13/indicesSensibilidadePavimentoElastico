@@ -26,7 +26,7 @@ def reimportarDadosDeModelos(nome_arquivo):
     # Percorre os dados e cria os objetos correspondentes
     for dado in dados_json:
         # Cria um objeto com os valores do dado
-        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomePropriedade=str(dado['nomePropriedade']), valorPropriedade=str(dado['valorPropriedade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
+        modelo_saida = saidaModelos(nomeJob=str(dado['nomeJob']), nomeStep=str(dado['nomeStep']), nomePropriedade=str(dado['nomeSensibilidade']), valorPropriedade=str(dado['valorSensibilidade']), modeloAviao=str(dado['modeloAviao']), nosInteresse=dado['nosInteresse'])
         # Adiciona o objeto a lista
         lista_jobs.append(modelo_saida)
     return lista_jobs

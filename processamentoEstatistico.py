@@ -294,7 +294,6 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 multiplicador = 0.8
                 margem = 0.1
                 plt.margins(x = margem, y = margem) 
-                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorPropriedade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", ""), dpi=300)
                 plt.close()
                 print(aviao + " " + Propriedade + " Variacao Percentual OK")
@@ -312,7 +311,6 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
-                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorPropriedade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_sem_outliers", dpi=300)
                 plt.close()
                 print(aviao + " " + Propriedade + " Sem outliers OK")
@@ -330,7 +328,6 @@ def descreverDados(nome_arquivo, variavel_avaliada):
                 plt.tight_layout()
                 plt.ticklabel_format(style='plain', axis='y')
                 sns.set_style('whitegrid')
-                # plt.xlim(0, dfConcatenadoComVariacaoPercentual['valorPropriedade'].max()* intervaloPlotado)
                 plt.savefig(nomeFiguraArquivo.title().replace(" ", "")+"_deformacoes_absolutas", dpi=300)
                 plt.close()
                 print(aviao + " " + Propriedade + " Deformacoes absolutas OK")

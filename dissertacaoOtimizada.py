@@ -425,7 +425,6 @@ def criarModelo(aviaoSelecionado, comprimentoSimulado, materialRevestimento, mat
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[113], region=mdb.models[nomeModelo].parts[nomePart].cells[26], sense=FORWARD)
         mdb.models[nomeModelo].parts[nomePart].setSweepPath(edge=mdb.models[nomeModelo].parts[nomePart].edges[127], region=mdb.models[nomeModelo].parts[nomePart].cells[25], sense=FORWARD)
         mdb.models[nomeModelo].parts[nomePart].setElementType(elemTypes=(ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=AC3D8R, elemLibrary=STANDARD), ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD)), regions=(mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f3c0780 #1e0 ]', ), ), ))
-        # mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[98])
         mdb.models[nomeModelo].parts[nomePart].assignStackDirection(cells=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), referenceRegion=mdb.models[nomeModelo].parts[nomePart].faces[183])                
         mdb.models[nomeModelo].parts[nomePart].setMeshControls(algorithm=ADVANCING_FRONT, regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#ffffffff #ffff ]', ), ), technique=SWEEP)
         mdb.models[nomeModelo].parts[nomePart].setMeshControls(regions=mdb.models[nomeModelo].parts[nomePart].cells.getSequenceFromMask(('[#f0c3f87f #fe1f ]', ), ), technique=STRUCTURED)           
@@ -502,7 +501,7 @@ def avioesBase():
                         mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[9, 6, 7, 10, 1, 0, 13, 12, 14, 80, 79, 83, 72, 66, 60, 73, 71, 67])
     # Cria um objeto aviao do modelo Boeing 777-300 com parametros especificos
     boeing777300 = Aviao(modelo='B777300', tipoEixo = 'tandemTriplo', roda1DistanciaEixoNuloX=6.1849, roda1DistanciaEixoNuloY=1.4478, roda2DistanciaEixoNuloX=4.7879, roda2DistanciaEixoNuloY = 1.4478, larguraContatoPneu=0.354, comprimentoContatoPneu=0.566, 
-                        carregamento=1482.37E3, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
+                        carregamento=1503.06E3, mascaraCondicaoContornoFundo = '[#1481000 #4800000 #9 #60404000 #4000020 #800008 ]',mascaraCondicaoContornoSimetriaX = '[#0:4 #2480510 #205031 ]', mascaraCondicaoContornoSimetriaY = '[#80126000 #51000001 #44100 #10820128 #0 #168a00 ]', 
                         mascaraCondicaoContornoTravaY = '[#0:4 #80922240 #90442 ]', mascaraSuperficie = '[#48000000 #0 #22000 ]', nosInteresse=[56 ,53 ,54 ,57 ,48 ,47 ,60 ,59 ,61 ,23 ,22 ,26 ,95 ,89 ,85 ,96 ,94 ,90])
     listaAvioes.append(boeing737800)
     listaAvioes.append(boeing767300)
@@ -742,7 +741,7 @@ def pavimentoCritico():
 intervalos = intervalosAnalise()
 #Executa a funcao que inicializa o  codigo
 iniciarCodigoPavimentocritico(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 10)
-iniciarCodigoCalibracaoSubleito(rodarJobs = False, comprimentoPavimentoSimulado = 10)
+iniciarCodigoCalibracaoSubleito(rodarJobs = False, comprimentoPavimentoSimulado = 5)
 iniciarCodigoCalibracaoComprimento(rodarJobs = False)
 iniciarCodigoCalibracaoMesh(rodarJobs = False, comprimentoPavimentoSimulado = 3.15, espessuraSubleito=3.15)
 inicializarCodigoModelosPrincipais(rodarJobs = False, intervalos = intervalos, comprimentoPavimentoSimulado = 3.15)
