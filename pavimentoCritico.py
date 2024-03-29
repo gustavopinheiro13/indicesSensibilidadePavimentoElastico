@@ -1,11 +1,11 @@
 # Classe DadosDeslocamento para armazenar informacoes de deslocamento
 class DadosDeslocamento:
     # Construtor para inicializar os atributos da classe
-    def __init__(self, nomeJob, nomeStep, nomeSensibilidade, valorSensibilidade, modeloAviao, noInteresse, u1, u2, u3):
+    def __init__(self, nomeJob, nomeStep, nomePropriedade, valorPropriedade, modeloAviao, noInteresse, u1, u2, u3):
         self.nomeJob = nomeJob
         self.nomeStep = nomeStep
-        self.nomeSensibilidade = nomeSensibilidade
-        self.valorSensibilidade = valorSensibilidade
+        self.nomePropriedade = nomePropriedade
+        self.valorPropriedade = valorPropriedade
         self.modeloAviao = modeloAviao
         self.no = noInteresse
         self.u1 = u1
@@ -21,8 +21,8 @@ def importar_dados_deslocamento(nome_arquivo: str) -> list[DadosDeslocamento]:
             objeto = DadosDeslocamento(
                 dado['nomeJob'],
                 dado['nomeStep'],
-                dado['nomeSensibilidade'],
-                dado['valorSensibilidade'],
+                dado['nomePropriedade'],
+                dado['valorPropriedade'],
                 dado['modeloAviao'],
                 dado['no'],
                 dado['u1'],
